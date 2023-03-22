@@ -18,11 +18,11 @@ const data = [
     {
         image: require('../../../../assets/images/phone3.png'),
         title: 'Stay connected always.',
-        body: 'Stay connected always.'
+        body: 'See what vendors and business are up to daily.'
     },
 ]
 
-const Onboarding = () => {
+const Onboarding = ({ navigation }: any) => {
     const [count, setCount] = React.useState(0);
   return (
     <View flex bg-brandColor width='100%'>
@@ -41,8 +41,8 @@ const Onboarding = () => {
         {count < 2 && (
             <View centerV style={{ height: '50%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row'}}>
-                    <View style={{ width: 30, height: 10, borderRadius: 10, backgroundColor: Colors.accentColor, marginRight: 10, }}></View>
-                    <View style={{ width: 10, height: 10, borderRadius: 10, backgroundColor: 'grey'}}></View>
+                    <View style={{ width: count === 0 ? 30:10, height: 10, borderRadius: 10, backgroundColor: count === 0 ? Colors.accentColor:'grey', marginRight: 10, }}></View>
+                    <View style={{ width: count === 1 ? 30:10, height: 10, borderRadius: 10, backgroundColor: count === 1 ? Colors.accentColor:'grey' }}></View>
                 </View>
                 <Pressable onPress={() => setCount(prev => prev + 1)} style={{ width: 50, height: 50, borderRadius: 30, backgroundColor: 'black', justifyContent: 'center', alignItems: 'center'}}>
                     <Feather name='arrow-right' size={25} color="white" />
@@ -51,8 +51,8 @@ const Onboarding = () => {
         )}
         {count === 2 && (
             <View centerV style={{ width: '100%', height: '50%' }}>
-                <Button label='Get Started' size={Button.sizes.large} backgroundColor={Colors.black} borderRadius={5} />
-                <Text style={{ textAlign: 'center', marginTop: 10 }} light>Have an account ? <Text light brandColor>Login</Text></Text>
+                <Button onPress={() => navigation.navigate('login')}  label='Get Started' size={Button.sizes.large} backgroundColor={Colors.black} borderRadius={5} />
+                <Text onPress={() => navigation.navigate('login')} style={{ textAlign: 'center', marginTop: 10 }} light>Have an account ? <Text light brandColor>Login</Text></Text>
             </View>
         )}
       </View>
