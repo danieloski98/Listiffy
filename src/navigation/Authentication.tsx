@@ -1,11 +1,11 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Onboarding from '../screens/Onboarding';
+import Onboarding from '../screens/Authentication/onboarding';
 
 const Stack = createNativeStackNavigator();
 
 function Authentication(): any {
   return (
-   <Stack.Navigator>
+   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="index" component={Onboarding} />
    </Stack.Navigator>
   )
