@@ -1,12 +1,12 @@
-import { TextInputProps, TextInput, StyleSheet } from 'react-native'
-import { Control, Controller } from 'react-hook-form';
-import { View, Text } from 'react-native-ui-lib';
+import { TextInputProps, TextInput, StyleSheet, Alert } from 'react-native'
+import { Controller, useFormContext } from 'react-hook-form';
 import React from 'react'
-import { Colors } from 'react-native-ui-lib';
-import { useFormContext } from 'react-hook-form'
+import { Colors, TextField } from 'react-native-ui-lib';
+import { View, Text } from '..';
+import { useTheme } from '@shopify/restyle';
+import { Theme } from '../../Theme/theme';
 
 interface IProps {
-    control: Control<any>;
     required?: boolean;
     name: string;
     placeholder: string;
@@ -17,29 +17,32 @@ interface IProps {
 
 export const CustomTextInput = (props: IProps & TextInputProps) => {
     const [focused, setFocused] = React.useState(false);
+    const theme = useTheme<Theme>();
 
     // form context
-    const { formState: { errors }} = useFormContext();
+    const { control, formState: { errors }} = useFormContext();
   return (
     <View>
       <Controller 
-        control={props.control}
+        control={control}
         rules={{
             required: props.required || false,
         }}
         name={props.name}
-        render={({ field: { onChange, value }}) => (
-            <View style={[Style.parent, { borderColor: focused ? Colors.brandColor:'grey'}]}>
-                {props.leftIcon}
-                <View style={{ flex: 1, justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 10 }}>
-                    {focused && <Text light style={{ fontSize: 12 }}>{props.placeholder || props.name}</Text>}
-                    <TextInput placeholder={!focused ? props.placeholder || props.name: ''} style={Style.textInput} value={value} onChangeText={onChange} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} secureTextEntry={props.isPassword || false} />
+        render={({ field: { onChange, value  }}) => {
+            return (
+                <View style={[Style.parent, { borderColor: focused ? theme.colors.brandColor : 'grey',}]}>
+                    {props.leftIcon}
+                    <View style={{ flex: 1, justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 10 }}>
+                        {focused && <Text variant='xs'>{props.placeholder || props.name}</Text>}
+                        <TextInput  placeholder={!focused ? props.placeholder || props.name: ''} value={value} onChangeText={onChange} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}  secureTextEntry={props.isPassword || false} />
+                    </View>
+                    {props.rightIcon && props.rightIcon}
                 </View>
-                {props.rightIcon && props.rightIcon}
-            </View>
-        )}
+            )
+        }}
       />
-      {errors[props.name] && <Text light>errors[props.name]</Text>}
+      {errors[props.name] && <Text variant='xs' style={{ color: 'red' }}>errors[props.name]</Text>}
     </View>
   )
 }

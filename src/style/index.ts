@@ -1,4 +1,4 @@
-import {Typography, Colors, Spacings,} from 'react-native-ui-lib';
+import {Typography, Colors} from 'react-native-ui-lib';
 
 export function InitFunction() {
     Colors.loadColors({
@@ -7,7 +7,6 @@ export function InitFunction() {
         gradient: 'linear-gradient(90deg, #9568F3 1.79%, #1CBE8E 99.93%)',
         'lightGreen': '#EBF6F3',
     });
-
     Typography.loadTypographies({
         header: {
             fontSize: 28,

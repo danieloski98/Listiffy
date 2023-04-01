@@ -1,7 +1,7 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
-    "noImplicitReturns": false
-  }
+    "strict": true
+  },
+  "include": ["src", "typings.d.ts"]
 }
