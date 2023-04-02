@@ -47,7 +47,7 @@ const Login = () => {
                     <Image source={require('../../../../assets/images/greenlogo.png')} resizeMode='contain' style={{ height: 30 }} />
                 </View>
                 <Text header>Glad to have you back.</Text>
-                <Text regular>Login into your account</Text>
+                <Text regular>Login into your account.</Text>
 
                 <View style={{ marginTop: 20 }}>
                     <CustomTextInput leftIcon={<Feather name='user' size={20} color='grey' />} placeholder='Email' control={methods.control} name="email" required />
