@@ -62,7 +62,7 @@ const theme = createTheme({
     subheader: {
       fontFamily: 'NotoSans-SemiBold',
       fontWeight: '600',
-      fontSize: 22,
+      fontSize: 18,
       lineHeight: 36,
       color: 'black',
     },

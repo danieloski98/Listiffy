@@ -13,6 +13,7 @@ const useForm = ({ validationSchema, defaultValues}: IProps) => {
         resolver: validationSchema ? zodResolver(validationSchema as any) : undefined,
         // shouldUnregister: true,
         // shouldFocusError: true,
+        reValidateMode: 'onChange',
     });
     // The main function of the hook
     // All forms must be put inside this method

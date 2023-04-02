@@ -41,7 +41,9 @@ const ModalWrapper = React.forwardRef<BottomSheetModalMethods, IProps>(({ childr
             style={{...Style.parent }}
             backdropComponent={renderBackdrop}
             backgroundStyle={{ backgroundColor: theme.colors.white }}
-            handleIndicatorStyle={{ width: 100, backgroundColor: 'lightgrey' }}
+            handleIndicatorStyle={{ width: 50, backgroundColor: 'lightgrey' }}
+            // enablePanDownToClose
+            // enableHandlePanningGesture
         >
             <BottomSheetScrollView scrollEnabled horizontal={false} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
                 {children}
@@ -56,8 +58,10 @@ export default ModalWrapper
 export const Style = StyleSheet.create({
   parent: {
     flex: 1,
-    padding: 20,
-    zIndex: 6,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+    zIndex: 0,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
