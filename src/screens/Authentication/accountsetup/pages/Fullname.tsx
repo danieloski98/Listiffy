@@ -18,7 +18,7 @@ const Fullname = () => {
     const handlePress = React.useCallback((data: { fullname: string}) => {
         setFullname(data.fullname);
         setStage(stage + 1);
-    }, [])
+    }, []);
   return renderForm(
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
