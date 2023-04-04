@@ -1,26 +1,52 @@
 import React from 'react'
 import { useAccountSetupState } from '../state'
-import { View, Text } from '../../../../components';
+import { View, Text, CustomButton } from '../../../../components';
 import Button from '../../../../components/generalComponents/Button';
 import { Colors } from 'react-native-ui-lib';
-import { ActivityIndicator, Pressable, ScrollView, TextInput } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, TextInput, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Image } from 'react-native';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import httpClient from '../../../../utils/axios';
 import { Chip } from '../../../../components/Authentication/accountSetup/BusinessChip';
 import { CategoryModel } from '../../../../models/CategoryModel';
+import { useDetails } from '../../../../State/Details';
 
 const Interest = () => {
     const { stage, setStage, interests, addInterest } = useAccountSetupState((state) => state);
+    const { id } = useDetails((state) => state)
     const [search, setSearch] = React.useState('')
     const { isLoading, data } = useQuery(['getBusinesses'], () => httpClient.get('/category'));
 
-    console.log(data?.data);
+     // mutation
+     const { isLoading: mutaionLoading, mutate } = useMutation({
+        mutationFn: (data: any) => httpClient.post(`/service/add/${id}`, data),
+        onError: (error: string) => {
+            Alert.alert('Error', error);
+        },
+        onSuccess: () => {
+            setStage(stage + 1);
+        }
+    })
 
     const handleAddBusiness = React.useCallback((id: string) => {
+        if (interests.includes(id)) {
+            return;
+        }
         addInterest(id);
     }, [])
+
+
+    const handleSubmit = React.useCallback(() => {
+        if (interests.length < 1) {
+            Alert.alert('Warning', 'You must select at least one interest(s)');
+            return;
+        }
+        const data = {
+            interests,
+        }
+        mutate(data);
+    }, [interests])
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
@@ -38,7 +64,7 @@ const Interest = () => {
             <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 100}}>
             {isLoading && <ActivityIndicator size='large' color={Colors.brandColor} />}
                <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
-               {!isLoading && data?.data !== undefined && (data.data.data as Array<CategoryModel>).filter((item) => !interests.includes(item.id)).filter((item) => {
+               {!isLoading && data?.data !== undefined && (data.data.data as Array<CategoryModel>).filter((item) => !interests.includes(item.category)).filter((item) => {
                     if (search === '') {
                         return item;
                     } else if (item.category.toLowerCase().includes(search.toLowerCase())){
@@ -46,14 +72,14 @@ const Interest = () => {
                     }
                 }).sort().map((item, index) => (
                    <View style={{ margin: 10 }} key={index}>
-                     <Chip onPress={() => handleAddBusiness(item.id)} label={item.category}  />
+                     <Chip onPress={() => handleAddBusiness(item.category)} label={item.category}  />
                    </View>
                 ))}
                </View>
             </ScrollView>
         </View>
 
-        <Button label='Done' onPress={() => setStage(stage + 1)} backgroundColor='black' />
+        <CustomButton label='Done' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading}  />
 
     </View>
   )

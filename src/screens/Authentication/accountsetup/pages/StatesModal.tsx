@@ -45,7 +45,7 @@ const StateModal = ({ type, data, onPress, isLoading, onClose }: IProps) => {
                         return -1;
                     }
                 }).map((item, inx) => (
-                    <Pressable onPress={() => onPress(item)} style={{ width: '100%', height: 60, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'lightgrey'}}>
+                    <Pressable key={inx} onPress={() => onPress(item)} style={{ width: '100%', height: 60, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'lightgrey'}}>
                         <Text variant='body'>{item.name}</Text>
                     </Pressable>
                 ))
@@ -58,7 +58,7 @@ const StateModal = ({ type, data, onPress, isLoading, onClose }: IProps) => {
                         return -1;
                     }
                 }).map((item, inx) => (
-                    <Pressable onPress={() => onPress(item)} style={{ width: '100%', height: 60, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'lightgrey'}}>
+                    <Pressable key={inx} onPress={() => onPress(item)} style={{ width: '100%', height: 60, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'lightgrey'}}>
                         <Text variant='body'>{item.LGA}</Text>
                     </Pressable>
                 ))

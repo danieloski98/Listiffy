@@ -31,7 +31,7 @@ const AccountSetup = ({ navigation }: IProps) => {
     } else {
       setStage(stage - 1);
     }
-  }, [])
+  }, [stage])
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       {

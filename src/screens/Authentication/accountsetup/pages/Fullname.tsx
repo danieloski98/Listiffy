@@ -5,9 +5,14 @@ import { CustomTextInput, SubmitButton } from '../../../../components/form';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { fullnameSchema } from '../../../../Services/validation';
 import { useAccountSetupState } from '../state';
+import { useMutation } from 'react-query';
+import httpClient from '../../../../utils/axios';
+import { useDetails } from '../../../../State/Details';
+import { Alert } from 'react-native/';
 
 const Fullname = () => {
     const { setFullname, setStage, stage, fullname } = useAccountSetupState((state) => state);
+    const { setState, id } = useDetails((state) => state)
     const { renderForm } = useForm({
         validationSchema: fullnameSchema,
         defaultValues: {
@@ -15,9 +20,19 @@ const Fullname = () => {
         }
     });
 
+    const { isLoading, mutate } = useMutation({
+      mutationFn: (data: { fullName: string}) => httpClient.put(`/user/${id}`, data),
+      onError: (error: any) => {
+        Alert.alert('Error', error)
+      },
+      onSuccess: () => {
+        setStage(stage + 1);
+      }
+    })
+
     const handlePress = React.useCallback((data: { fullname: string}) => {
         setFullname(data.fullname);
-        setStage(stage + 1);
+        mutate({ fullName: data.fullname });
     }, []);
   return renderForm(
     <View style={{ flex: 1, padding: 20 }}>
@@ -30,7 +45,7 @@ const Fullname = () => {
 
         <CustomTextInput name='fullname' placeholder='Fullname' leftIcon={<Ionicons name='person-circle-outline' size={25} color='black'  />} />
       </View>
-      <SubmitButton label='Next' onSubmit={handlePress} />
+      <SubmitButton label='Next' onSubmit={handlePress} isLoading={isLoading} />
     </View>
   )
 }

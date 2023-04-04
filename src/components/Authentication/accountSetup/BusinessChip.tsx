@@ -28,7 +28,7 @@ export const Chip = ({
 }
 
 const BusinessChip = ({ onSelect, details }: IProps) => {
-
+    console.log(details.logo)
     const handlePress = React.useCallback(() => {
         onSelect(details.id);
     }, [])
@@ -37,7 +37,7 @@ const BusinessChip = ({ onSelect, details }: IProps) => {
       <View style={{ flex: 0.4, flexDirection: 'row', alignItems: 'center' }}>
         {/* IMAGE CONTAINER */}
         <View  style={{ width: 60, height: 60, borderRadius: 50, overflow: 'hidden', }}>
-            {details.logo !== null || details.logo !== '' && <Image source={{ uri: details.logo }} resizeMode='cover' />}
+            {details.logo !== null && <Image source={{ uri: 'http://192.168.251.97:4000/logo/5017bafdd129d636a5731aafbcb8d4bd.png' }} resizeMode='cover' style={{ width: '100%', height: '100%', borderRadius: 50}} />}
             {details.logo === null && (
                 <View style={{ width:60, height: 60, justifyContent: 'center', alignItems: 'center', borderRadius: 30, borderWidth: 1, borderColor: Colors.brandColor, borderStyle: 'dashed' }}>
                     <Feather name="briefcase" size={25} color={Colors.brandColor} />

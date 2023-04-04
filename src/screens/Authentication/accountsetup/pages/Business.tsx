@@ -1,24 +1,52 @@
 import React from 'react'
 import { useAccountSetupState } from '../state'
-import { View, Text } from '../../../../components';
+import { View, Text, CustomButton } from '../../../../components';
 import Button from '../../../../components/generalComponents/Button';
 import { Colors } from 'react-native-ui-lib';
-import { ActivityIndicator, Pressable, ScrollView, TextInput } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, TextInput } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Image } from 'react-native';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import httpClient from '../../../../utils/axios';
 import { BusinessModel } from '../../../../models/BusinessModel';
 import BusinessChip from '../../../../components/Authentication/accountSetup/BusinessChip';
+import { useDetails } from '../../../../State/Details';
 
 const Business = () => {
     const { stage, fullname, setPickerModal, avatar, setStage, businesses, addBusiness } = useAccountSetupState((state) => state);
+    const { id } = useDetails((state) => state)
     const [search, setSearch] = React.useState('')
     const { isLoading, data } = useQuery(['getBusinesses'], () => httpClient.get('/business'));
 
+    // mutation
+    const { isLoading: mutaionLoading, mutate } = useMutation({
+        mutationFn: (data: any) => httpClient.post(`/user/follow-companies/${id}`, data),
+        onError: (error: string) => {
+            Alert.alert('Error', error);
+        },
+        onSuccess: () => {
+            setStage(stage + 1);
+        }
+    })
+
     const handleAddBusiness = React.useCallback((id: string) => {
+        if (businesses.includes(id)) {
+            Alert.alert('Warning', 'Business already selected');
+            return;
+        }
         addBusiness(id);
-    }, [])
+    }, []);
+
+    const handleSubmit = React.useCallback(() => {
+        if (businesses.length < 1) {
+            Alert.alert('Warning', 'You must select at least one business');
+            return;
+        }
+        const data = {
+            company_ids: businesses,
+        }
+        mutate(data);
+    }, [businesses])
   return (
     <View style={{ flex: 1, padding: 20 }}>
         <Text variant='subheader'>Suggested business profile</Text>
@@ -34,7 +62,15 @@ const Business = () => {
         <View style={{ flex: 1,marginTop: 20 }}>
             <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 100}}>
                 {isLoading && <ActivityIndicator size='large' color={Colors.brandColor} />}
-                {!isLoading && data?.data !== undefined && (data.data.data as Array<BusinessModel>).filter((item) => !businesses.includes(item.id)).filter((item) => {
+                {!isLoading && data?.data !== undefined && (data.data.data as Array<BusinessModel>).filter((item) => {
+                    if (businesses.length < 1) {
+                        return item;
+                    } else {
+                        if (!businesses.includes(item.id)) {
+                            return item;
+                        }
+                    }
+                }).filter((item) => {
                     if (search === '') {
                         return item;
                     } else if (item.business_name.toLowerCase().includes(search.toLowerCase())){
@@ -46,7 +82,7 @@ const Business = () => {
             </ScrollView>
         </View>
 
-        <Button label='Next' onPress={() => setStage(stage + 1)} backgroundColor='black' />
+        <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading}  />
 
         <Text variant='xs' textAlign='center' marginTop='m' onPress={() => setStage(stage + 1)} >Skip for now</Text>
     </View>
