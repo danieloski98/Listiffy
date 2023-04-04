@@ -6,25 +6,26 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Feather } from '@expo/vector-icons'
 import { useMutation } from 'react-query';
 
-import * as yup from 'yup';
 import httpClient from '../../../utils/axios'
 import useForm from '../../../hooks/useForm'
 import { signupSchema } from '../../../Services/validation'
+import { useDetails } from '../../../State/Details'
 
 
 const Signup = ({ navigation }: any) => {
     // states
     const [showPasword, setShowPassword] = React.useState(false);
+    const { setState } = useDetails((state) => state)
 
     // mutation
     const { isLoading, mutate } = useMutation({ 
         mutationFn: (data: any) => httpClient.post('/user-auth', data),
         onError: (error: any) => {
-            Alert.alert('Error', error.response.data.message);
-            console.log(error.response.data)
+            Alert.alert('Error', error);
         },
         onSuccess: (data) => {
-            console.log(data.data);
+            setState(data?.data.data);
+            navigation.navigate('verifyemail', {email: values()['email']})
         }
     })
 
@@ -36,6 +37,10 @@ const Signup = ({ navigation }: any) => {
             username: '',
         }
     });
+
+    const submit = React.useCallback((data: any) => {
+        mutate(data);
+    }, [])
 
     return renderForm(
          <>
@@ -62,7 +67,7 @@ const Signup = ({ navigation }: any) => {
                     <Text light style={{ marginVertical: 20, fontSize: 12 }}>By clicking create account, you agree to the company Term of Service and Privacy Policy.</Text>
                 </View>
                 <View style={{ marginTop: 20 }}>
-                    <SubmitButton label='Create account' onSubmit={(data) => navigation.navigate('verifyemail', {email: values()['email']})} isLoading={isLoading} />
+                    <SubmitButton label='Create account' onSubmit={submit} isLoading={isLoading} />
                 </View>
                 <View style={{  marginVertical: 20 }}>
                     <Text onPress={() => navigation.navigate('login')} light style={{ textAlign: 'center'}}>Already have an account ? <Text light style={{ color: Colors.brandColor }}>Login</Text></Text>

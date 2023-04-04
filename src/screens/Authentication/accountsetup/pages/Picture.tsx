@@ -3,18 +3,75 @@ import { useAccountSetupState } from '../state'
 import { View, Text } from '../../../../components';
 import Button from '../../../../components/generalComponents/Button';
 import { Colors } from 'react-native-ui-lib';
-import { Pressable } from 'react-native';
+import { Alert, Pressable } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Image } from 'react-native';
+import { useMutation } from 'react-query';
+import httpClient from '../../../../utils/axios';
+import { useDetails } from '../../../../State/Details';
+import url from '../../../../utils/url';
 
 const Picture = () => {
-    const { stage, fullname, setPickerModal, avatar, setStage } = useAccountSetupState((state) => state);
-    const [image, setImage] = React.useState('');
+    const { stage, fullname, setPickerModal, avatar, setStage, file } = useAccountSetupState((state) => state);
+    const { id, setState } = useDetails((state) => state);
 
-    // modal controllers
-    const [showPickerModal, setShowPickerModal] = React.useState(false);
+    // mutation
+    const uploadLink = useMutation({
+      mutationFn: (data: FormData| any) => httpClient.put(`/user/profilepic/link/${id}`, data),
+      onError: (error: string) => {
+        Alert.alert('Error', error);
+      },
+      onSuccess: (data) => {
+        console.log(data.data);
+        setStage(stage + 1);
+      }
+    })
+    const { isLoading, mutate } = useMutation({
+      mutationFn: (data: FormData) => httpClient.put(`/user/profilepic/${id}`, data),
+      onError: (error: string) => {
+        Alert.alert('Error', error);
+      },
+      onSuccess: (data) => {
+        console.log(data.data);
+        setStage(stage + 1);
+      }
+    })
+    const handleImageUpload = React.useCallback(async() => {
+      
+      if (avatar.startsWith('http')) {
+        uploadLink.mutate({ avatar });
+        return;
+      } else {
+          const formData = new FormData();
+          delete file['type'];
+          const obj: any = {
+            uri: file.uri,
+            type: file.mimeType,
+            name: file.name,
+            // size: file.size
+          }
+          console.log(obj);
+          const fs = await fetch(file.uri);
+          formData.append('profilepic', obj);
+          const fet = await fetch(`${url}/user/profilepic/${id}`, {
+            method: 'put',
+            body: formData,
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
 
-    console.log(fullname);
+          const json = await fet.json();
+
+          if (fet.status === 400) {
+            Alert.alert('Error', json['message']);
+          } else {
+            setStage(stage + 1);
+          }
+          // mutate(formData);
+          // return;
+      }
+    }, [avatar, file]);
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
@@ -41,7 +98,7 @@ const Picture = () => {
 
         
       </View>
-      {avatar !== '' && <Button label='Next' onPress={() => setStage(stage + 1)} backgroundColor='black' />}
+      {avatar !== '' && <Button label='Next' onPress={handleImageUpload} backgroundColor='black' />}
     </View>
   )
 }

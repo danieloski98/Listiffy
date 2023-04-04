@@ -8,6 +8,7 @@ const httpClient = Axios.create({
 });
 
 httpClient.interceptors.request.use(async(config) => {
+    console.log(config.headers);
     const token = await AsyncStorage.getItem('token')
     config.headers!['content-type'] = 'application/json';
     if (token === null) {
@@ -19,22 +20,21 @@ httpClient.interceptors.request.use(async(config) => {
     return Promise.reject(error)
 }); 
 
-httpClient.interceptors.response.use((data) => {
+httpClient.interceptors.response.use(function(data) {
     return data;
-}, async(error: AxiosError<any, any>) => {
-    console.log(error.response?.data);
+}, async function(error: AxiosError<any, any>) {
+    
     if (!error.response) {
         return Promise.reject(error.message);
     } else {
         if (error.response?.data.message instanceof Array) {
             const msg = error.response?.data.message as Array<any>;        
-            return Promise.reject(JSON.stringify(error.response?.data.message));
+            return Promise.reject(JSON.stringify(msg));
         } else {
-            if (error.response.status === 401 || error.response.status === 403) {
-                await AsyncStorage.setItem('token', '');
+            if (error.response?.status === 401 || error.response?.status === 403) {
+                await AsyncStorage.setItem('token', '')
             }
-            
-            return Promise.reject(error.response?.data.message);
+            return Promise.reject(error.response.data.message);
         }
     }
 });

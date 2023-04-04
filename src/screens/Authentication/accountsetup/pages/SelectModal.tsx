@@ -2,10 +2,11 @@ import React from 'react'
 import { View, Text } from '../../../../components'
 import ModalWrapper from '../../../../components/ModalWrapper'
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { Pressable } from 'react-native';
+import { Pressable, Alert } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useAccountSetupState } from '../state';
 import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
 
 
 interface IProps {
@@ -31,7 +32,7 @@ interface IProps {
   }
 const SelectModal = () => {
     const bottomsheetRef = React.useRef<BottomSheetModal>(null);
-    const { setPickerModal, setAvatarModal, setAvatar } = useAccountSetupState((state) => state)
+    const { setPickerModal, setAvatarModal, setAvatar, setFile } = useAccountSetupState((state) => state)
 
     React.useEffect(() => {
         bottomsheetRef.current?.present();
@@ -44,21 +45,26 @@ const SelectModal = () => {
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-    
-    
-        if (!result.canceled) {
-            console.log(result);
-          setAvatar(result.assets[0].uri);
-        //   const fc = await fetch(result.assets[0].uri);
-        //   const res = await fc.blob()
-        //   console.log(JSON.stringify(res['_data']));
+        // let result = await ImagePicker.launchImageLibraryAsync({
+        //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+        //   allowsEditing: true,
+        //   // aspect: [16, 3],
+        //   quality: 1,
+        // });
+
+        let result = await DocumentPicker.getDocumentAsync({
+          type: 'image/*',
+        })
+
+        if (result.type === "success") {
+          console.log(result);
+          setAvatar(result.uri);
+          setFile(result);
           setPickerModal(false);
+        }
+    
+        if (result.type === 'cancel') {
+            Alert.alert('Warning', "action cancelled")
         }
       };
 

@@ -5,14 +5,16 @@ import { CustomSelect, CustomTextInput, SubmitButton } from '../../../../compone
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { fullnameSchema } from '../../../../Services/validation';
 import { useAccountSetupState } from '../state';
-import CustomButton from '../../../../components/generalComponents/Button';
+import {CustomButton} from '../../../../components';
 import httpClient from '../../../../utils/axios';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import StateModal from './StatesModal';
 import { IState } from '../../../../models/State.model';
 import { ILga } from '../../../../models/Lga.Model';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 import { Colors } from 'react-native-ui-lib';
+import { useDetails } from '../../../../State/Details';
+import { useNavigation } from '@react-navigation/native';
 
 const Location = () => {
   const [state, setState] = React.useState('');
@@ -20,12 +22,23 @@ const Location = () => {
   const [type, setType] = React.useState(1);
   const [showModal, setShowModal] = React.useState(false);
   const { setFullname, setStage, stage, fullname } = useAccountSetupState((state) => state);
+  const { id } = useDetails((state) => state);
+  const navigation = useNavigation<any>();
 
   // query
   const { isLoading, data } = useQuery(['getStates'], () => httpClient.get('/states'));
   const lgaQuery = useQuery(['getLgas', state], () => httpClient.get(`/states/lgas/${state}`));
 
-  console.log(data?.data);
+  // mutation
+  const { isLoading: mutaionLoading, mutate } = useMutation({
+    mutationFn: (data: any) => httpClient.put(`/user/location/${id}`, data),
+    onSuccess: (data) => {
+      navigation.navigate('login')
+    },
+    onError: (error: string) => {
+      Alert.alert('Error', error);
+    }
+  })
 
   const handlePress = React.useCallback((data: IState | ILga) => {
     if (type === 1) {
@@ -39,6 +52,21 @@ const Location = () => {
       return;
     }
   }, [type]);
+
+  const handleSubmit = React.useCallback(() => {
+    if (state === '' || lga === '') {
+      Alert.alert('Warning', 'Please select a state or lga');
+      return;
+    }
+    const obj = {
+      state,
+      lga,
+      country: 'nigeria',
+    }
+    mutate(obj);
+  }, [
+    state, lga
+  ])
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ width: '100%', height: '10%', justifyContent: 'center' }}>
@@ -76,7 +104,7 @@ const Location = () => {
 
             <View style={{ height: 20 }} />
 
-            <CustomButton label='Set location' onPress={() => { }} backgroundColor='black' textColor='white' />
+            <CustomButton label='Set location' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading} />
           </>
         )}
       </View>
