@@ -25,7 +25,7 @@ const Login = ({ navigation }: any) => {
     const { isLoading, mutate } = useMutation({ 
         mutationFn: (data: any) => httpClient.post('/user-auth/login', data),
         onError: (error: any) => {
-            Alert.alert('Error', error.response.data.message);
+            Alert.alert('Error', error);
             console.log(error.response.data)
         },
         onSuccess: (data) => {
