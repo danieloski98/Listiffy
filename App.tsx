@@ -16,6 +16,9 @@ export default function App() {
     'NotoSansLight': require('./assets/fonts/NotoSans-Light.ttf'),
     'NotoSans-Regular': require('./assets/fonts/NotoSans-Regular.ttf'),
     'NotoSans-SemiBold': require('./assets/fonts/NotoSans-SemiBold.ttf'),
+    'AT-Light': require('./assets/fonts/AT-light.otf'),
+    'AT-Regular': require('./assets/fonts/AT-regular.otf'),
+
   });
 
   React.useEffect(() => {

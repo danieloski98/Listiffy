@@ -1,22 +1,11 @@
 import { create } from 'zustand'
+import { UserModel } from '../models/User.Model';
 
 interface State {
-    LGA: string;
-    email: string;
-    fullName: string;
-    id: string;
-    username: string;
-    isCompany: boolean;
-    isEmailVerified: boolean;
-    loggedIn: boolean;
-    profession: string;
-    profilePicture: string;
-    state: string;
-    country: string;
     setState: (data: Partial<State>) => void;
 }
 
-export const useDetails = create<State>()((set) => ({
+export const useDetails = create<UserModel & State>()((set) => ({
     LGA: '',
     email: '',
     fullName: '',
@@ -29,5 +18,9 @@ export const useDetails = create<State>()((set) => ({
     profilePicture: '',
     state: '',
     country: '',
+    token: '',
+    createAt: '',
+    updatedAt: '',
+    isCompanyVerified: false,
     setState: (data: Partial<State>) => set((state) => ({ ...state, ...data })),
 }));

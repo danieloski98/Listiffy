@@ -13,7 +13,7 @@ interface IProps {
 
 const CustomButton = ({ label, disabled = false, size = 'large', borderRadius = 10, backgroundColor = Colors.brandColor, textColor = 'white', onPress}: IProps) => {
   return (
-    <Button label={label} disabled={disabled} size={size} borderRadius={borderRadius} backgroundColor={backgroundColor} textColor={textColor} onPress={onPress} />
+    <Button label={label} disabled={disabled} size={size} borderRadius={borderRadius} backgroundColor={backgroundColor} textColor={textColor} onPress={onPress} labelStyle={{ fontFamily: 'AT-Regular'}} />
   )
 }
 

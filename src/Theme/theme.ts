@@ -47,7 +47,7 @@ const theme = createTheme({
   },
   textVariants: {
     default: {
-      fontFamily: 'NotoSans-Regular',
+      fontFamily: 'AT-Regular',
       fontSize: 18,
       lineHeight: 24,
       color: 'black'
@@ -60,20 +60,20 @@ const theme = createTheme({
       color: 'black',
     },
     subheader: {
-      fontFamily: 'NotoSans-SemiBold',
+      fontFamily: 'coolvetica',
       fontWeight: '600',
       fontSize: 18,
       lineHeight: 36,
       color: 'black',
     },
     body: {
-      fontFamily: 'NotoSans-Regular',
+      fontFamily: 'AT-Regular',
       fontSize: 16,
       lineHeight: 24,
       color: 'darkGrey',
     },
     xs: {
-        fontFamily: 'NotoSansLight',
+        fontFamily: 'AT-Light',
         fontSize: 14,
         lineHeight: 24,
         color: 'darkGrey',
@@ -92,7 +92,7 @@ export const darkTheme: Theme = {
     },
     textVariants: {
       default: {
-        fontFamily: 'NotoSansLight',
+        fontFamily: 'AT-Light',
         fontSize: 18,
         lineHeight: 24,
         color: 'white',
@@ -105,20 +105,20 @@ export const darkTheme: Theme = {
         color: 'white',
       },
       subheader: {
-        fontFamily: 'NotoSans-SemiBold',
+        fontFamily: 'coolvetica',
         fontWeight: '600',
         fontSize: 22,
         lineHeight: 36,
         color: 'white',
       },
       body: {
-        fontFamily: 'NotoSans-Regular',
+        fontFamily: 'AT-Regular',
         fontSize: 18,
         lineHeight: 24,
         color: 'white',
       },
       xs: {
-          fontFamily: 'NotoSansLight',
+          fontFamily: 'AT-Light',
           fontSize: 14,
           lineHeight: 24,
           color: 'white',

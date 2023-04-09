@@ -27,7 +27,7 @@ export const CustomButton = ({
 }: IProps) => {
   const theme = useTheme<Theme>();
   return (
-    <Button onPress={onPress} label={isLoading ? 'submitting...':label} disabled={disabled || false} size={Button.sizes.large} backgroundColor={backgroundColor || Colors.black}  borderRadius={5} />
+    <Button onPress={onPress} label={isLoading ? 'submitting...':label} disabled={disabled || false} size={Button.sizes.large} backgroundColor={backgroundColor || Colors.black}  borderRadius={5} labelStyle={{ fontFamily: 'AT-Regular'}} />
       // <Pressable 
       // onPress={() => onPress()}
       // style={{

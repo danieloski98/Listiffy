@@ -1,4 +1,4 @@
-import {Typography, Colors} from 'react-native-ui-lib';
+import {Typography, Colors, ThemeManager} from 'react-native-ui-lib';
 
 export function InitFunction() {
     Colors.loadColors({
@@ -15,15 +15,15 @@ export function InitFunction() {
         },
         light: {
             fontSize: 16,
-            fontFamily: 'NotoSansLight'
+            fontFamily: 'AT-Light'
         },
          regular: {
             fontSize: 16,
-            fontFamily: 'NotoSans-Regular'
+            fontFamily: 'AT-Regular'
         },
          semibold: {
             fontSize: 20,
-            fontFamily: 'NotoSans-SemiBold'
+            fontFamily: 'coolvetica'
         },
     });
 }
