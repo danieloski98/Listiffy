@@ -14,6 +14,6 @@ export const SubmitButton = ({ onSubmit, label, isLoading }: IProps ) => {
     const { handleSubmit, formState: { isDirty, isValid, isSubmitting } } = useFormContext();
 
   return (
-    <Button onPress={handleSubmit(onSubmit)} label={isLoading ? 'submitting...':label} disabled={!isDirty || !isValid} size={Button.sizes.large} backgroundColor={Colors.black} borderRadius={5} />
+    <Button onPress={handleSubmit(onSubmit)} label={isLoading ? 'submitting...':label} disabled={!isDirty || !isValid} size={Button.sizes.large} backgroundColor={Colors.black} borderRadius={5} labelStyle={{ fontFamily: 'AT-Regular'}} />
   )
 }

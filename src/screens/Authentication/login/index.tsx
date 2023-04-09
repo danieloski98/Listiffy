@@ -8,10 +8,12 @@ import { useMutation } from 'react-query';
 import httpClient from '../../../utils/axios'
 import useForm from '../../../hooks/useForm'
 import { loginSchema } from '../../../Services/validation'
+import { useDetails } from '../../../State/Details'
 
 
 const Login = ({ navigation }: any) => {
     // states
+    const { setState } = useDetails((state) => state);
     const [showPasword, setShowPassword] = React.useState(false);
     const { renderForm } = useForm({
         validationSchema: loginSchema,
@@ -25,11 +27,11 @@ const Login = ({ navigation }: any) => {
     const { isLoading, mutate } = useMutation({ 
         mutationFn: (data: any) => httpClient.post('/user-auth/login', data),
         onError: (error: any) => {
-            Alert.alert('Error', error.response.data.message);
+            Alert.alert('Error', error);
             console.log(error.response.data)
         },
         onSuccess: (data) => {
-            console.log(data.data);
+            setState({...data.data.data, loggedIn: true});
         }
     })
 

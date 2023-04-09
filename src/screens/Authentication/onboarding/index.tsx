@@ -3,6 +3,7 @@ import { View, Text, ThemeManager, Colors, Button } from 'react-native-ui-lib'
 import React from 'react'
 import { Style } from './style'
 import { Feather } from '@expo/vector-icons'
+import { CustomButton } from '../../../components'
 
 const data = [
     {
@@ -51,7 +52,7 @@ const Onboarding = ({ navigation }: any) => {
         )}
         {count === 2 && (
             <View centerV style={{ width: '100%', height: '50%' }}>
-                <Button onPress={() => navigation.navigate('signup')}  label='Get Started' size={Button.sizes.large} backgroundColor={Colors.black} borderRadius={5} />
+                <CustomButton onPress={() => navigation.navigate('signup')}  label='Get Started' size={Button.sizes.large} backgroundColor={Colors.black} borderRadius={5} />
                 <Text onPress={() => navigation.navigate('login')} style={{ textAlign: 'center', marginTop: 10 }} light>Have an account ? <Text light brandColor>Login</Text></Text>
             </View>
         )}
