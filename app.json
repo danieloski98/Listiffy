@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/appicon.png",
     "userInterfaceStyle": "light",
+    "owner": "dandolla98",
     "splash": {
       "image": "./assets/splashl.png",
       "resizeMode": "cover",
