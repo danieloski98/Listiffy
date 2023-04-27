@@ -22,4 +22,8 @@ const resetPasswordSchema = z.object({
 const fullnameSchema = z.object({
     fullname: z.string().nonempty("Password is required"),
 });
-export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema };
+
+const BusinessnameSchema = z.object({
+    business_name: z.string().nonempty(" Business name is required"),
+});
+export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema };

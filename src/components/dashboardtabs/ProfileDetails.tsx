@@ -7,7 +7,8 @@ import CustomButton from '../generalComponents/Button'
 import { Colors } from 'react-native-ui-lib'
 
 const ProfileDetails = () => {
-    const { profilePicture, fullName, username, email } = useDetails((state) => state)
+    const { profilePicture, fullName, username, email } = useDetails((state) => state);
+    console.log(profilePicture);
   return (
     <View style={Styles.parent} paddingHorizontal='m'>
 

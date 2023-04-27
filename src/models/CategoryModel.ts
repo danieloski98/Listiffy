@@ -3,3 +3,10 @@ export interface CategoryModel {
     category: string;
     createdAt: string;
 }
+
+export interface ServiceModel {
+    id: string;
+    service: string;
+    createdAt: string;
+    categoryId: string;
+}
