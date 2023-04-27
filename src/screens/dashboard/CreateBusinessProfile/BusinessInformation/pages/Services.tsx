@@ -30,11 +30,13 @@ const Services = () => {
     // })
 
     const handleAddservice  = React.useCallback((id: string) => {
-        if (services.includes(id)) {
+        if (!services.includes(id) && services.length < 3) {
+            setService(id);
             return;
+        } else {
+            Alert.alert('Warning', 'You can only select 3 services');
         }
-        setService(id);
-    }, [])
+    }, [services])
 
 
     const handleSubmit = React.useCallback(() => {
@@ -42,7 +44,7 @@ const Services = () => {
             Alert.alert('Warning', 'You must select at least one service(s)');
             return;
         }
-       
+       setStage(stage + 1);
     }, [services])
 
   return (
@@ -56,6 +58,8 @@ const Services = () => {
             <TextInput style={{ flex: 1 }} placeholder='Search services'  value={search} onChangeText={(e: string) => setSearch(e)} />
             <Feather name='search' size={25} color='grey' />
         </View>
+
+        <Text variant='body'>{services.length} Selected</Text>
 
         <View style={{ flex: 1,marginTop: 20 }}>
             <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 100}}>

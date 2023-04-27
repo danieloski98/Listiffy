@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { Platform } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Feeds from '../screens/Dashboardtabs/feeds'
@@ -10,9 +10,11 @@ import { Colors } from 'react-native-ui-lib'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
+const OS = Platform.OS;
+
 const Dashboard = () => {
   return (
-    <Navigator initialRouteName='feeds' screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarStyle: { height: 60 }  }} >
+    <Navigator initialRouteName='feeds' screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarStyle: { height: OS === 'ios' ? 70 : 60, paddingTop: OS === 'ios' ? 10:0 }  }} >
       <Screen name="feeds" component={Feeds} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'md-home':'md-home-outline'} size={ focused ? 30:25} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
 
       <Screen name="search" component={Search} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'search-circle':'search-circle-outline'} size={ focused ? 30:25} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />

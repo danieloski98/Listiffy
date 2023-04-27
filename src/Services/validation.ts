@@ -26,4 +26,17 @@ const fullnameSchema = z.object({
 const BusinessnameSchema = z.object({
     business_name: z.string().nonempty(" Business name is required"),
 });
-export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema };
+
+const docSchema = z.object({
+    docNumber: z.string().nonempty(" Business name is required"),
+});
+
+const contactSchema = z.object({
+    company_email: z.string().nonempty(" Business name is required").email('Invalid email'),
+    phone: z.string().nonempty(" Business name is required"),
+    instagram_username: z.string(),
+    twitter_username: z.string(),
+    whatsapp_number: z.string(),
+    website: z.string(),
+});
+export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema };

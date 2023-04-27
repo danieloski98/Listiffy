@@ -20,7 +20,7 @@ interface AccountSetupState {
     setFile: (data: any) => void
 }
 
-interface IFile {
+export interface IFile {
     mimeType: string,
     name: string,
     size: number,

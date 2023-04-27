@@ -31,7 +31,7 @@ export const CustomTextInput = (props: IProps & TextInputProps) => {
         name={props.name}
         render={({ field: { onChange, value  }}) => {
             return (
-                <View style={[Style.parent, { borderColor: focused ? theme.colors.brandColor : 'grey',}]}>
+                <View style={[Style.parent, { borderColor: focused ? theme.colors.brandColor : 'grey', ...props.style as any}]}>
                     {props.leftIcon}
                     <View style={{ flex: 1, justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 10 }}>
                         {focused && <Text variant='xs'>{props.placeholder || props.name}</Text>}

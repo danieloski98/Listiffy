@@ -17,7 +17,7 @@ const Profile = () => {
 
         <ProfileDetails />
 
-        <View marginTop='l' marginHorizontal='m' paddingBottom='m' style={{ borderBottomWidth: 2, borderBottomColor: 'lightgrey' }}>
+        <View marginTop='l' marginHorizontal='m' paddingBottom='m' style={{ borderBottomWidth: 1, borderBottomColor: 'lightgrey' }}>
           <Text variant='body'>Your Reviews</Text>
         </View>
 

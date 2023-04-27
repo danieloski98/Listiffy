@@ -7,6 +7,7 @@ import Post from '../screens/dashboard/Post';
 import Ads from '../screens/dashboard/Ads';
 import CreateBusinessProfile from '../screens/dashboard/CreateBusinessProfile';
 import BusinessInforrmation from '../screens/dashboard/CreateBusinessProfile/BusinessInformation';
+import Verification from '../screens/dashboard/CreateBusinessProfile/Verification';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 const Home = () => {
@@ -19,6 +20,7 @@ const Home = () => {
       <Screen name="ads" component={Ads} />
       <Screen name='createbusinessprofile' component={CreateBusinessProfile} />
       <Screen name='businessinformation' component={BusinessInforrmation} />
+      <Screen name='verificatiton' component={Verification} />
     </Navigator>
   )
 }

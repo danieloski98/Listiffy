@@ -3,21 +3,22 @@ import { View, Text } from '../../../components'
 import { ImageBackground, Pressable, StyleSheet, Image } from 'react-native'
 import { Colors } from 'react-native-ui-lib'
 import { Feather } from '@expo/vector-icons';
+import { useVerfificationState } from './state';
 
 const VerificationTrackerTiles = ({ title, started,icon, onPress}: { title: string, started: boolean, icon: 'user'|'key', onPress: () => void}) => (
-    <Pressable onPress={onPress} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
+    <Pressable onPress={!started ? onPress: null} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
         <Feather name={icon} size={30} color="black" />
         <View flex={1} paddingHorizontal='l'>
             <Text variant='subheader'>{title}</Text>
-            <Text variant='body'>Not started</Text>
+            <Text variant='body' color={started ? 'brandColor':'black'}>{started ? 'Completed 100%':'Not started'}</Text>
         </View>
-        <Feather name="chevron-right" size={30} color="black" />
+        {!started && <Feather name="chevron-right" size={30} color="black" />}
     </Pressable>
 )
 
 const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
-
-    const handlePress = React.useCallback((route: 'businessinformation') => {
+    const { stepOneDone, stepTwoDone } = useVerfificationState((state) => state);
+    const handlePress = React.useCallback((route: 'businessinformation'|'verificatiton') => {
         navigation.navigate(route);
     }, []);
   return (
@@ -39,8 +40,8 @@ const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
         </Text>
 
         <View style={{ width: '100%', height: '40%', backgroundColor: '#F9F9F9', borderRadius: 20 }} marginTop='m'>
-            <VerificationTrackerTiles onPress={() => handlePress('businessinformation')} title='Provide Business information' started={false} icon='user' />
-            <VerificationTrackerTiles onPress={() => handlePress('businessinformation')} title='Verfiy Identity' started={false} icon='key' />
+            <VerificationTrackerTiles onPress={() => handlePress('businessinformation')} title='Provide Business information' started={stepOneDone} icon='user' />
+            <VerificationTrackerTiles onPress={() => handlePress('verificatiton')} title='Verfiy Identity' started={stepTwoDone} icon='key' />
         </View>
     </View>
     </View>

@@ -17,8 +17,8 @@ const BusinessName = () => {
         }
     });
 
-    const handlePress = React.useCallback((data: { fullname: string}) => {
-        setBusinessName(data.fullname);
+    const handlePress = React.useCallback((data: { business_name: string}) => {
+        setBusinessName(data.business_name);
         setStage(stage + 1);
     }, []);
   return renderForm(
