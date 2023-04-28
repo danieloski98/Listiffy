@@ -8,23 +8,17 @@ export type OPENING_HOUR =  {
   }
 
 interface State {
-    stepOneDone: boolean;
-    stepTwoDone: boolean;
-    
-
-    // setter
-    setStepOneDone: (stepOneDone: boolean) => void;
-    setStepTwoDone: (stepTwoDone: boolean) => void;
-
+    step: number;
+    completeionRate: number;
+    setAll: (data: any) => void
 }
 
 
 export const useVerfificationState = create<State>()(
     (set) => ({
-        stepTwoDone: false,
-        stepOneDone: false,
-        setStepOneDone: (step: boolean) => set((state) => ({ ...state, stepOneDone: step })),
-        setStepTwoDone: (step: boolean) => set((state) => ({ ...state, stepTwoDone: step })),
+        step: 0,
+        completeionRate: 0,
+        setAll: (step: any) => set((state) => ({ ...state, ...step })),
     }));
     
     

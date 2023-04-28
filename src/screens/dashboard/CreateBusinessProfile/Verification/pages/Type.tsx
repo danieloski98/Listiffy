@@ -19,18 +19,18 @@ const DOCS = [
 
 
 const BusinessName = () => {
-    const { setStage, stage, setDocType } = useDocState((state) => state);
-    const [indx, setIndex] = React.useState<number>();
+    const { setStage, stage, setDocType, idx, setIdx } = useDocState((state) => state);
+    const [indx, setIndex] = React.useState<number>(idx);
    
 
     const handlePress = React.useCallback(() => {
-        if (indx === undefined) {
+        if (idx === undefined) {
             Alert.alert('Warning', 'You have to select a verification method');
             return;
         }
-        setDocType(DOCS[indx as number]);    
+        setDocType(DOCS[idx as number]);    
         setStage(stage + 1);
-    }, [indx]);
+    }, [idx]);
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
       <View style={{ flex: 1 }}>
@@ -42,8 +42,8 @@ const BusinessName = () => {
         <View flex={1}>
             <ScrollView>
                 {DOCS.map((doc, index) => (
-                    <Pressable onPress={() => setIndex(index)} key={index} style={{ width: '100%', flexDirection: 'row', marginBottom: 20, alignItems: 'center' }}>
-                        <View width={30} height={30} borderRadius={15} borderWidth={ indx === index ? 0 : 1} borderColor='black' backgroundColor={indx === index ? 'brandColor' : 'white'} justifyContent='center' alignItems='center' />
+                    <Pressable onPress={() => {setIdx(index); setDocType(DOCS[idx]); }} key={index} style={{ width: '100%', flexDirection: 'row', marginBottom: 20, alignItems: 'center' }}>
+                        <View width={30} height={30} borderRadius={15} borderWidth={ idx === index ? 0 : 1} borderColor='black' backgroundColor={idx === index ? 'brandColor' : 'white'} justifyContent='center' alignItems='center' />
                         <Text variant='subheader' marginLeft='m'>{doc}</Text>
                     </Pressable>
                 ))}

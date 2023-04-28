@@ -46,7 +46,7 @@ interface AccountSetupState {
     setWhatsappNumber: (whatsapp_number: string) => void;
     setWebsite: (website: string) => void;
     setSelectedDays: (selectedDays: Array<string>) => void;
-
+    setAll: (all: any) => void;
 }
 
 
@@ -73,7 +73,7 @@ export const useAccountSetupState = create<AccountSetupState>()(
         setService: (service: string) => set((state) => ({ ...state, services: [...state.services, service] })),
         setOpening_hours: (opening_hours: any) => set((state) => ({ ...state, opening_hours })),
         setAddress: (address: string) => set((state) => ({ ...state, address })),
-        setState: (sta: string) => set((state) => ({ ...state, sta })),
+        setState: (sta: string) => set((state) => ({ ...state, state: sta })),
         setLga: (lga: string) => set((state) => ({ ...state, lga })),
         setCountry: (country: string) => set((state) => ({ ...state, country })),
         setIsPhysical: (isPhysical: boolean) => set((state) => ({ ...state, isPhysical })), 
@@ -84,6 +84,7 @@ export const useAccountSetupState = create<AccountSetupState>()(
         setWhatsappNumber: (whatsapp_number: string) => set((state) => ({ ...state, whatsapp_number })),
         setWebsite: (website: string) => set((state) => ({ ...state, website })),
         setSelectedDays: (selectedDays: Array<string>) => set((state) => ({ ...state, selectedDays })),
+        setAll: (data: any) => set(() => ({ ...data })),
     })
     );
     

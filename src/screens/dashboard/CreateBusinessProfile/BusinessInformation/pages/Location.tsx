@@ -15,11 +15,10 @@ import StateModal from '../../../../Authentication/accountsetup/pages/StatesModa
 import { CustomInput } from '../../../../../components/TextInput';
 
 const Location = () => {
-  const [state, setState] = React.useState('');
-  const [lga, setLga] = React.useState('');
   const [type, setType] = React.useState(1);
   const [showModal, setShowModal] = React.useState(false);
-  const { setStage, stage, address, setAddress, isPhysical, setIsPhysical } = useAccountSetupState((state) => state);
+  const { setStage, stage, address, setAddress, isPhysical, state, lga, setIsPhysical, setState, setLga } = useAccountSetupState((state) => state);
+  
   const { id } = useDetails((state) => state);
   const navigation = useNavigation<any>();
 
@@ -49,7 +48,7 @@ const Location = () => {
       setShowModal(false);
       return;
     }
-  }, [type]);
+  }, [type, state, lga]);
 
   const handleSubmit = React.useCallback(() => {
     setStage(stage + 1);

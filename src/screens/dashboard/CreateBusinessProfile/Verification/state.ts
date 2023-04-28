@@ -5,6 +5,7 @@ import { IFile } from '../../../Authentication/accountsetup/state';
 
 interface State {
     stage: number;
+    idx: number;
     docType: string;
     docNumber: string;
     front: IFile;
@@ -15,11 +16,14 @@ interface State {
     setStage: (stage: number) => void;
     setFront: (file: IFile) => void;
     setBack: (file: IFile) => void;
+    setIdx: (stage: number) => void;
+    setAll: (data: any) => void;
 }
 
 
 export const useDocState = create<State>()(
     (set) => ({
+        idx: 0,
         docNumber: '',
         docType: '',
         stage: 0,
@@ -42,7 +46,9 @@ export const useDocState = create<State>()(
         setStage: (stage: number) => set((state) => ({ ...state, stage })),
         setFront: (front: IFile) => set((state) => ({ ...state, front })),
         setBack: (back: IFile) => set((state) => ({ ...state, back })),
-    }
-    ));
+        setAll: (data: any) => set(() => ({ ...data })),
+        setIdx: (idx: number) => set((state) => ({ ...state, idx })),
+    })
+    );
     
     

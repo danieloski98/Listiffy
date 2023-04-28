@@ -5,11 +5,27 @@ import { Colors } from 'react-native-ui-lib'
 import { Ionicons } from '@expo/vector-icons'
 import { useDocState } from '../state'
 import { useNavigation } from '@react-navigation/core'
+import { setDoc, doc } from 'firebase/firestore'
+import { FireStoreDb } from '../../../../../firebase'
+import { useDetails } from '../../../../../State/Details'
 
 const Pending = () => {
     const { width } = useWindowDimensions()
-    const { setStage, stage, docType, setBack, back, front, docNumber } = useDocState((state) => state);
+    const { setStage } = useDocState((state) => state);
+    const { id } = useDetails((state) => state)
+    const [loading, setLoading] = React.useState(false);
     const navigation = useNavigation<any>()
+
+    const handleClick = React.useCallback(async() => {
+      setLoading(true);
+      await setDoc(doc(FireStoreDb, 'Verification', id), {
+        step: 2,
+        completionRate: 100,
+      });
+      setLoading(false);
+      setStage(0);
+      navigation.navigate('profile');
+    }, []);
 
   return (
     <View flex={1}>
@@ -29,10 +45,7 @@ const Pending = () => {
             </View>
             
             <View height={30} />
-            <CustomButton label='Done' onPress={() => {
-                setStage(0);
-                navigation.navigate('profile');
-            }} />
+            <CustomButton label='Done' onPress={handleClick} isLoading={loading} />
         </View>
       </ImageBackground>
     </View>

@@ -12,7 +12,7 @@ import { Colors } from 'react-native-ui-lib';
 
 
 const Front = () => {
-    const { setStage, stage, docType, docNumber, setDocNumber, setFront, front } = useDocState((state) => state);
+    const { setStage, stage, docType, setFront, front } = useDocState((state) => state);
    
     const pickImage = async () => {
         let result = await DocumentPicker.getDocumentAsync({
@@ -29,9 +29,6 @@ const Front = () => {
         }
       };
 
-    const handlePress = React.useCallback(() => {
-       
-    }, []);
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>

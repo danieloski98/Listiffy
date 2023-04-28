@@ -1,26 +1,16 @@
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useDocState } from '../state';
-import { useDetails } from '../../../../../State/Details';
-import useForm from '../../../../../hooks/useForm';
-import { BusinessnameSchema, docSchema, fullnameSchema } from '../../../../../Services/validation';
-import { View, Text } from '../../../../../components';
-import { CustomTextInput, SubmitButton } from '../../../../../components/form';
+import { View, Text, CustomButton } from '../../../../../components';
+import { CustomInput } from '../../../../../components/TextInput';
 
 const EnterNumber = () => {
     const { setStage, stage, docType, docNumber, setDocNumber } = useDocState((state) => state);
-    const { renderForm } = useForm({
-        validationSchema: docSchema,
-        defaultValues: {
-            docNumber
-        }
-    });
 
-    const handlePress = React.useCallback((data: { docNumber: string}) => {
-        setDocNumber(data.docNumber);
+    const handlePress = React.useCallback(() => {
         setStage(stage + 1);
     }, []);
-  return renderForm(
+  return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
         <Text variant='subheader'>Enter {docType} number</Text>
@@ -28,9 +18,9 @@ const EnterNumber = () => {
         {/* SPACER */}
         <View style={{ height: 20 }} />
 
-        <CustomTextInput name='docNumber' placeholder={`Enter ${docType}`} leftIcon={<Ionicons name='document-outline' size={25} color='black'  />} />
+        <CustomInput placeholder={`Enter ${docType}`} value={docNumber} onChangeText={setDocNumber} leftIcon={<Ionicons name='document-outline' size={25} color='black'  />} />
       </View>
-      <SubmitButton label='Next' onSubmit={handlePress} />
+      <CustomButton label='Next' onPress={handlePress} />
     </View>
   )
 }
