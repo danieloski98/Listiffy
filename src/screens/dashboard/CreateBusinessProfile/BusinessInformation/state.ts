@@ -1,10 +1,17 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 
+export type OPENING_HOUR =  {
+    "day": string;
+    "startHour": string;
+    "endHour": string;
+  }
+
 interface AccountSetupState {
     stage: number;
     business_name: string;
     services: Array<string>;
+    selectedDays: Array<string>;
     opening_hours: Array<{
         day: string,
         startHour: string,
@@ -38,7 +45,8 @@ interface AccountSetupState {
     setTwitterUsername: (twitter_username: string) => void;
     setWhatsappNumber: (whatsapp_number: string) => void;
     setWebsite: (website: string) => void;
-
+    setSelectedDays: (selectedDays: Array<string>) => void;
+    setAll: (all: any) => void;
 }
 
 
@@ -59,12 +67,13 @@ export const useAccountSetupState = create<AccountSetupState>()(
         twitter_username: '',
         whatsapp_number: '',
         website: '',
+        selectedDays: [],
         setStage: (stage) => set((state) => ({ ...state, stage })),
         setBusinessName: (business_name: string) => set((state) => ({ ...state, business_name })),
         setService: (service: string) => set((state) => ({ ...state, services: [...state.services, service] })),
         setOpening_hours: (opening_hours: any) => set((state) => ({ ...state, opening_hours })),
         setAddress: (address: string) => set((state) => ({ ...state, address })),
-        setState: (sta: string) => set((state) => ({ ...state, sta })),
+        setState: (sta: string) => set((state) => ({ ...state, state: sta })),
         setLga: (lga: string) => set((state) => ({ ...state, lga })),
         setCountry: (country: string) => set((state) => ({ ...state, country })),
         setIsPhysical: (isPhysical: boolean) => set((state) => ({ ...state, isPhysical })), 
@@ -74,11 +83,9 @@ export const useAccountSetupState = create<AccountSetupState>()(
         setTwitterUsername: (twitter_username: string) => set((state) => ({ ...state, twitter_username })),
         setWhatsappNumber: (whatsapp_number: string) => set((state) => ({ ...state, whatsapp_number })),
         setWebsite: (website: string) => set((state) => ({ ...state, website })),
-
-    }));
-
-
-
-    ;
+        setSelectedDays: (selectedDays: Array<string>) => set((state) => ({ ...state, selectedDays })),
+        setAll: (data: any) => set(() => ({ ...data })),
+    })
+    );
     
     
