@@ -13,8 +13,9 @@ const Navigation = () => {
     <ThemeProvider theme={theme}>
       <StatusBar translucent backgroundColor='transparent' barStyle='dark-content' />
       <NavigationContainer>
-        {!loggedIn &&  <Authentication />}
-       {loggedIn &&  <Home />}
+        {/* {!loggedIn &&  <Authentication />}
+       {loggedIn &&  <Home />} */}
+        <Home/>
     </NavigationContainer>
     </ThemeProvider>
   )

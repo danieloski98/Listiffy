@@ -57,9 +57,10 @@ const Login = ({ navigation }: any) => {
                 </View>
                 <View style={{ marginTop: 20 }}>
                     <SubmitButton label='Login' onSubmit={(data) => mutate(data)} isLoading={isLoading} />
+                    
                 </View>
                 <View style={{  marginVertical: 20 }}>
-                    <Text onPress={() => navigation.navigate('signup')} light style={{ textAlign: 'center'}}>New to Listtify ? <Text light style={{ color: Colors.brandColor }}>Create account</Text></Text>
+                    <Text onPress={() => navigation.navigate('signup')} light style={{ textAlign: 'center'}}>New to Listiffy ? <Text light style={{ color: Colors.brandColor }}>Create account</Text></Text>
                 </View>
             </View>
            </>
