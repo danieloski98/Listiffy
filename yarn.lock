@@ -2325,6 +2325,13 @@
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
+"@types/react-native@^0.71.6":
+  version "0.71.6"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.71.6.tgz#bf0fc6a69bf0c2933c089dfb19fc182b09cb7790"
+  integrity sha512-eCqEZ+GhW9L9o6yVoPqCCAq8Sbd6liaKlh6WviD0X7O035NEe7VQ+q9KXYL+mhyZrLI5sbX7f3G973gG6fuiyQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-test-renderer@^18.0.0":
   version "18.0.0"
   resolved "https://registry.npmjs.org/@types/react-test-renderer/-/react-test-renderer-18.0.0.tgz"
@@ -7393,7 +7400,7 @@ react-native-otp-textinput@^1.0.0:
 
 react-native-pager-view@6.1.2:
   version "6.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-6.1.2.tgz#3522079b9a9d6634ca5e8d153bc0b4d660254552"
+  resolved "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.1.2.tgz"
   integrity sha512-qs2KSFc+7N7B+UZ6SG2sTvCkppagm5fVyRclv1KFKc7lDtrhXLzN59tXJw575LDP/dRJoXsNwqUAhZJdws6ABQ==
 
 react-native-reanimated@~2.14.4:

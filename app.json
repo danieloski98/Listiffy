@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/appicon.png",
     "userInterfaceStyle": "light",
-    "owner": "dandolla98",
     "splash": {
       "image": "./assets/splashl.png",
       "resizeMode": "cover",
@@ -50,13 +49,11 @@
       ]
     ],
     "extra": {
-      "eas": {
-        "projectId": "62a13862-c8f5-4620-a56d-0613fe27a2cc"
-      }
+    
     },
     "runtimeVersion": {
       "policy": "sdkVersion",
-      "nativeVersion": "48.0.0",
+      "nativeVersion": "48.0.0"
     }
   }
 }
