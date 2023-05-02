@@ -59,6 +59,7 @@ const Interest = () => {
             <TextInput style={{ flex: 1 }} placeholder='Search category'  value={search} onChangeText={(e: string) => setSearch(e)} />
             <Feather name='search' size={25} color='grey' />
         </View>
+        <Text variant='body' mt='s'>{interests.length} interestes selected</Text>
 
         <View style={{ flex: 1,marginTop: 20 }}>
             <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 100}}>

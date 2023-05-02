@@ -2,76 +2,74 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useDocState } from '../state';
 import { useDetails } from '../../../../../State/Details';
-import useForm from '../../../../../hooks/useForm';
-import { BusinessnameSchema, docSchema, fullnameSchema } from '../../../../../Services/validation';
 import { View, Text, CustomButton } from '../../../../../components';
-import { CustomTextInput, SubmitButton } from '../../../../../components/form';
 import * as DocumentPicker from 'expo-document-picker';
 import { Alert, Pressable } from 'react-native';
 import { Colors } from 'react-native-ui-lib';
 import url from '../../../../../utils/url';
+import mime from "mime";
+import * as ImagePicker from 'expo-image-picker';
+import { useMutation } from 'react-query';
+import httpClient from '../../../../../utils/axios';
 
 
 const Back = () => {
     const { setStage, stage, docType, setBack, back, front, docNumber } = useDocState((state) => state);
     const { id } = useDetails((state) => state);
     const [loading, setLoading] = React.useState(false);
-    const pickImage = async () => {
-        let result = await DocumentPicker.getDocumentAsync({
-          type: 'image/*',
-        })
 
-        if (result.type === "success") {
-          console.log(result);
-          setBack(result as any);
+    const { mutate, isLoading } = useMutation({
+      mutationFn: (data: any) => fetch(`${url}/business/verification-document/${id}`, {
+        body: data,
+        method: "POST",
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-    
-        if (result.type === 'cancel') {
-            Alert.alert('Warning', "action cancelled")
+      }),
+      onError: (error: any) => {
+        setLoading(true);
+        Alert.alert(error)
+      },
+      onSuccess: () => {
+        setStage(stage + 1);
+
+      }
+    })
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        quality: 1,
+        base64: false,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
+      });
+  
+      if (!result.canceled) {
+        const uri = result.assets[0].uri;
+        const newBackUri =  "file://" + uri.split("file:///").join("");
+        const bk: any = {
+          uri,
+          type: mime.getType(newBackUri),
+          name: uri.split("/").pop()
+          // size: result.assets[0].fileSize,
         }
+        setBack(bk);
+      } else {
+        alert('You did not select any image.');
+      }
       };
 
-      const handleImageUpload = React.useCallback(async() => {
-            const formData = new FormData();
-            const ft: any = {
-              uri: front.uri,
-              type: front.mimeType,
-              name: front.name,
-              // size: file.size
-            }
-
-            const bk: any = {
-                uri: back.uri,
-                type: back.mimeType,
-                name: back.name,
-                // size: file.size
-              }
+      const handleImageUpload = async() => {
+        const formData = new FormData();
          
-            formData.append('front', ft);
-            formData.append('back', bk);
+            formData.append('front', front as any);
+            formData.append('back', back as any);
             formData.append('document_type', docType);
             formData.append('id_number', docNumber);
-            
-            setLoading(true);
-            const fet = await fetch(`${url}/business/verification-document/${id}`, {
-              method: 'post',
-              body: formData,
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            });
   
-            const json = await fet.json();
-            setLoading(false);
-            console.log(url);
-            if (fet.status !== 201) {
-                console.log(json);
-              Alert.alert('Error', json['message']);
-            } else {
-              setStage(stage + 1);
-            }
-           
-      }, []);
+            mutate(formData);
+            
+      };
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
