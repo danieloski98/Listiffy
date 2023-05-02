@@ -27,7 +27,7 @@ const CreateBusinessModal = ({ onClose }: IProps) => {
     <ModalWrapper
         ref={bottomsheetRef}
         onClose={() => onClose()}
-        snapPoints={['38%']}
+        snapPoints={['50%']}
     >
         <View style={{ flex: 1, padding: 0 }}>
           <Text variant='subheader'>Set up Business Profile</Text>

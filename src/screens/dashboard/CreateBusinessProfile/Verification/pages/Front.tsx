@@ -9,24 +9,48 @@ import { CustomTextInput, SubmitButton } from '../../../../../components/form';
 import * as DocumentPicker from 'expo-document-picker';
 import { Alert, Pressable } from 'react-native';
 import { Colors } from 'react-native-ui-lib';
+import mime from "mime";
+import * as ImagePicker from 'expo-image-picker';
 
 
 const Front = () => {
     const { setStage, stage, docType, setFront, front } = useDocState((state) => state);
    
     const pickImage = async () => {
-        let result = await DocumentPicker.getDocumentAsync({
-          type: 'image/*',
-        })
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        quality: 1,
+        base64: false,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
+      });
+  
+      if (!result.canceled) {
+        console.log(result.assets);
+        const uri = result.assets[0].uri;
+        const newBackUri =  "file://" + uri.split("file:///").join("");
+        const bk: any = {
+          uri,
+          type: mime.getType(newBackUri),
+          name: uri.split("/").pop()
+          // size: result.assets[0].fileSize,
+        }
+        setFront(bk);
+      } else {
+        alert('You did not select any image.');
+      }
+        // let result = await DocumentPicker.getDocumentAsync({
+        //   type: 'image/*',
+        // })
 
-        if (result.type === "success") {
-          console.log(result);
-          setFront(result as any);
-        }
+        // if (result.type === "success") {
+        //   console.log(result);
+        //   setFront(result as any);
+        // }
     
-        if (result.type === 'cancel') {
-            Alert.alert('Warning', "action cancelled")
-        }
+        // if (result.type === 'cancel') {
+        //     Alert.alert('Warning', "action cancelled")
+        // }
       };
 
   return (

@@ -30,7 +30,8 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.dandolla98.Listtify"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -56,7 +57,7 @@
     },
     "runtimeVersion": {
       "policy": "sdkVersion",
-      "nativeVersion": "48.0.0",
+      "nativeVersion": "48.0.0"
     }
   }
 }

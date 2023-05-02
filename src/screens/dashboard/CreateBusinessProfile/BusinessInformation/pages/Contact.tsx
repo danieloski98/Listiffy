@@ -50,7 +50,7 @@ const Contact = () => {
     }
   })
 
-  const handlePress = React.useCallback(() => {
+  const handlePress = () => {
     const obj = {
       company_email,
       phone,
@@ -68,7 +68,7 @@ const Contact = () => {
     }
     console.log(obj)
     mutate(obj);
-  }, []);
+  }
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
