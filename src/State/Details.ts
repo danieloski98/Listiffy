@@ -16,6 +16,7 @@ export const useDetails = create<UserModel & State>()((set) => ({
     loggedIn: false,
     profession: '',
     profilePicture: '',
+    phone: '',
     state: '',
     country: '',
     token: '',

@@ -8,6 +8,8 @@ import Ads from '../screens/dashboard/Ads';
 import CreateBusinessProfile from '../screens/dashboard/CreateBusinessProfile';
 import BusinessInforrmation from '../screens/dashboard/CreateBusinessProfile/BusinessInformation';
 import Verification from '../screens/dashboard/CreateBusinessProfile/Verification';
+import EditBasicProfile from '../screens/dashboard/EditBasicProfile';
+import EditBusinessProfile from '../screens/dashboard/EditBusinessProfile';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 const Home = () => {
@@ -21,6 +23,8 @@ const Home = () => {
       <Screen name='createbusinessprofile' component={CreateBusinessProfile} />
       <Screen name='businessinformation' component={BusinessInforrmation} />
       <Screen name='verificatiton' component={Verification} />
+      <Screen name='editbasicprofile' component={EditBasicProfile} />
+      <Screen name='editbusinessprofile' component={EditBusinessProfile} />
     </Navigator>
   )
 }
