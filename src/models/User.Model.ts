@@ -15,4 +15,6 @@ export interface UserModel {
     "token": string
     "updatedAt": string
     "username": string
+    phone: string;
+    following: Array<any>
   }
