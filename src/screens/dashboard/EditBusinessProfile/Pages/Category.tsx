@@ -1,28 +1,48 @@
 import React from 'react'
-import { useAccountSetupState } from '../state'
+import { useEditBusinessState } from '../state'
 import { Colors } from 'react-native-ui-lib';
 import { ActivityIndicator, Pressable, ScrollView, TextInput, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Image } from 'react-native';
-import { useMutation, useQuery } from 'react-query';
-import { useDetails } from '../../../../../State/Details';
-import httpClient from '../../../../../utils/axios';
-import { View, Text, CustomButton } from '../../../../../components';
-import { Chip } from '../../../../../components/Authentication/accountSetup/BusinessChip';
-import { ServiceModel } from '../../../../../models/CategoryModel';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useDetails } from '../../../../State/Details';
+import httpClient from '../../../../utils/axios';
+import { View, Text, CustomButton } from '../../../../components';
+import { Chip } from '../../../../components/Authentication/accountSetup/BusinessChip';
+import { ServiceModel } from '../../../../models/CategoryModel';
 
 
 const Services = () => {
-    const { stage, setStage, services, setService, removeService } = useAccountSetupState((state) => state);
-    console.log(services);
+    const { stage, setStage, services, setService, removeService } = useEditBusinessState((state) => state);
     const { id } = useDetails((state) => state)
     const [search, setSearch] = React.useState('')
-    const { isLoading, data } = useQuery(['getBusinesses'], () => httpClient.get('/service'));
+    const queryClient = useQueryClient();
+
+    const { isLoading, data } = useQuery(['getServices'], () => httpClient.get('/service'));
+    const {} = useQuery(["getBusiness", id], () => httpClient.get(`/business/${id}`), {
+      onSuccess: (data) => {
+        const arr: string[] = [];
+        setService(arr);
+        setService(data.data.data.services);
+        console.log(data.data.data.services)
+      }
+    })
+
+    const { isLoading: isSubmitting, mutate} = useMutation({
+      mutationFn: (data: any) => httpClient.put(`/business/${id}`, data),
+      onSuccess: (data) => {
+        Alert.alert('Success', 'Business Updated Successfully');
+        queryClient.invalidateQueries();
+      },
+      onError: (error: any) => {
+        Alert.alert('Error', error);
+      }
+    })
 
 
     const handleAddservice  = React.useCallback((id: string) => {
         if (!services.includes(id) && services.length < 3) {
-            setService(id);
+            setService([...services, id]);
             return;
         } else if (services.includes(id)) {
             removeService(services.filter((item) => item !== id))
@@ -37,11 +57,11 @@ const Services = () => {
             Alert.alert('Warning', 'You must select at least one service(s)');
             return;
         }
-       setStage(stage + 1);
+       mutate({ services });
     }, [services])
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, paddingBottom: 20 }}>
         <Text variant='subheader'>What services do you render?</Text>
         <Text variant='body'>you can pick up to 3 services</Text>
 
@@ -73,7 +93,7 @@ const Services = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black'  />
+        <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black' isLoading={isSubmitting}  />
 
     </View>
   )

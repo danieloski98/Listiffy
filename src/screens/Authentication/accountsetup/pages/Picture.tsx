@@ -51,7 +51,6 @@ const Picture = () => {
             // size: file.size
           }
           console.log(obj);
-          const fs = await fetch(file.uri);
           formData.append('profilepic', obj);
           const fet = await fetch(`${url}/user/profilepic/${id}`, {
             method: 'put',

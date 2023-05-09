@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from '../../../components'
-import { ImageBackground, Pressable, StyleSheet, Image, ActivityIndicator } from 'react-native'
+import { ImageBackground, Pressable, StyleSheet, Image, ActivityIndicator, Alert } from 'react-native'
 import { Colors } from 'react-native-ui-lib'
 import { Feather } from '@expo/vector-icons';
 import { useVerfificationState } from './state';
@@ -10,6 +10,8 @@ import { useDetails } from '../../../State/Details';
 import { useAccountSetupState } from './BusinessInformation/state';
 import { useDocState } from './Verification/state';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useMutation, useQuery } from 'react-query';
+import httpClient from '../../../utils/axios';
 
 const VerificationTrackerTiles = ({ title, started,icon, onPress, completionRate, completed, type}: { title: string, started: boolean, icon: 'user'|'key', onPress: () => void, completionRate: number, completed: boolean, type: 'info'| 'doc'}) => (
     <Pressable onPress={!completed ? onPress: null} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
@@ -20,42 +22,42 @@ const VerificationTrackerTiles = ({ title, started,icon, onPress, completionRate
             {completed && <Text variant='body' color={'brandColor'} fontSize={15}>{`Completed 100%`}</Text>}
         </View>
         {type === 'doc' &&  !completed && <Feather name="chevron-right" size={25} color="black" />}
+        {type === 'info' &&  !completed && <Feather name="chevron-right" size={25} color="black" />}
     </Pressable>
 )
 
 const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
     const { step, completeionRate, setAll } = useVerfificationState((state) => state);
-    const { setAll: setBusinessInformation } = useAccountSetupState((state) => state);
-    const { setAll: setDocInformation } = useDocState((state) => state)
+    const { setAll: setBusinessInformation, setStage } = useAccountSetupState((state) => state);
+    const { setAll: setDocInformation, setStage: setDocStage } = useDocState((state) => state)
     const { id } = useDetails((state) => state)
     const [loading, setLoading] = React.useState(false);
-    const docRef = doc(FireStoreDb, 'Verification', id)
 
-    React.useEffect(() => {
-       (async function() {
-        setLoading(true);
-        const docSnapShot = await getDoc(docRef);
-        if(docSnapShot.exists()) {
-            setAll({ step: docSnapShot.data().step, completeionRate: docSnapShot.data().completionRate });
-            setBusinessInformation({ ...docSnapShot.data().businessInformation });
-            setDocInformation({ ...docSnapShot.data().verificationDocument })
-            setLoading(false);
-        } else {
-            await setDoc(doc(FireStoreDb, 'Verification', id), {
-                userId: id,
-                step: 0,
-                completionRate: 0,
-                businessInformation: {
-                },
-                verificationDocument: {}
-              });
-              setLoading(false);
+    const createBusiness = useMutation({
+        mutationFn: (data: any) => httpClient.post(`/business/create-account/${id}`, data)
+    })
+
+    const { isLoading, data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
+        refetchOnMount: true,
+        onSuccess: (data) => {
+            setStage(0);
+            setDocStage(0);
+            console.log(data.data.data)
+            setAll({ step: data.data.data.step, completeionRate: data.data.data.completionRate });
+        },
+        onError: (error: any) => {
+            Alert.alert('Error', error);
+            createBusiness.mutate({ step: 1, completionRate: 0 });
         }
-       })()
-    }, [])
+      });
+
     const handlePress = React.useCallback((route: 'businessinformation'|'verificatiton') => {
+        if (createBusiness.isLoading || isLoading) {
+            return;
+        }
         navigation.navigate(route);
-    }, []);
+    }, [createBusiness.isLoading, isLoading]);
+
   return (
     <View flex={1} backgroundColor='white'>
      <View style={{ height: '40%', width: '100%' }}>
@@ -75,14 +77,15 @@ const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
             Boost SEO ranking
         </Text>
 
-        {!loading && (
+        {!loading && !isLoading && (
             <View style={{ width: '100%', height: '50%', backgroundColor: '#F9F9F9', borderRadius: 20 }} marginTop='m'>
-            <VerificationTrackerTiles onPress={() => handlePress('businessinformation')} title='Provide Business information' started={step > 0 && completeionRate > 0} icon='user' completionRate={completeionRate} completed={step > 1}type='info'  />
-            <VerificationTrackerTiles onPress={() => handlePress('verificatiton')} title='Verfiy Identity' started={step === 2 && completeionRate > 0} icon='key' completionRate={completeionRate} completed={step == 2 && completeionRate === 100} type='doc' />
-        </View>
+                <VerificationTrackerTiles onPress={() => handlePress('businessinformation')} title='Provide Business information' started={data?.data.data.step > 0 && data?.data.data.completionRate > 0} icon='user' completionRate={data?.data.data.completionRate} completed={data?.data.data.step > 1}type='info'  />
+
+                <VerificationTrackerTiles onPress={() => handlePress('verificatiton')} title='Verfiy Identity' started={data?.data.data.step === 2 && data?.data.data.completionRate > 0} icon='key' completionRate={data?.data.data.completionRate} completed={data?.data.data.step == 2 && data?.data.data.completionRate === 100} type='doc' />
+            </View>
         )}
 
-        {loading && (
+        {loading || isLoading && (
             <View style={{ width: '100%', height: '50%', backgroundColor: '#F9F9F9', borderRadius: 20, justifyContent: 'center', alignItems: 'center' }} marginTop='m'>
                 <ActivityIndicator color={Colors.brandColor} size={30} />
             </View>

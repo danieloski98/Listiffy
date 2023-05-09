@@ -19,7 +19,7 @@ const Back = () => {
     const [loading, setLoading] = React.useState(false);
 
     const { mutate, isLoading } = useMutation({
-      mutationFn: (data: any) => fetch(`${url}/business/verification-document/${id}`, {
+      mutationFn: async (data: any) => fetch(`${url}/business/verification-document/${id}`, {
         body: data,
         method: "POST",
         headers: {
@@ -31,8 +31,6 @@ const Back = () => {
         Alert.alert(error)
       },
       onSuccess: () => {
-        setStage(stage + 1);
-
       }
     })
     const pickImage = async () => {
@@ -60,14 +58,33 @@ const Back = () => {
       };
 
       const handleImageUpload = async() => {
+        setLoading(true);
         const formData = new FormData();
          
             formData.append('front', front as any);
             formData.append('back', back as any);
-            formData.append('document_type', docType);
-            formData.append('id_number', docNumber);
-  
-            mutate(formData);
+            formData.append('documentType', docType);
+            formData.append('documentNumberr', docNumber);
+
+
+            const res = await fetch(`${url}/business/verification-document/${id}`, {
+              body: formData,
+              method: "POST",
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+
+            const json = await res.json();
+            console.log(json);
+
+            if (!res.ok) {
+              setLoading(false);
+              Alert.alert('Error', JSON.stringify(json.message));
+            } else {
+              setLoading(false)
+              setStage(stage + 1);
+            }
             
       };
   return (
@@ -105,7 +122,7 @@ const Back = () => {
 
       </View>
 
-      <CustomButton label='Submit' onPress={handleImageUpload} isLoading={loading} disabled={back.uri === ''} />
+      <CustomButton label='Submit' onPress={handleImageUpload} isLoading={isLoading || loading} disabled={back.uri === ''} />
     </View>
   )
 }

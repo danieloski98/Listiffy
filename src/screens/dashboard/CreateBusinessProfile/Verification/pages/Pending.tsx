@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, CustomButton } from '../../../../../components'
-import { ImageBackground, useWindowDimensions } from 'react-native'
+import { Alert, ImageBackground, useWindowDimensions } from 'react-native'
 import { Colors } from 'react-native-ui-lib'
 import { Ionicons } from '@expo/vector-icons'
 import { useDocState } from '../state'
@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/core'
 import { setDoc, doc } from 'firebase/firestore'
 import { FireStoreDb } from '../../../../../firebase'
 import { useDetails } from '../../../../../State/Details'
+import { useMutation } from 'react-query'
+import httpClient from '../../../../../utils/axios'
 
 const Pending = () => {
     const { width } = useWindowDimensions()
@@ -16,15 +18,21 @@ const Pending = () => {
     const [loading, setLoading] = React.useState(false);
     const navigation = useNavigation<any>()
 
-    const handleClick = React.useCallback(async() => {
-      setLoading(true);
-      await setDoc(doc(FireStoreDb, 'Verification', id), {
-        step: 2,
-        completionRate: 100,
-      });
-      setLoading(false);
+       // update business
+   const { mutate, isLoading  } = useMutation({
+    mutationFn: async (data: any) => httpClient.put(`/business/${id}`, data),
+    onSuccess: (data) => {  
       setStage(0);
       navigation.navigate('profile');
+    },
+    onError: (error: any) => {
+      Alert.alert('Error', error);
+    }
+  });
+
+    const handleClick = React.useCallback(async() => {
+      mutate({ step: 2,
+        completionRate: 100,})
     }, []);
 
   return (
@@ -45,7 +53,7 @@ const Pending = () => {
             </View>
             
             <View height={30} />
-            <CustomButton label='Done' onPress={handleClick} isLoading={loading} />
+            <CustomButton label='Done' onPress={handleClick} isLoading={isLoading} />
         </View>
       </ImageBackground>
     </View>

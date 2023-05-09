@@ -1,5 +1,5 @@
 import { Colors, Wizard, Button } from 'react-native-ui-lib'
-import { useWindowDimensions } from 'react-native'
+import { Alert, useWindowDimensions } from 'react-native'
 import { useAccountSetupState } from './state'
 
 import React from 'react'
@@ -14,9 +14,9 @@ import Services from './pages/Services'
 import Location from './pages/Location'
 import OpeningHours from './pages/OpeningHours'
 import Contact from './pages/Contact'
-import { doc, setDoc } from "firebase/firestore"; 
-import { FireStoreDb } from '../../../../firebase'
 import { useDetails } from '../../../../State/Details'
+import { useMutation, useQuery } from 'react-query'
+import httpClient from '../../../../utils/axios'
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -25,10 +25,36 @@ interface IProps {
 const AccountSetup = ({ navigation }: IProps) => {
   // zustand state
   const setStage = useAccountSetupState((state) => state.setStage);
-  const { stage, address, business_name, company_email, state, lga, instagram_username, isPhysical, opening_hours, services, whatsapp_number, phone, website, twitter_username } = useAccountSetupState((state) => state);
+  const { step, completionRate, stage, address, business_name, company_email, state, lga, instagram_username, isPhysical, opening_hours, services, whatsapp_number, phone, website, twitter_username, setAll } = useAccountSetupState((state) => state);
   const { id } = useDetails((state) => state)
   const { height} = useWindowDimensions();
   const [saving, setSaving] = React.useState(false);
+
+  const { data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
+    refetchOnMount: true,
+    onSuccess: (data) => {
+        console.log(services);
+        setAll({ ...data.data.data, step: data.data.data.step, completeionRate: data.data.data.completionRate, services: data.data.data.services !== null ? data.data.data.services:[], opening_hours: data.data.data.opening_hours !== null ? data.data.data.opening_hours:[],   });
+    },
+    onError: (error: any) => {
+        Alert.alert('Error', error);
+        navigation.goBack();
+    }
+  });
+
+  // update business
+  const { mutate, isLoading  } = useMutation({
+    mutationFn: async (data: any) => httpClient.put(`/business/${id}`, data),
+    onSuccess: (data) => {  
+      setStage(0);
+      setSaving(false);
+      navigation.navigate('profile');
+    },
+    onError: (error: any) => {
+      Alert.alert('Error', error);
+      setSaving(false);
+    }
+  })
 
 
   const handlePercentage = React.useCallback(() => {
@@ -50,12 +76,9 @@ const AccountSetup = ({ navigation }: IProps) => {
   }, [stage]);
 
   const handleSave = async () => {
-    setSaving(true);
-    await setDoc(doc(FireStoreDb, 'Verification', id), {
-      userId: id,
+    mutate({
       step: 1,
-      completionRate: handlePercentage(),
-      businessInformation: {
+      completionRate: completionRate  >  handlePercentage() ? completionRate : handlePercentage(),
         address,
         business_name,
         company_email,
@@ -69,11 +92,8 @@ const AccountSetup = ({ navigation }: IProps) => {
         phone,
         website,
         twitter_username,
-      }
-    });
-    setStage(0);
-    setSaving(false);
-    navigation.navigate('profile');
+    })
+    
   }
 
   const header = React.useCallback(() => {
@@ -112,7 +132,7 @@ const AccountSetup = ({ navigation }: IProps) => {
                   <Text variant='subheader' color='white'>{header()}</Text>
                 </View>
 
-                <Text variant='subheader' color='white' onPress={saving ? undefined : handleSave}>{saving ? 'Saving...' : 'Save & quit'}</Text>
+                <Text variant='subheader' color='white' onPress={isLoading ? undefined : handleSave}>{isLoading ? 'Saving...' : 'Save & quit'}</Text>
               </View>
 
               <Wizard activeIndex={stage} onActiveIndexChanged={() => console.log('changed')} containerStyle={{ backgroundColor: 'transparent' }}>

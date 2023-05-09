@@ -6,9 +6,6 @@ import { useDetails } from '../../State/Details'
 import { useProfileState } from '../../screens/Dashboardtabs/profile/state'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import httpClient from '../../utils/axios'
-import { FireStoreDb } from '../../firebase'
-import { collection, query, where, getDocs, getDoc, doc, setDoc } from "firebase/firestore";
-
 
 const ProfilePageHeader = () => {
   const { id } = useDetails((state) => state);
@@ -16,6 +13,11 @@ const ProfilePageHeader = () => {
   const [business, setBus] = React.useState(false);
   const { setShowModal, setBusiness, isBusiness } = useProfileState((state) => state);
   const queryClient = useQueryClient();
+
+  const { isLoading, data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
+    refetchOnMount: true,
+  });
+
   const { mutate, isLoading: httpLoading } = useMutation({
     mutationFn: () => httpClient.put(`/user/switch-account/${isBusiness ? 'to-user':'to-business'}/${id}`),
     onSuccess: (data) => {
@@ -28,40 +30,26 @@ const ProfilePageHeader = () => {
     }
   })
 
-  const docRef = doc(FireStoreDb, 'Verification', id)
 
-  React.useEffect(() => {
-    (async function() {
-     setLoading(true);
-     const docSnapShot = await getDoc(docRef);
-     if(docSnapShot.exists()) {
-         if (docSnapShot.data().step === 2 && docSnapShot.data().completionRate === 100 ) {
-          setBus(true);
-         }
-         setLoading(false);
-     } else {
-         setBus(false);
-          setLoading(false);
-     }
-    })()
- }, [])
+    const handleCheck = React.useCallback(() => {
+      if (isLoading) {
+        return;
+      }
 
-  const { isLoading, data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`));
-
-    const handleChack = React.useCallback(() => {
-      if (!isBusiness && !isLoading && !loading && !business) {
+      if (data?.data.data.step <= 2 && data?.data.data.completionRate < 100) {
         setShowModal(true);
+        return;
       } else {
         mutate()
       }
     }
-    , [isBusiness, isLoading, loading, business]);
+    , [isBusiness, isLoading, data, error]);
   return (
     <View style={Styles.parent} padding='m'>
       <Text variant='body'>Business Profile</Text>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {httpLoading && <ActivityIndicator color={Colors.brandColor} size='small' />}
-        <Switch offColor={Colors.grey} onColor={Colors.brandColor} value={isBusiness} onValueChange={handleChack} />
+        {httpLoading || isLoading && <ActivityIndicator color={Colors.brandColor} size='small' />}
+        {!httpLoading && !isLoading && <Switch offColor={Colors.grey} onColor={Colors.brandColor} value={isBusiness} onValueChange={handleCheck} />}
       </View>
     </View>
   )

@@ -29,8 +29,8 @@ const BusinessProfileDetails = ({ business_name, logo, rating, services, followe
     <View style={Styles.parent} paddingHorizontal='m'>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-           <View style={{ width: 64, height: 64, borderRadius: 32, borderWidth: 2, borderColor: 'lightgrey', padding: 2, overflow: 'hidden' }} backgroundColor='white'>
-                <Image source={logo !== '' ? { uri: logo }: require('../../../assets/appicon.png')} resizeMode='cover' style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+            <View style={{ width: 64, height: 64, borderRadius: 32, borderWidth: 2, borderColor: 'lightgrey', padding: 2, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }} backgroundColor='white'>
+                <Image source={logo && logo !== '' ? { uri: logo }: require('../../../assets/appicon.png')}  resizeMode='cover' style={{ width: '95%', height: '95%', borderRadius: 30 }} />
            </View>
            <View paddingLeft='m'>
                 <Text variant='subheader'>{business_name}</Text>

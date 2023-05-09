@@ -15,8 +15,8 @@ const ProfileDetails = ({ profilePicture, fullName, username, email, phone = '',
     <View style={Styles.parent} paddingHorizontal='m'>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-           <View style={{ width: 64, height: 64, borderRadius: 32, borderWidth: 2, borderColor: 'lightgrey', padding: 2, overflow: 'hidden' }} backgroundColor='white'>
-                <Image source={{ uri: profilePicture }} resizeMode='cover' style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+           <View style={{ width: 64, height: 64, borderRadius: 32, borderWidth: 2, borderColor: 'lightgrey', padding: 2, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }} backgroundColor='white'>
+                <Image source={{ uri: profilePicture }} resizeMode='cover' style={{ width: '95%', height: '95%', borderRadius: 30 }} />
            </View>
            <View paddingLeft='m'>
                 <Text variant='subheader'>{fullName}</Text>

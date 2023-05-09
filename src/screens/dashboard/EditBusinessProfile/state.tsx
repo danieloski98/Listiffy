@@ -8,8 +8,6 @@ export type OPENING_HOUR =  {
   }
 
 interface AccountSetupState {
-    step: number
-    completionRate: number
     stage: number;
     business_name: string;
     services: Array<string>;
@@ -30,11 +28,12 @@ interface AccountSetupState {
     twitter_username: string;
     whatsapp_number: string;
     website: string;
+    type: number
 
     // setter
     setStage: (stage: number) => void;
     setBusinessName: (name: string) => void
-    setService: (service: string) => void;
+    setService: (service: string[]) => void;
     setOpening_hours: (opening_hours: any) => void;
     setAddress: (addres: string) => void;
     setState: (state: string) => void;
@@ -50,13 +49,12 @@ interface AccountSetupState {
     setSelectedDays: (selectedDays: Array<string>) => void;
     setAll: (all: any) => void;
     removeService: (all: any) => void;
+    setType: (all: any) => void;
 }
 
 
-export const useAccountSetupState = create<AccountSetupState>()(
+export const useEditBusinessState = create<AccountSetupState>()(
     (set) => ({
-        step: 0,
-        completionRate: 0,
         stage: 0,
         business_name: '',
         services: [],
@@ -72,10 +70,11 @@ export const useAccountSetupState = create<AccountSetupState>()(
         twitter_username: '',
         whatsapp_number: '',
         website: '',
+        type: 1,
         selectedDays: [],
         setStage: (stage) => set((state) => ({ ...state, stage })),
         setBusinessName: (business_name: string) => set((state) => ({ ...state, business_name })),
-        setService: (service: string) => set((state) => ({ ...state, services: [...state.services, service] })),
+        setService: (service: string[]) => set((state) => ({ ...state, services: service })),
         setOpening_hours: (opening_hours: any) => set((state) => ({ ...state, opening_hours })),
         setAddress: (address: string) => set((state) => ({ ...state, address })),
         setState: (sta: string) => set((state) => ({ ...state, state: sta })),
@@ -90,7 +89,8 @@ export const useAccountSetupState = create<AccountSetupState>()(
         setWebsite: (website: string) => set((state) => ({ ...state, website })),
         setSelectedDays: (selectedDays: Array<string>) => set((state) => ({ ...state, selectedDays })),
         setAll: (data: any) => set(() => ({ ...data })),
-        removeService: (data: Array<any>) => set((state) => ({ ...state, services: data}))
+        removeService: (data: Array<any>) => set((state) => ({ ...state, services: data})),
+        setType: (data: number) => set((state) => ({ ...state, type: data}))
     })
     );
     

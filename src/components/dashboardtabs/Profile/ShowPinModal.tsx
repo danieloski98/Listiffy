@@ -13,7 +13,6 @@ import { ActivityIndicator, Share } from 'react-native';
 import { Colors } from 'react-native-ui-lib';
 import * as Clipboard from 'expo-clipboard';
 import { Toast } from 'react-native-ui-lib'
-import * as Sharing from 'expo-sharing';
 
 interface IProps {
     onClose: () => void;
@@ -28,6 +27,7 @@ const ShowPinModal = ({ onClose }: IProps) => {
 
     const { isLoading, error, refetch } = useQuery(['getpin', id], () => httpClient.get(`/business/pin/${id}`), {
         onSuccess: (data) => {
+            console.log(data.data);
             setPin(data.data.data.pin.toString());
         }
     })

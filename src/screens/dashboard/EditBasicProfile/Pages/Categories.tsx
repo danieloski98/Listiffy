@@ -1,65 +1,71 @@
 import React from 'react'
-import { useAccountSetupState } from '../state'
-import { View, Text, CustomButton } from '../../../../components';
-import Button from '../../../../components/generalComponents/Button';
 import { Colors } from 'react-native-ui-lib';
 import { ActivityIndicator, Pressable, ScrollView, TextInput, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { Image } from 'react-native';
+import { useDetails } from '../../../../State/Details';
+import { useAccountSetupState } from '../../CreateBusinessProfile/BusinessInformation/state';
 import { useMutation, useQuery } from 'react-query';
 import httpClient from '../../../../utils/axios';
+import { View, Text, CustomButton } from '../../../../components';
 import { Chip } from '../../../../components/Authentication/accountSetup/BusinessChip';
-import { CategoryModel } from '../../../../models/CategoryModel';
-import { useDetails } from '../../../../State/Details';
+import { CategoryModel, ServiceModel } from '../../../../models/CategoryModel';
 
-const Interest = () => {
-    const { stage, setStage, interests, addInterest } = useAccountSetupState((state) => state);
+
+
+const Categories = () => {
     const { id } = useDetails((state) => state)
+    const [interests, setInterests] = React.useState<string[]>([])
     const [search, setSearch] = React.useState('')
     const { isLoading, data } = useQuery(['getBusinesses'], () => httpClient.get('/category'));
+    const {} = useQuery(['getUser', id], () => httpClient.get(`/user/${id}`), {
+      onSuccess: (data: any) => {
+        setInterests(data.data.data.interests);
+      }
+    });
 
      // mutation
      const { isLoading: mutaionLoading, mutate } = useMutation({
-        mutationFn: (data: any) => httpClient.post(`/service/add/${id}`, data),
-        onError: (error: string) => {
-            Alert.alert('Error', error);
-        },
-        onSuccess: () => {
-            setStage(stage + 1);
-        }
-    })
+      mutationFn: (data: any) => httpClient.post(`/service/add/${id}`, data),
+      onError: (error: string) => {
+          Alert.alert('Error', error);
+      },
+      onSuccess: (data) => {
+          Alert.alert('Success', data.data.message);
+      }
+  })
 
-    const handleAddBusiness = React.useCallback((id: string) => {
-        if (interests.includes(id)) {
+
+    const handleAddservice  = React.useCallback((id: string) => {
+        if (!interests.includes(id)) {
+            setInterests([...interests, id]);
             return;
+        } else if (interests.includes(id)) {
+            setInterests(interests.filter((item) => item !== id))
+        } else {
+            Alert.alert('Warning', 'You can only select 3 services');
         }
-        addInterest(id);
-    }, [])
+    }, [interests])
 
 
     const handleSubmit = React.useCallback(() => {
         if (interests.length < 1) {
-            Alert.alert('Warning', 'You must select at least one interest(s)');
+            Alert.alert('Warning', 'You must select at least one interest');
             return;
         }
-        const data = {
-            interests,
-        }
-        mutate(data);
+        mutate({ interests })
     }, [interests])
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-        <Text variant='subheader'>Pick your interests</Text>
-        <Text variant='body'>Follow at least 3 categories of your choice </Text>
+    <View style={{ flex: 1, paddingBottom: 20 }}>
+        <Text variant='subheader'>Categories/services you liked</Text>
+        <Text variant='body'>Search category/services</Text>
 
         {/* SEARCH BAR */}
 
         <View style={{ width: '100%', height: 55, flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: 'lightgrey' }}>
-            <TextInput style={{ flex: 1 }} placeholder='Search category'  value={search} onChangeText={(e: string) => setSearch(e)} />
+            <TextInput style={{ flex: 1 }} placeholder='Search categories'  value={search} onChangeText={(e: string) => setSearch(e)} />
             <Feather name='search' size={25} color='grey' />
         </View>
-        <Text variant='body' mt='s'>{interests.length} interestes selected</Text>
 
         <View style={{ flex: 1,marginTop: 20 }}>
             <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 100}}>
@@ -73,17 +79,17 @@ const Interest = () => {
                     }
                 }).sort().map((item, index) => (
                    <View style={{ margin: 10 }} key={index}>
-                     <Chip onPress={() => handleAddBusiness(item.category)} label={item.category} checked={interests.includes(item.category)}  />
+                     <Chip onPress={() => handleAddservice(item.category)} label={item.category} checked={interests.includes(item.category)}  />
                    </View>
                 ))}
                </View>
             </ScrollView>
         </View>
 
-        <CustomButton label='Done' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading}  />
+        <CustomButton label='Update' onPress={handleSubmit} backgroundColor='black'  />
 
     </View>
   )
 }
 
-export default Interest
+export default Categories

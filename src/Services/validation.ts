@@ -31,6 +31,16 @@ const docSchema = z.object({
     docNumber: z.string().nonempty(" Business name is required"),
 });
 
+const basicPersonalInfo = z.object({
+    fullName: z.string().nonempty("Password is required"),
+    username: z.string().nonempty("Password is required"),
+});
+
+const businessInfo = z.object({
+    business_name: z.string(),
+    business_description: z.string(),
+});
+
 const contactSchema = z.object({
     company_email: z.string().nonempty(" Business name is required").email('Invalid email'),
     phone: z.string().nonempty(" Business name is required"),
@@ -39,4 +49,4 @@ const contactSchema = z.object({
     whatsapp_number: z.string(),
     website: z.string(),
 });
-export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema };
+export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema, basicPersonalInfo, businessInfo };
