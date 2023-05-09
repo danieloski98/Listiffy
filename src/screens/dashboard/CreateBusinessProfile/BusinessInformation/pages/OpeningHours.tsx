@@ -90,7 +90,7 @@ const OpeningHours = () => {
       <Text variant='body'>Set your business hours for each day</Text>
 
        <View style={{ flex: 1 }}>
-       <ScrollView  contentContainerStyle={{ paddingTop: 30, flex: 1  }}>
+       <ScrollView  contentContainerStyle={{ paddingTop: 30, paddingBottom: 100  }}>
         {DAYS.map((item, index) => (
             <Days day={item} toggle={toggle} key={index} selected={selectedDays.includes(item)} />
         ))}

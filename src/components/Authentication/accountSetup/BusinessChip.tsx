@@ -8,36 +8,39 @@ import { Colors } from 'react-native-ui-lib';
 interface IProps {
     onSelect: (id: string) => void;
     details: BusinessModel;
+    checked?: boolean;
 }
 
 export const Chip = ({
     label,
     onPress,
     height = 45,
+    checked
 }: {
     label: string,
     onPress: () => void,
     height?: number
+    checked?: boolean;
 }) => {
     return (
-        <Pressable onPress={onPress} style={{ paddingHorizontal: 10, height, borderRadius: 45, borderWidth: 1, borderColor: Colors.brandColor, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#EBF7F3' }}>
-            <Text variant='body' color='brandColor'>{label}</Text>
-            <Feather name="plus" size={15} color={Colors.brandColor} style={{ marginLeft: 10 }} />
+        <Pressable onPress={onPress} style={{ paddingHorizontal: 10, height, borderRadius: 45, borderWidth: 1, borderColor: Colors.brandColor, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: checked ? Colors.brandColor:'#EBF7F3' }}>
+            <Text variant='body' color={checked ? 'white':'brandColor'}>{label}</Text>
+            <Feather name={checked ? 'check':'plus'} size={15} color={checked ? 'white':Colors.brandColor} style={{ marginLeft: 10 }} />
         </Pressable>
     )
 }
 
-const BusinessChip = ({ onSelect, details }: IProps) => {
-    console.log(details.logo)
-    const handlePress = React.useCallback(() => {
+const BusinessChip = ({ onSelect, details, checked }: IProps) => {
+    const handlePress = () => {
         onSelect(details.id);
-    }, [])
+    }
+    
   return (
     <View style={{ width: '100%', height: 70, flexDirection: 'row', alignItems: 'center' }}>
       <View style={{ flex: 0.4, flexDirection: 'row', alignItems: 'center' }}>
         {/* IMAGE CONTAINER */}
         <View  style={{ width: 60, height: 60, borderRadius: 50, overflow: 'hidden', }}>
-            {details.logo !== null && <Image source={{ uri: 'http://192.168.251.97:4000/logo/5017bafdd129d636a5731aafbcb8d4bd.png' }} resizeMode='cover' style={{ width: '100%', height: '100%', borderRadius: 50}} />}
+            {details.logo && <Image source={{ uri: details.logo }} resizeMode='cover' style={{ width: '100%', height: '100%', borderRadius: 50}} />}
             {details.logo === null && (
                 <View style={{ width:60, height: 60, justifyContent: 'center', alignItems: 'center', borderRadius: 30, borderWidth: 1, borderColor: Colors.brandColor, borderStyle: 'dashed' }}>
                     <Feather name="briefcase" size={25} color={Colors.brandColor} />
@@ -55,7 +58,7 @@ const BusinessChip = ({ onSelect, details }: IProps) => {
       {/* BUTTON CONTAINER */}
       <View style={{ flex: 0.7, alignItems: 'flex-end' }}>
         <View style={{ height: 45, width: '60%'}}>
-            <Chip label='Follow' onPress={handlePress} />
+            <Chip label={checked ? 'Following':'Follow'} checked={checked} onPress={handlePress} />
         </View>
       </View>
     </View>

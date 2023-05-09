@@ -25,5 +25,7 @@ export interface BusinessModel {
   website: string;
   docUploaded: boolean;
   verified: boolean;
+  step: number;
+  completionRate: number;
   created_at: string;
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useAccountSetupState } from '../state'
 import { View, Text, CustomButton } from '../../../../components';
 import Button from '../../../../components/generalComponents/Button';
 import { Colors } from 'react-native-ui-lib';
@@ -11,13 +10,24 @@ import httpClient from '../../../../utils/axios';
 import { BusinessModel } from '../../../../models/BusinessModel';
 import BusinessChip from '../../../../components/Authentication/accountSetup/BusinessChip';
 import { useDetails } from '../../../../State/Details';
+import { useAccountSetupState } from '../../../Authentication/accountsetup/state';
 
 const Business = () => {
-    const { stage, fullname, setPickerModal, avatar, setStage, businesses, addBusiness } = useAccountSetupState((state) => state);
     const { id } = useDetails((state) => state)
-    const [search, setSearch] = React.useState('')
     const [ids, setIds] = React.useState<string[]>([]);
+    const [search, setSearch] = React.useState('')
+
+
     const { isLoading, data } = useQuery(['getBusinesses'], () => httpClient.get('/business'));
+
+    const {  } = useQuery(['getUser', id], () => httpClient.get(`/user/${id}`), {
+      onSuccess: (data) => {
+        (data.data.data.following as Array<any>).map((item) => {
+            setIds([ ...ids, item.company_id]);
+        })
+        console.log(ids);
+      }
+    });
 
     // mutation
     const { isLoading: mutaionLoading, mutate } = useMutation({
@@ -25,31 +35,30 @@ const Business = () => {
         onError: (error: string) => {
             Alert.alert('Error', error);
         },
-        onSuccess: () => {
-            setStage(stage + 1);
+        onSuccess: (data) => {
+            Alert.alert('Success', data.data.message);
         }
     })
 
-    const handleAddBusiness = React.useCallback((id: string) => {
+    const handleAddBusiness = (id: string) => {
         if (ids.includes(id)) {
+            console.log('deleting iid......');
             setIds(ids.filter((item) => item !== id));
-            return;
+        } else {
+          setIds([...ids, id]);
+          console.log('not included!!!!!')
+          console.log(ids)
         }
-        setIds([...ids, id]);
-    }, [ids]);
+    };
 
     const handleSubmit = React.useCallback(() => {
-        if (businesses.length < 1) {
-            Alert.alert('Warning', 'You must select at least one business');
-            return;
-        }
         const data = {
             comapany_ids: ids,
         }
         mutate(data);
     }, [ids])
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, paddingBottom: 20 }}>
         <Text variant='subheader'>Suggested business profile</Text>
         <Text variant='body'>Like at least 3 business pages</Text>
 
@@ -75,9 +84,8 @@ const Business = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading}  />
+        <CustomButton label='Update' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading}  />
 
-        <Text variant='xs' textAlign='center' marginTop='m' onPress={() => setStage(stage + 1)} >Skip for now</Text>
     </View>
   )
 }

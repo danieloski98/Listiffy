@@ -1,5 +1,5 @@
 import { Colors, Wizard, Button } from 'react-native-ui-lib'
-import { useWindowDimensions } from 'react-native'
+import { Alert, useWindowDimensions } from 'react-native'
 import { useDocState } from './state'
 
 import React from 'react'
@@ -17,6 +17,8 @@ import Pending from './pages/Pending'
 import { doc, setDoc } from "firebase/firestore"; 
 import { FireStoreDb } from '../../../../firebase'
 import { useDetails } from '../../../../State/Details'
+import { useMutation, useQuery } from 'react-query'
+import httpClient from '../../../../utils/axios'
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -24,11 +26,36 @@ interface IProps {
 
 const Verification = ({ navigation }: IProps) => {
   // zustand state
-  const { stage, setStage, docNumber, docType, front, back } = useDocState((state) => state);
+  const { stage, setStage, docNumber, docType, front, back, setAll } = useDocState((state) => state);
   const { id } = useDetails((state) => state);
 
   const { height} = useWindowDimensions();
   const [saving, setSaving] = React.useState(false);
+
+  const { data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
+    refetchOnMount: true,
+    onSuccess: (data) => {
+        console.log(data.data.data);
+        setAll({ step: data.data.data.step, completeionRate: data.data.data.completionRate, docNumber: data.data.data.documentNumber, docType: data.data.data.documentType });
+    },
+    onError: (error: any) => {
+        Alert.alert('Error', error);
+        navigation.goBack();
+    }
+  });
+
+   // update business
+   const { mutate, isLoading  } = useMutation({
+    mutationFn: async (data: any) => httpClient.put(`/business/${id}`, data),
+    onSuccess: (data) => {  
+      setStage(0);
+      navigation.navigate('profile');
+    },
+    onError: (error: any) => {
+      Alert.alert('Error', error);
+      setSaving(false);
+    }
+  });
 
 
   const handlePercentage = React.useCallback(() => {
@@ -50,20 +77,12 @@ const Verification = ({ navigation }: IProps) => {
   }, [stage]);
 
   const handleSave = async () => {
-    setSaving(true);
-    await setDoc(doc(FireStoreDb, 'Verification', id), {
+    mutate({
       step: 2,
       completionRate: handlePercentage(),
-      verificationDocument: {
-        docNumber,
-        docType,
-        front,
-        back,
-      }
-    });
-    setStage(0);
-    setSaving(false);
-    navigation.navigate('profile');
+        documentNumber: docNumber,
+        documentType: docType,
+    })
   }
 
   const header = React.useCallback(() => {
@@ -94,7 +113,7 @@ const Verification = ({ navigation }: IProps) => {
                         <Text variant='subheader' color='white'>{header()}</Text>
                       </View>
 
-                      <Text variant='subheader' color='white' onPress={saving ? undefined : handleSave}>{saving ? 'Saving...' : 'Save & quit'}</Text>
+                      <Text variant='subheader' color='white' onPress={isLoading ? undefined : handleSave}>{isLoading ? 'Saving...' : 'Save & quit'}</Text>
                     </View>
                     </ImageBackground>
                 </View>

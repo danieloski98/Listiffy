@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { UserModel } from '../models/User.Model';
 
 interface State {
-    setState: (data: Partial<State>) => void;
+    setState: (data: Partial<UserModel>) => void;
 }
 
 export const useDetails = create<UserModel & State>()((set) => ({
@@ -23,5 +23,6 @@ export const useDetails = create<UserModel & State>()((set) => ({
     createAt: '',
     updatedAt: '',
     isCompanyVerified: false,
-    setState: (data: Partial<State>) => set((state) => ({ ...state, ...data })),
+    following: [],
+    setState: (data: Partial<UserModel>) => set((state) => ({ ...state, ...data })),
 }));
