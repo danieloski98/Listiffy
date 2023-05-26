@@ -39,7 +39,7 @@ const Business = () => {
     }, [ids]);
 
     const handleSubmit = React.useCallback(() => {
-        if (businesses.length < 1) {
+        if (ids.length < 1) {
             Alert.alert('Warning', 'You must select at least one business');
             return;
         }

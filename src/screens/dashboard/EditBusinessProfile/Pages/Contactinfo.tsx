@@ -9,9 +9,11 @@ import httpClient from '../../../../utils/axios';
 import { useNavigation } from '@react-navigation/native';
 import { useDetails } from '../../../../State/Details';
 import { useEditBusinessState } from '../state'
+import handleToast from '../../../../hooks/handleToast';
 
 
 const Contact = () => {
+  const { ShowToast } = handleToast();
   const { business_name, services, opening_hours, address, isPhysical, state, lga, company_email, instagram_username, phone, twitter_username, whatsapp_number, website, setCompanyEmail, setPhone, setInstagramUsername, setTwitterUsername, setWhatsappNumber, setWebsite } = useEditBusinessState((state) => state);
   const { setState, id } = useDetails((state) => state);
   const navigation = useNavigation<any>();
@@ -32,10 +34,11 @@ const Contact = () => {
     mutationFn: (data: any) => httpClient.put(`/business/${id}`, data),
     onError: (error: any) => {
       Alert.alert('Error', error);
+      ShowToast({ message: error, preset: 'failure'});
     },
     onSuccess: async () => {
-      Alert.alert('Success', 'Contact Updated');
-      queryClient.invalidateQueries('getBusiness');
+      ShowToast({ message: 'Contact Updated', preset: 'success'});
+      navigation.goBack();
     }
   })
 
@@ -74,7 +77,7 @@ const Contact = () => {
         </ScrollView>
 
       </View>
-      <CustomButton label='Next' onPress={handlePress} isLoading={isLoading} />
+      <CustomButton label='Update contact' onPress={handlePress} isLoading={isLoading} />
     </View>
   )
 }

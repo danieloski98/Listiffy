@@ -11,19 +11,19 @@ export function InitFunction() {
         header: {
             fontSize: 28,
             fontWeight: '500',
-            fontFamily: 'coolvetica'
+            fontFamily: 'satoshi-bold'
         },
         light: {
             fontSize: 16,
-            fontFamily: 'AT-Light'
+            fontFamily: 'satoshi-light'
         },
          regular: {
             fontSize: 16,
-            fontFamily: 'AT-Regular'
+            fontFamily: 'satoshi-regular'
         },
          semibold: {
             fontSize: 20,
-            fontFamily: 'coolvetica'
+            fontFamily: 'satoshi-medium'
         },
     });
 }

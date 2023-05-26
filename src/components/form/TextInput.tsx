@@ -35,7 +35,7 @@ export const CustomTextInput = (props: IProps & TextInputProps) => {
                     {props.leftIcon}
                     <View style={{ flex: 1, justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 10 }}>
                         {/* {focused && <Text variant='xs'>{props.placeholder || props.name}</Text>} */}
-                        <TextInput  placeholder={!focused ? props.placeholder || props.name: ''} value={value} onChangeText={onChange} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}  secureTextEntry={props.isPassword || false} />
+                        <TextInput {...props}  placeholder={!focused ? props.placeholder || props.name: ''} value={value} onChangeText={onChange} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}  secureTextEntry={props.isPassword || false} />
                     </View>
                     {props.rightIcon && props.rightIcon}
                 </View>

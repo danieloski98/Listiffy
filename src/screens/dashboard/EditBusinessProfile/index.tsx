@@ -10,12 +10,15 @@ import httpClient from '../../../utils/axios'
 import * as ImagePicker from 'expo-image-picker';
 import mime from "mime";
 import url from '../../../utils/url'
+import handleToast from '../../../hooks/handleToast'
 
 
 
 const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
+  const { ShowToast } = handleToast()
   const { profilePicture, fullName, username, id } = useDetails((state) => state);
   const [pic, setPic] = React.useState('');
+  const [picLoading, setPicLoading] = React.useState(false);
   const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
     onSuccess: (data) => {
@@ -24,6 +27,7 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
   });
 
   const pickImage = async () => {
+    setPicLoading(true)
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -63,8 +67,11 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
 
       if (fet.status === 400) {
         Alert.alert('Error', json['message']);
+        setPicLoading(false);
       } else {
         queryClient.invalidateQueries();
+        setPicLoading(false);
+        ShowToast({ message: 'Buisness logo updated', preset: 'success'})
       }
     }
 
@@ -93,7 +100,8 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
        <View paddingHorizontal='m'>
          <ImageBackground source={pic !== '' ? { uri: pic }: require('../../../../assets/appicon.png')} style={{ width: 100, height: 100, overflow: 'hidden', borderRadius: 20 }}>
            <Pressable onPress={pickImage}  style={{ backgroundColor: 'rgba(0, 0, 0, 0.308)', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-             <Feather name='camera' size={25} color="white"  />
+              {picLoading && <ActivityIndicator color={Colors.brandColor} size="large" />}
+              {!picLoading && <Feather name='camera' size={25} color="white" />}
            </Pressable>
          </ImageBackground>
        </View>

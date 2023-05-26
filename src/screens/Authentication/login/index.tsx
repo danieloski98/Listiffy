@@ -31,7 +31,7 @@ const Login = ({ navigation }: any) => {
             console.log(error.response.data)
         },
         onSuccess: (data) => {
-            //console.log(data.data.data);
+            console.log(data.data.data);
             setState({...data.data.data, loggedIn: true});
         }
     })

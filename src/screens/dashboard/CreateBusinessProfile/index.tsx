@@ -31,18 +31,18 @@ const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
     const { setAll: setBusinessInformation, setStage } = useAccountSetupState((state) => state);
     const { setAll: setDocInformation, setStage: setDocStage } = useDocState((state) => state)
     const { id } = useDetails((state) => state)
-    const [loading, setLoading] = React.useState(false);
 
     const createBusiness = useMutation({
         mutationFn: (data: any) => httpClient.post(`/business/create-account/${id}`, data)
     })
 
     const { isLoading, data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
+        staleTime: 500,
+        cacheTime: 500,
         refetchOnMount: true,
         onSuccess: (data) => {
             setStage(0);
             setDocStage(0);
-            console.log(data.data.data)
             setAll({ step: data.data.data.step, completeionRate: data.data.data.completionRate });
         },
         onError: (error: any) => {
@@ -77,7 +77,7 @@ const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
             Boost SEO ranking
         </Text>
 
-        {!loading && !isLoading && (
+        {!isLoading && (
             <View style={{ width: '100%', height: '50%', backgroundColor: '#F9F9F9', borderRadius: 20 }} marginTop='m'>
                 <VerificationTrackerTiles onPress={() => handlePress('businessinformation')} title='Provide Business information' started={data?.data.data.step > 0 && data?.data.data.completionRate > 0} icon='user' completionRate={data?.data.data.completionRate} completed={data?.data.data.step > 1}type='info'  />
 
@@ -85,7 +85,7 @@ const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
             </View>
         )}
 
-        {loading || isLoading && (
+        {isLoading && (
             <View style={{ width: '100%', height: '50%', backgroundColor: '#F9F9F9', borderRadius: 20, justifyContent: 'center', alignItems: 'center' }} marginTop='m'>
                 <ActivityIndicator color={Colors.brandColor} size={30} />
             </View>

@@ -11,8 +11,12 @@ import { BusinessModel } from '../../../../models/BusinessModel';
 import BusinessChip from '../../../../components/Authentication/accountSetup/BusinessChip';
 import { useDetails } from '../../../../State/Details';
 import { useAccountSetupState } from '../../../Authentication/accountsetup/state';
+import { useNavigation } from '@react-navigation/native';
+import handleToast from '../../../../hooks/handleToast';
 
 const Business = () => {
+    const navigation = useNavigation();
+    const { ShowToast } = handleToast()
     const { id } = useDetails((state) => state)
     const [ids, setIds] = React.useState<string[]>([]);
     const [search, setSearch] = React.useState('')
@@ -33,10 +37,11 @@ const Business = () => {
     const { isLoading: mutaionLoading, mutate } = useMutation({
         mutationFn: (data: any) => httpClient.post(`/user/follow-companies/${id}`, data),
         onError: (error: string) => {
-            Alert.alert('Error', error);
+            ShowToast({ message: `Error: ${error}`, preset: 'failure' });
         },
         onSuccess: (data) => {
-            Alert.alert('Success', data.data.message);
+            ShowToast({ message: `${data.data.message}`, preset: 'success' });
+            navigation.goBack();
         }
     })
 

@@ -9,10 +9,14 @@ import httpClient from '../../../../utils/axios';
 import { View, Text, CustomButton } from '../../../../components';
 import { Chip } from '../../../../components/Authentication/accountSetup/BusinessChip';
 import { CategoryModel, ServiceModel } from '../../../../models/CategoryModel';
+import { useNavigation } from '@react-navigation/native';
+import handleToast from '../../../../hooks/handleToast';
 
 
 
 const Categories = () => {
+    const navigation = useNavigation();
+    const { ShowToast } = handleToast()
     const { id } = useDetails((state) => state)
     const [interests, setInterests] = React.useState<string[]>([])
     const [search, setSearch] = React.useState('')
@@ -27,10 +31,11 @@ const Categories = () => {
      const { isLoading: mutaionLoading, mutate } = useMutation({
       mutationFn: (data: any) => httpClient.post(`/service/add/${id}`, data),
       onError: (error: string) => {
-          Alert.alert('Error', error);
-      },
+        ShowToast({ message: `Error: ${error}`, preset: 'failure' });
+    },
       onSuccess: (data) => {
-          Alert.alert('Success', data.data.message);
+        ShowToast({ message: `${data.data.message}`, preset: 'success' });
+        navigation.goBack();
       }
   })
 

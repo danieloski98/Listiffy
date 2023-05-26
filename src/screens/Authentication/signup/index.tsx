@@ -39,6 +39,7 @@ const Signup = ({ navigation }: any) => {
     });
 
     const submit = React.useCallback((data: any) => {
+        setState({ ... data });
         mutate(data);
     }, [])
 

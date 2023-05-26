@@ -9,47 +9,34 @@ import httpClient from '../../utils/axios'
 
 const ProfilePageHeader = () => {
   const { id } = useDetails((state) => state);
-  const [loading, setLoading] = React.useState(false);
-  const [business, setBus] = React.useState(false);
-  const { setShowModal, setBusiness, isBusiness } = useProfileState((state) => state);
-  const queryClient = useQueryClient();
+  const { setShowModal, isBusiness, setSwitchModal } = useProfileState((state) => state);
 
-  const { isLoading, data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
+  const { isLoading, data } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
     refetchOnMount: true,
+    staleTime: 500,
+    cacheTime: 500,
   });
-
-  const { mutate, isLoading: httpLoading } = useMutation({
-    mutationFn: () => httpClient.put(`/user/switch-account/${isBusiness ? 'to-user':'to-business'}/${id}`),
-    onSuccess: (data) => {
-      Alert.alert('Success', data.data.message);
-      setBusiness(!isBusiness);
-      queryClient.invalidateQueries();
-    },
-    onError: (error: any) => {
-      Alert.alert('Error', error);
-    }
-  })
 
 
     const handleCheck = React.useCallback(() => {
       if (isLoading) {
         return;
       }
-
-      if (data?.data.data.step <= 2 && data?.data.data.completionRate < 100) {
-        setShowModal(true);
-        return;
+      if (isBusiness) {
+       setSwitchModal(true);
+      } else if (data?.data && data?.data.data.step === 2 && data?.data.data.completionRate ===100) {
+        setSwitchModal(true);
       } else {
-        mutate()
+        setShowModal(true);
       }
     }
-    , [isBusiness, isLoading, data, error]);
+    , [isBusiness, isLoading, data]);
   return (
     <View style={Styles.parent} padding='m'>
       <Text variant='body'>Business Profile</Text>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {httpLoading || isLoading && <ActivityIndicator color={Colors.brandColor} size='small' />}
-        {!httpLoading && !isLoading && <Switch offColor={Colors.grey} onColor={Colors.brandColor} value={isBusiness} onValueChange={handleCheck} />}
+        {isLoading && <ActivityIndicator color={Colors.brandColor} size='small' />}
+        {!isLoading && <Switch offColor={Colors.grey} onColor={Colors.brandColor} value={isBusiness} onValueChange={handleCheck} />}
       </View>
     </View>
   )

@@ -23,7 +23,7 @@ const AccountSetup = ({ navigation }: IProps) => {
   // zustand state
   const stage = useAccountSetupState((state) => state.stage);
   const setStage = useAccountSetupState((state) => state.setStage);
-  const { pickerModal, avatarModal, setPickerModal } = useAccountSetupState((state) => state)
+  const { pickerModal, avatarModal } = useAccountSetupState((state) => state)
 
   const handleBack = React.useCallback(() => {
     if (stage === 0) {

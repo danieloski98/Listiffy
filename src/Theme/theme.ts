@@ -47,33 +47,33 @@ const theme = createTheme({
   },
   textVariants: {
     default: {
-      fontFamily: 'AT-Regular',
+      fontFamily: 'satoshi-regular',
       fontSize: 18,
       lineHeight: 24,
       color: 'black'
     },
     header: {
-      fontFamily: 'coolvetica',
+      fontFamily: 'satoshi-bold',
       fontWeight: 'bold',
       fontSize: 34,
       lineHeight: 42.5,
       color: 'black',
     },
     subheader: {
-      fontFamily: 'coolvetica',
+      fontFamily: 'satoshi-medium',
       fontWeight: '600',
       fontSize: 18,
       lineHeight: 36,
       color: 'black',
     },
     body: {
-      fontFamily: 'AT-Regular',
+      fontFamily: 'satoshi-regular',
       fontSize: 16,
       lineHeight: 24,
       color: 'darkGrey',
     },
     xs: {
-        fontFamily: 'AT-Light',
+        fontFamily: 'satoshi-light',
         fontSize: 14,
         lineHeight: 24,
         color: 'darkGrey',
@@ -92,33 +92,33 @@ export const darkTheme: Theme = {
     },
     textVariants: {
       default: {
-        fontFamily: 'AT-Light',
+        fontFamily: 'satoshi-regular',
         fontSize: 18,
         lineHeight: 24,
         color: 'white',
       },
       header: {
-        fontFamily: 'coolvetica',
+        fontFamily: 'satoshi-bold',
         fontWeight: 'bold',
         fontSize: 34,
         lineHeight: 42.5,
         color: 'white',
       },
       subheader: {
-        fontFamily: 'coolvetica',
+        fontFamily: 'satoshi-medium',
         fontWeight: '600',
         fontSize: 22,
         lineHeight: 36,
         color: 'white',
       },
       body: {
-        fontFamily: 'AT-Regular',
+        fontFamily: 'satoshi-regular',
         fontSize: 18,
         lineHeight: 24,
         color: 'white',
       },
       xs: {
-          fontFamily: 'AT-Light',
+          fontFamily: 'satoshi-light',
           fontSize: 14,
           lineHeight: 24,
           color: 'white',

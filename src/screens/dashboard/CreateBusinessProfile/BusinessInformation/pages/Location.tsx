@@ -38,23 +38,43 @@ const Location = () => {
   })
 
   const handlePress = React.useCallback((data: IState | ILga) => {
-    if (type === 1) {
-      setState((data as IState).name);
-      setShowModal(false);
+    if (isPhysical) {
       return;
-    } 
-    if (type === 2) {
-      setLga((data as ILga).LGA);
-      setShowModal(false);
-      return;
+    } else {
+      if (type === 1) {
+        setState((data as IState).name);
+        setShowModal(false);
+        return;
+      } 
+      if (type === 2) {
+        setLga((data as ILga).LGA);
+        setShowModal(false);
+        return;
+      }
     }
-  }, [type, state, lga]);
+  }, [type, state, lga, isPhysical]);
 
   const handleSubmit = React.useCallback(() => {
     setStage(stage + 1);
   }, [
     state, lga
-  ])
+  ]);
+
+  const handleOpenModal = React.useCallback((type: 1|2) => {
+   if (isPhysical) {
+    Alert.alert('Warning', 'You have to unselect the checkbox')
+   } else {
+    setType(type);
+    if (type === 1) {
+      setLga('')
+      setShowModal(true);
+    } else {
+      setShowModal(true)
+    }
+   }
+  }
+  , [isPhysical]);
+
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
@@ -69,7 +89,7 @@ const Location = () => {
           <>
             {/* SPACER */}
             <View style={{ height: 20 }} />
-            <CustomInput placeholder='Address' value={address} onChangeText={(e) => setAddress(e)}  />
+            <CustomInput editable={isPhysical ? false:true} placeholder='Address' value={address} onChangeText={(e) => setAddress(e)}  />
             {/* SPACER */}
             <View style={{ height: 20 }} />
 
@@ -78,18 +98,11 @@ const Location = () => {
                 <Text variant='body' marginLeft='m'>My business does not have a physical address</Text>
             </View>
 
-            <CustomSelect placeholder='State' value={state} onPress={() => {
-              setType(1);
-              setShowModal(true);
-              setLga('')
-            }} />
+            <CustomSelect placeholder='State' value={state} onPress={() => handleOpenModal(1)} />
 
             <View style={{ height: 20 }} />
 
-            <CustomSelect placeholder='Lga' value={lga} onPress={() => {
-              setType(2);
-              setShowModal(true);
-            }} />
+            <CustomSelect placeholder='Lga' value={lga} onPress={() => handleOpenModal(2)} />
 
             <View style={{ height: 20 }} />
 

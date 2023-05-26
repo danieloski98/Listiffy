@@ -9,19 +9,24 @@ import { useMutation, useQueryClient } from 'react-query'
 import httpClient from '../../../../utils/axios'
 import { Alert } from 'react-native'
 import { query } from 'firebase/firestore'
+import { useNavigation } from '@react-navigation/native'
+import handleToast from '../../../../hooks/handleToast'
 
 
 const PersonalInfor = () => {
+  const navigation = useNavigation();
+  const { ShowToast } = handleToast()
   const { fullName, username, id } = useDetails((state) => state);
   const queryClient = useQueryClient();
   const { isLoading, mutate } = useMutation({
     mutationFn: (data: any) => httpClient.put(`/user/${id}`, data),
     onError: (error: any) => {
-      Alert.alert('Error', error)
+      ShowToast({ message: `Error: ${error}`, preset: 'failure' });
     },
     onSuccess: (data) => {
-      Alert.alert('Success', data.data.message);
+      ShowToast({ message: `${data.data.message}`, preset: 'success' });
       queryClient.invalidateQueries();
+      navigation.goBack();
     }
   })
   const { renderForm } = useForm({

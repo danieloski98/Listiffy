@@ -12,13 +12,10 @@ const queryClient = new QueryClient();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    'coolvetica': require('./assets/fonts/coolvetica.otf'),
-    'NotoSansLight': require('./assets/fonts/NotoSans-Light.ttf'),
-    'NotoSans-Regular': require('./assets/fonts/NotoSans-Regular.ttf'),
-    'NotoSans-SemiBold': require('./assets/fonts/NotoSans-SemiBold.ttf'),
-    'AT-Light': require('./assets/fonts/AT-light.otf'),
-    'AT-Regular': require('./assets/fonts/AT-regular.otf'),
-
+    'satoshi-bold': require('./assets/fonts/Satoshi-Bold.otf'),
+    'satoshi-medium': require('./assets/fonts/Satoshi-Medium.otf'),
+    'satoshi-regular': require('./assets/fonts/Satoshi-Regular.otf'),
+    'satoshi-light': require('./assets/fonts/Satoshi-Light.otf'),
   });
 
   React.useEffect(() => {

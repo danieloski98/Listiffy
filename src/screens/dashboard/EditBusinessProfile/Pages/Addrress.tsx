@@ -13,8 +13,11 @@ import { CustomButton, View, Text } from '../../../../components';
 import { CustomInput } from '../../../../components/TextInput';
 import { CustomSelect } from '../../../../components/form';
 import StateModal from '../../../Authentication/accountsetup/pages/StatesModal';
+import handleToast from '../../../../hooks/handleToast';
 
 const Location = () => {
+  const navigation = useNavigation()
+  const { ShowToast } = handleToast();
   const [type, setType] = React.useState(1);
   const [showModal, setShowModal] = React.useState(false);
   const { setStage, stage, address, setAddress, isPhysical, state, lga, setIsPhysical, setState, setLga } = useEditBusinessState((state) => state);
@@ -40,11 +43,12 @@ const Location = () => {
   const { isLoading: mutaionLoading, mutate } = useMutation({
     mutationFn: (data: any) => httpClient.put(`/business/location/${id}`, data),
     onSuccess: (data) => {
-      Alert.alert('Success', 'Location updated successfully');
+      ShowToast({ message: 'Location updated successfully', preset: 'success'});
       queryClientt.invalidateQueries('getBusiness');
+      navigation.goBack();
     },
     onError: (error: string) => {
-      Alert.alert('Error', error);
+      ShowToast({ message: 'error', preset: 'failure'});
     }
   })
 
@@ -66,6 +70,21 @@ const Location = () => {
   }, [
     state, lga, isPhysical, address
   ])
+
+  const handleOpenModal = React.useCallback((type: 1|2) => {
+    if (isPhysical) {
+     Alert.alert('Warning', 'You have to unselect the checkbox');
+    } else {
+     setType(type);
+     if (type === 1) {
+       setLga('')
+       setShowModal(true);
+     } else {
+       setShowModal(true)
+     }
+    }
+   }
+   , [isPhysical]);
   return (
     <View style={{ flex: 1, paddingBottom: 20 }}>
       <View style={{ flex: 1 }}>
@@ -80,7 +99,7 @@ const Location = () => {
           <>
             {/* SPACER */}
             <View style={{ height: 20 }} />
-            <CustomInput placeholder='Address' value={address} onChangeText={(e) => setAddress(e)}  />
+            <CustomInput placeholder='Address' value={address} editable={isPhysical ? false:true} onChangeText={(e) => setAddress(e)}  />
             {/* SPACER */}
             <View style={{ height: 20 }} />
 
@@ -89,18 +108,11 @@ const Location = () => {
                 <Text variant='body' marginLeft='m'>My business does not have a physical address</Text>
             </View>
 
-            <CustomSelect placeholder='State' value={state} onPress={() => {
-              setType(1);
-              setShowModal(true);
-              setLga('')
-            }} />
+            <CustomSelect placeholder='State' value={state} onPress={() => isPhysical ? null : handleOpenModal(1)} />
 
             <View style={{ height: 20 }} />
 
-            <CustomSelect placeholder='Lga' value={lga} onPress={() => {
-              setType(2);
-              setShowModal(true);
-            }} />
+            <CustomSelect placeholder='Lga' value={lga} onPress={() => isPhysical ?  null: handleOpenModal(2)} />
 
             <View style={{ height: 20 }} />
 
@@ -112,7 +124,7 @@ const Location = () => {
           </>
         )}
       </View>
-      <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading} />
+      <CustomButton label='Update Address' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading} />
       {showModal && <StateModal onClose={() => setShowModal(false)} data={type === 1 ? data?.data.data : lgaQuery.data?.data.data} isLoading={isLoading || lgaQuery.isLoading} onPress={handlePress} type={type} />}
     </View>
   )
