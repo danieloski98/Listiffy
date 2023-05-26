@@ -23,7 +23,7 @@ const BusinessProfile = () => {
     return (
         <View>
            {!isLoading && !error && (
-             <ScrollView contentContainerStyle={{ height: height + (height/100 * 16) }}>
+             <ScrollView contentContainerStyle={{  }}>
                 <BusinessProfileDetails {...data!.data.data} />
 
                 <View flexDirection='row' height={40} marginTop='l' marginHorizontal='m' style={{ borderBottomWidth: 1, borderBottomColor: 'whitesmoke' }}>

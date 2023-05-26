@@ -25,6 +25,7 @@ interface IProps {
 }
 
 const Verification = ({ navigation }: IProps) => {
+  const [completionRate, setCompletionRate] = React.useState(0);
   // zustand state
   const { stage, setStage, docNumber, docType, front, back, setAll } = useDocState((state) => state);
   const { id } = useDetails((state) => state);
@@ -35,7 +36,7 @@ const Verification = ({ navigation }: IProps) => {
   const { data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
     refetchOnMount: true,
     onSuccess: (data) => {
-        console.log(data.data.data);
+        setCompletionRate(data.data.data.completionRate);
         setAll({ step: data.data.data.step, completeionRate: data.data.data.completionRate, docNumber: data.data.data.documentNumber, docType: data.data.data.documentType });
     },
     onError: (error: any) => {
@@ -65,11 +66,11 @@ const Verification = ({ navigation }: IProps) => {
       case 1:
         return 40
       case 2:
-        return 60
+        return 40
       case 3:
-        return 80
+        return 40
       case 4:
-        return 90
+        return 40
       default:
         return 0
     
@@ -79,7 +80,7 @@ const Verification = ({ navigation }: IProps) => {
   const handleSave = async () => {
     mutate({
       step: 2,
-      completionRate: handlePercentage(),
+      completionRate: completionRate >  handlePercentage() ? completionRate : handlePercentage(),
         documentNumber: docNumber,
         documentType: docType,
     })

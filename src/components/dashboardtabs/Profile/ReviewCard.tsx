@@ -22,8 +22,8 @@ const ReviewCard = () => {
             <Text variant='xs' marginLeft='s'>@bator</Text>
           </View>
 
-          <View padding='s' borderRadius={30} backgroundColor='brandColor' alignItems='center'>
-            <Text variant='body' color='white'>CUSTOMER</Text>
+          <View  width={100} height={20} borderRadius={30} backgroundColor='brandColor' alignItems='center'>
+            <Text variant='xs' color='white' style={{ fontSize: 10 }}>CUSTOMER</Text>
           </View>
           <Text variant='body'>1 m ago</Text>
 

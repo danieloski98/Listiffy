@@ -12,13 +12,17 @@ import httpClient from '../../../utils/axios';
 import { ActivityIndicator, Share } from 'react-native';
 import { Colors } from 'react-native-ui-lib';
 import * as Clipboard from 'expo-clipboard';
-import { Toast } from 'react-native-ui-lib'
+import { Incubator } from 'react-native-ui-lib'
+import handleToast from '../../../hooks/handleToast';
+
+const {Toast} = Incubator;
 
 interface IProps {
     onClose: () => void;
 }
 
 const ShowPinModal = ({ onClose }: IProps) => {
+    const { ShowToast } = handleToast();
     const bottomsheetRef = React.useRef<BottomSheetModal>(null);
     const { setShowModal } = useProfileState((state) => state);
     const [pin, setPin] = React.useState("");
@@ -40,10 +44,7 @@ const ShowPinModal = ({ onClose }: IProps) => {
 
     const copyToClipboard = React.useCallback( async () => {
         await Clipboard.setStringAsync(pin);
-        setShowToast(true);
-        setTimeout(() => {
-            setShowToast(false);
-        }, 5000)
+        ShowToast({ message: 'PIN copied', preset: 'success' });
       }, [pin]);
 
       const share = React.useCallback( async () => {
@@ -69,7 +70,7 @@ const ShowPinModal = ({ onClose }: IProps) => {
         snapPoints={['50%']}
     >
         <View style={{ flex: 1, padding: 0 }}>
-          <Text variant='subheader' textAlign='center' fontStyle='italic'>Share PIN</Text>
+          <Text variant='subheader' textAlign='center' style={{ fontFamily: 'satoshi-bold' }}>Share PIN</Text>
           <Text variant='body' textAlign='center'>Share this PIN with your customers so they can leave a business review for you.</Text>
 
           <View marginTop='l' style={{ flexDirection: 'column', alignItems: 'center'}}>
@@ -77,7 +78,7 @@ const ShowPinModal = ({ onClose }: IProps) => {
                 <>
                     <View flexDirection='row' justifyContent='center'>
                         {getName().map((item, index) => (
-                            <Text variant='header' marginHorizontal='s' key={index}>{item}</Text>
+                            <Text variant='subheader' marginHorizontal='s' key={index} style={{ fontFamily: 'satoshi-bold', fontSize: 34 }}>{item}</Text>
                         ))}
                     </View>
                     <Text variant='body' marginLeft='m' marginTop='m' color='brandColor'>Expires after 3 reviews</Text>
@@ -101,16 +102,6 @@ const ShowPinModal = ({ onClose }: IProps) => {
           <View height={20} />
           <CustomOutlineButton onPress={share} label='Share PIN' />
 
-          <Toast
-            visible={showToast}
-            position={'bottom'}
-            autoDismiss={5000}
-            onDismiss={() => {}}
-            message="Text copied!"
-            backgroundColor={Colors.brandColor}
-            swipeable
-            zindex={10}
-            />
         </View>
     </ModalWrapper>
   )

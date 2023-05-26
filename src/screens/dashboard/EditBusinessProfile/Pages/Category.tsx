@@ -10,9 +10,13 @@ import httpClient from '../../../../utils/axios';
 import { View, Text, CustomButton } from '../../../../components';
 import { Chip } from '../../../../components/Authentication/accountSetup/BusinessChip';
 import { ServiceModel } from '../../../../models/CategoryModel';
+import handleToast from '../../../../hooks/handleToast';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Services = () => {
+    const navigation = useNavigation()
+  const { ShowToast } = handleToast();
     const { stage, setStage, services, setService, removeService } = useEditBusinessState((state) => state);
     const { id } = useDetails((state) => state)
     const [search, setSearch] = React.useState('')
@@ -31,11 +35,12 @@ const Services = () => {
     const { isLoading: isSubmitting, mutate} = useMutation({
       mutationFn: (data: any) => httpClient.put(`/business/${id}`, data),
       onSuccess: (data) => {
-        Alert.alert('Success', 'Business Updated Successfully');
+        ShowToast({ message: 'Business Services Updated Successfully', preset: 'success'});
         queryClient.invalidateQueries();
+        navigation.goBack();
       },
       onError: (error: any) => {
-        Alert.alert('Error', error);
+        ShowToast({ message: error, preset: 'failure'});
       }
     })
 
@@ -93,7 +98,7 @@ const Services = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black' isLoading={isSubmitting}  />
+        <CustomButton label='Update Services' onPress={handleSubmit} backgroundColor='black' isLoading={isSubmitting}  />
 
     </View>
   )

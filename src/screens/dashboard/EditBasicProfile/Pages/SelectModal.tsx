@@ -12,6 +12,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import httpClient from '../../../../utils/axios';
 import url from '../../../../utils/url';
 import { useDetails } from '../../../../State/Details';
+import { useNavigation } from '@react-navigation/native';
+import handleToast from '../../../../hooks/handleToast';
 
 
 
@@ -37,10 +39,11 @@ interface IProps {
     )
   }
 const SelectModal = () => {
+    const { ShowToast } = handleToast()
     const queryClient = useQueryClient();
     const bottomsheetRef = React.useRef<BottomSheetModal>(null);
     const { id, setState } = useDetails((state) => state)
-    const { setPickerModal, setAvatarModal, setAvatar, setFile } = useEditBasicState((state) => state);
+    const { setPickerModal, setAvatarModal, setAvatar, setFile, setAvatarUploading, setShowTaost } = useEditBasicState((state) => state);
 
     React.useEffect(() => {
         bottomsheetRef.current?.present();
@@ -52,6 +55,7 @@ const SelectModal = () => {
     };
 
     const pickImage = async () => {
+      setAvatarUploading(true);
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -68,11 +72,11 @@ const SelectModal = () => {
             const uri = result.assets[0].uri;
             const newBackUri =  "file://" + uri.split("file:///").join("");
             const bk: any = {
-          uri,
-          type: mime.getType(newBackUri),
-          name: uri.split("/").pop()
-          // size: result.assets[0].fileSize,
-        }
+              uri,
+              type: mime.getType(newBackUri),
+              name: uri.split("/").pop()
+              // size: result.assets[0].fileSize,
+            }
           console.log(result);
           setAvatar(uri);
           setFile(bk);
@@ -94,11 +98,16 @@ const SelectModal = () => {
 
           if (fet.status === 400) {
             Alert.alert('Error', json['message']);
+            setAvatarUploading(false);
+            ShowToast({ message: `Error ${json['message']}`, preset: 'failure' });
+
           } else {
             setAvatar(url);
             setState({ profilePicture: url  })
             queryClient.invalidateQueries();
-            setPickerModal(false)
+            setAvatarUploading(false);
+            setPickerModal(false);
+            ShowToast({ message: 'Avatar updated successfully', preset: 'success' });
           }
         }
     

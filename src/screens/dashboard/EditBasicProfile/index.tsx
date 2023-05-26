@@ -10,10 +10,13 @@ import httpClient from '../../../utils/axios'
 import { useEditBasicState } from './state'
 import SelectModal from './Pages/SelectModal'
 import AvatarModal from './Pages/AvatarModal'
+import { Incubator } from 'react-native-ui-lib';
+
+const {Toast} = Incubator;
 
 const EditBasicProfile = ({ navigation }: { navigation: any }) => {
   const { profilePicture, fullName, username, id, setState } = useDetails((state) => state);
-  const { setAvatar, avatar, pickerModal, avatarModal, setPickerModal } = useEditBasicState((state) => state)
+  const { setAvatar, avatar, pickerModal, avatarModal, setPickerModal, avatarUploading, setShowTaost, showToast, message } = useEditBasicState((state) => state)
 
   const { isLoading, data, error } = useQuery(['getUser', id], () => httpClient.get(`/user/${id}`), {
     onSuccess: (data) => {
@@ -26,7 +29,7 @@ const EditBasicProfile = ({ navigation }: { navigation: any }) => {
   const { width } = useWindowDimensions()
   return (
     <View flex={1}>
-      <View flexDirection='row' height={100} alignItems='center'>
+      <View flexDirection='row' height={100} alignItems='center' paddingLeft='m' paddingTop='l'>
         <Feather onPress={() => navigation.goBack()} name='chevron-left' size={24} color='black' />
         <Text variant='body'>Edit Profile</Text>
       </View>
@@ -43,9 +46,10 @@ const EditBasicProfile = ({ navigation }: { navigation: any }) => {
         !isLoading && !error && (
           <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         <View paddingHorizontal='m'>
-          <ImageBackground  source={{ uri: avatar }} style={{ width: 100, height: 100, overflow: 'hidden', borderRadius: 20 }}>
+          <ImageBackground  source={{ uri: avatar !== '' ? avatar:''}} style={{ width: 100, height: 100, overflow: 'hidden', borderRadius: 20 }}>
             <Pressable onPress={() => setPickerModal(true)}  style={{ backgroundColor: 'rgba(0, 0, 0, 0.308)', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-              <Feather name='camera' size={25} color="white" />
+              {avatarUploading && <ActivityIndicator color={Colors.brandColor} size="large" />}
+              {!avatarUploading && <Feather name='camera' size={25} color="white" />}
             </Pressable>
           </ImageBackground>
         </View>

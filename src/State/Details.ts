@@ -2,12 +2,14 @@ import { create } from 'zustand'
 import { UserModel } from '../models/User.Model';
 
 interface State {
+    password: string;
     setState: (data: Partial<UserModel>) => void;
 }
 
 export const useDetails = create<UserModel & State>()((set) => ({
     LGA: '',
     email: '',
+    password: '',
     fullName: '',
     id: '',
     username: '',

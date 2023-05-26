@@ -6,6 +6,8 @@ import { ActivityIndicator, Alert, Image, Pressable } from 'react-native'
 import { Colors } from 'react-native-ui-lib'
 import { useEditBasicState } from '../state'
 import { useDetails } from '../../../../State/Details'
+import { useNavigation } from '@react-navigation/native'
+import handleToast from '../../../../hooks/handleToast'
 
 interface IAvatar {
     url: string;
@@ -13,26 +15,32 @@ interface IAvatar {
 }
 
 const Avatars = () => {
+  const navigation = useNavigation();
+  const { ShowToast } = handleToast();
     const { id, setState, profilePicture,  } = useDetails((state) => state)
     const { isLoading, data } = useQuery(['getAvatars'], () => httpClient.get('/avatar'));
-    const { setAvatar, setAvatarModal } = useEditBasicState((state) => state);
+    const { setAvatar, setAvatarModal, setAvatarUploading, setShowTaost } = useEditBasicState((state) => state);
     const queryClient = useQueryClient();
 
     const uploadLink = useMutation({
         mutationFn: (data: FormData| any) => httpClient.put(`/user/profilepic/link/${id}`, data),
         onError: (error: string) => {
           Alert.alert('Error', error);
+          setAvatarUploading(false);
+          ShowToast({ message: 'Failed to update avatar', preset: 'failure' });
         },
         onSuccess: (data) => {
-          Alert.alert('Success', data.data.message);
           setAvatarModal(false);
           queryClient.invalidateQueries();
+          setAvatarUploading(false);
+          ShowToast({ message: 'Avatar updated successfully', preset: 'success' });
         }
       })
 
     const handleAvatarSelected = React.useCallback((url: string) => {
         setAvatar(url);
         setState({ profilePicture: url  })
+        setAvatarUploading(true);
         uploadLink.mutate({ avatar: url })
     }, [])
   return (

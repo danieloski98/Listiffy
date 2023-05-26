@@ -22,23 +22,38 @@ const Location = () => {
   const [type, setType] = React.useState(1);
   const [showModal, setShowModal] = React.useState(false);
   const { setFullname, setStage, stage, fullname } = useAccountSetupState((state) => state);
-  const { id } = useDetails((state) => state);
+  const { id, email, password, setState: setAll } = useDetails((state) => state);
   const navigation = useNavigation<any>();
 
   // query
   const { isLoading, data } = useQuery(['getStates'], () => httpClient.get('/states'));
   const lgaQuery = useQuery(['getLgas', state], () => httpClient.get(`/states/lgas/${state}`));
 
+   // mutation
+   const { isLoading: loginLoading, mutate: loginMutation } = useMutation({ 
+    mutationFn: (data: any) => httpClient.post('/user-auth/login', data),
+    onError: (error: any) => {
+        Alert.alert('Error', error);
+        console.log(error.response.data)
+    },
+    onSuccess: (data) => {
+        console.log(data.data.data);
+        setAll({...data.data.data, password: '', loggedIn: true});
+    }
+})
+
   // mutation
   const { isLoading: mutaionLoading, mutate } = useMutation({
     mutationFn: (data: any) => httpClient.put(`/user/location/${id}`, data),
     onSuccess: (data) => {
-      navigation.navigate('login')
+      console.log({ email, password });
+      loginMutation({ email, password })
     },
     onError: (error: string) => {
       Alert.alert('Error', error);
     }
   })
+
 
   const handlePress = React.useCallback((data: IState | ILga) => {
     if (type === 1) {
@@ -104,7 +119,7 @@ const Location = () => {
 
             <View style={{ height: 20 }} />
 
-            <CustomButton label='Set location' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading} />
+            <CustomButton label='Set location' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading || loginLoading} />
           </>
         )}
       </View>
