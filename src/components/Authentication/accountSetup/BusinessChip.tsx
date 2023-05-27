@@ -23,9 +23,9 @@ export const Chip = ({
     checked?: boolean;
 }) => {
     return (
-        <Pressable onPress={onPress} style={{ paddingHorizontal: 10, height, borderRadius: 45, borderWidth: 1, borderColor: Colors.brandColor, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: checked ? Colors.brandColor:'#EBF7F3' }}>
-            <Text variant='body' color={checked ? 'white':'brandColor'}>{label}</Text>
-            <Feather name={checked ? 'check':'plus'} size={15} color={checked ? 'white':Colors.brandColor} style={{ marginLeft: 10 }} />
+        <Pressable onPress={onPress} style={{ paddingHorizontal: 10, paddingBottom: 2, height: 38, borderRadius: 45, borderWidth: 1, borderColor: checked? Colors.brandColor: 'black', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: checked ? Colors.brandColor:'#FFFFFF' }}>
+            <Text variant='body' color={checked ? 'white':'black'}>{label}</Text>
+            <Feather name={checked ? 'check':'plus'} size={15} color={checked ? 'white':Colors.black} style={{ marginLeft: 10 }} />
         </Pressable>
     )
 }

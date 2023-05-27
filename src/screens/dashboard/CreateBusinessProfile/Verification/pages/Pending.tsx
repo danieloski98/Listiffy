@@ -53,7 +53,7 @@ const Pending = () => {
             </View>
             
             <View height={30} />
-            <CustomButton label='Done' onPress={handleClick} isLoading={isLoading} />
+            <CustomButton label='Done' onPress={handleClick} isLoading={isLoading} backgroundColor={Colors.brandColor} />
         </View>
       </ImageBackground>
     </View>

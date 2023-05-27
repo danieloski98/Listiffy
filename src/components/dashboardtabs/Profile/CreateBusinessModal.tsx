@@ -5,6 +5,7 @@ import ModalWrapper from '../../ModalWrapper';
 import { Feather } from '@expo/vector-icons'
 import { useProfileState } from '../../../screens/Dashboardtabs/profile/state';
 import { useNavigation } from '@react-navigation/native';
+import { Colors } from 'react-native-ui-lib';
 interface IProps {
     onClose: () => void;
 }
@@ -38,12 +39,12 @@ const CreateBusinessModal = ({ onClose }: IProps) => {
             <Text variant='body' marginLeft='m'>Provide Business information</Text>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
             <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'black' }} />
             <Text variant='body' marginLeft='m'>Verify your business</Text>
           </View>
           <View height={20} />
-          <CustomButton onPress={handlePress} label='Get started' />
+          <CustomButton onPress={handlePress} backgroundColor={Colors.brandColor} label='Get started' />
 
           <Text variant='body' color='brandColor' textAlign='center' marginTop='m' onPress={()=> setShowModal(false)}>Cancel</Text>
         </View>

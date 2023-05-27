@@ -52,10 +52,10 @@ const SwitchBusinessModal = ({ onClose }: IProps) => {
 
 
           {!isBusiness && (
-            <>
+            <View style={{ width: '100%', }}>
                 <View marginTop='l' style={{ flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'black' }} />
-                    <Text variant='body' marginLeft='m'>Your business will be discovered until you turn it off</Text>
+                    <Text variant='body' marginLeft='m' style={{ width: '100%'}}>Your business will be discovered until you turn it off</Text>
                 </View>
 
                 <View marginTop='l' style={{ flexDirection: 'row', alignItems: 'center'}}>
@@ -67,7 +67,7 @@ const SwitchBusinessModal = ({ onClose }: IProps) => {
                     <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'black' }} />
                     <Text variant='body' marginLeft='m'>You will be able to run ads</Text>
                 </View>
-            </>
+            </View>
           )}
 
         {isBusiness && (

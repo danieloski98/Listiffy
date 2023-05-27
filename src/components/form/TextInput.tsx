@@ -31,7 +31,7 @@ export const CustomTextInput = (props: IProps & TextInputProps) => {
         name={props.name}
         render={({ field: { onChange, value  }}) => {
             return (
-                <View style={[Style.parent, { borderColor: focused ? theme.colors.brandColor : 'grey', ...props.style as any}]}>
+                <View style={[Style.parent, { borderColor: focused && !errors[props.name] ? theme.colors.brandColor : errors[props.name] ? Colors.red10 : 'grey', ...props.style as any}]}>
                     {props.leftIcon}
                     <View style={{ flex: 1, justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 10 }}>
                         {/* {focused && <Text variant='xs'>{props.placeholder || props.name}</Text>} */}
@@ -42,7 +42,7 @@ export const CustomTextInput = (props: IProps & TextInputProps) => {
             )
         }}
       />
-      {errors[props.name] && <Text variant='xs' style={{ color: 'red' }}>errors[props.name]</Text>}
+      {errors[props.name] && <Text variant='xs' style={{ color: 'red' }}>{errors[props.name]?.message as any}</Text>}
     </View>
   )
 }

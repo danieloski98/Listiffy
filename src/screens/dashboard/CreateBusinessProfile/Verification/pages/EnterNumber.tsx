@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useDocState } from '../state';
 import { View, Text, CustomButton } from '../../../../../components';
 import { CustomInput } from '../../../../../components/TextInput';
+import { Colors } from 'react-native-ui-lib';
 
 const EnterNumber = () => {
     const { setStage, stage, docType, docNumber, setDocNumber } = useDocState((state) => state);
@@ -20,7 +21,7 @@ const EnterNumber = () => {
 
         <CustomInput placeholder={`Enter ${docType}`} value={docNumber} onChangeText={setDocNumber} leftIcon={<Ionicons name='document-outline' size={25} color='black'  />} />
       </View>
-      <CustomButton label='Next' onPress={handlePress} />
+      <CustomButton label='Next' onPress={handlePress} backgroundColor={Colors.brandColor} />
     </View>
   )
 }

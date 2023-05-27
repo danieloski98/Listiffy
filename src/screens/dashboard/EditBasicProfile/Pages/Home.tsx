@@ -5,6 +5,7 @@ import PersonalInfor from './PersonalInfor';
 import BasicProfileFollowPages from './Pages';
 import Categories from './Categories';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { Pressable } from 'react-native';
 
 
 const BasicProfileEditHome = () => {
@@ -20,11 +21,11 @@ const renderPage = React.useCallback(() => {
     return ob[(route.params as any)?.name];
 }, [(route.params as any)?.name])
   return (
-    <View paddingHorizontal='m' flex={1}>
-        <View flexDirection='row' height={100} alignItems='center'>
-            <Feather onPress={() => navigation.goBack()} name='chevron-left' size={24} color='black' />
-            <Text variant='body'>{(route.params as any)?.name}</Text>
-        </View>
+    <View paddingHorizontal='m' flex={1} backgroundColor='white'>
+        <Pressable onPress={() => navigation.goBack()} style={{ flexDirection: 'row', alignItems: 'center', height: 100}}>
+            <Feather name='chevron-left' size={30} color='black' style={{ marginTop: 2}} />
+            <Text variant='body' fontSize={17}>{(route.params as any)?.name.toUpperCase() }</Text>
+        </Pressable>
 
         <View flex={1}>
             {renderPage()}

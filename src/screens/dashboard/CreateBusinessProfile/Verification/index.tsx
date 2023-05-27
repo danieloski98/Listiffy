@@ -107,7 +107,7 @@ const Verification = ({ navigation }: IProps) => {
           {
             stage < 4 && (
                 <View style={{ height: '20%', width: '100%', backgroundColor: Colors.brandColor }}>
-                    <ImageBackground source={require('../../../../../assets/images/meshbackground.png')} resizeMode='cover' style={{ height: '100%', width: '100%', justifyContent: 'center' }}>
+                    <View style={{ height: '100%', width: '100%', justifyContent: 'center' }}>
                     <View style={{ height: '63%', width: '100%', flexDirection: 'row', alignItems: 'center', paddingTop: 20, paddingHorizontal: 20, justifyContent: 'space-between' }}>
                       <View flexDirection={'row'}>
                         {stage > 0 && <Feather name='chevron-left' size={30} color='white' onPress={handleBack} />}
@@ -116,7 +116,7 @@ const Verification = ({ navigation }: IProps) => {
 
                       <Text variant='subheader' color='white' onPress={isLoading ? undefined : handleSave}>{isLoading ? 'Saving...' : 'Save & quit'}</Text>
                     </View>
-                    </ImageBackground>
+                    </View>
                 </View>
             )
           }

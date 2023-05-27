@@ -122,7 +122,7 @@ const Back = () => {
 
       </View>
 
-      <CustomButton label='Submit' onPress={handleImageUpload} isLoading={isLoading || loading} disabled={back.uri === ''} />
+      <CustomButton label='Submit' onPress={handleImageUpload} backgroundColor={Colors.brandColor} isLoading={isLoading || loading} disabled={back.uri === ''} />
     </View>
   )
 }

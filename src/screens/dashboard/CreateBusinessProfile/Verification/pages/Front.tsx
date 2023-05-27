@@ -88,7 +88,7 @@ const Front = () => {
 
       </View>
 
-      <CustomButton label='next' onPress={() => setStage(stage + 1)} disabled={front.uri === ''} />
+      <CustomButton label='next' onPress={() => setStage(stage + 1)} backgroundColor={Colors.brandColor} disabled={front.uri === ''} />
     </View>
   )
 }

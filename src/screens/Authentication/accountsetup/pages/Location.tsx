@@ -119,7 +119,7 @@ const Location = () => {
 
             <View style={{ height: 20 }} />
 
-            <CustomButton label='Set location' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading || loginLoading} />
+            <CustomButton label='Set location' onPress={handleSubmit} backgroundColor={Colors.brandColor} isLoading={mutaionLoading || loginLoading} />
           </>
         )}
       </View>

@@ -26,17 +26,15 @@ httpClient.interceptors.response.use(function(data) {
     
     if (!error.response) {
         return Promise.reject(error.message);
-    } else {
-        if (error.response?.data.message instanceof Array) {
-            const msg = error.response?.data.message as Array<any>;        
-            return Promise.reject(JSON.stringify(msg));
-        } else {
-            if (error.response?.status === 401 || error.response?.status === 403) {
-                await AsyncStorage.setItem('token', '')
-            }
-            return Promise.reject(error.response.data.message);
-        }
     }
+    if (error.response?.data.message instanceof Array) {
+        const msg = error.response?.data.message as Array<any>;        
+        return Promise.reject(JSON.stringify(msg));
+    } 
+    if (error.response?.status === 401 || error.response?.status === 403) {
+        await AsyncStorage.setItem('token', '')
+    }
+    return Promise.reject(error.response.data.message);
 });
 
 export default httpClient;

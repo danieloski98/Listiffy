@@ -49,14 +49,14 @@ const Interest = () => {
     }, [interests])
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
         <Text variant='subheader'>Pick your interests</Text>
         <Text variant='body'>Follow at least 3 categories of your choice </Text>
 
         {/* SEARCH BAR */}
 
         <View style={{ width: '100%', height: 55, flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: 'lightgrey' }}>
-            <TextInput style={{ flex: 1 }} placeholder='Search category'  value={search} onChangeText={(e: string) => setSearch(e)} />
+            <TextInput style={{ flex: 1, fontFamily: 'satoshi-regular' }} placeholder='Search category'  value={search} onChangeText={(e: string) => setSearch(e)} />
             <Feather name='search' size={25} color='grey' />
         </View>
         <Text variant='body' mt='s'>{interests.length} interestes selected</Text>
@@ -80,7 +80,7 @@ const Interest = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='Done' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading}  />
+        <CustomButton label='Done' onPress={handleSubmit} backgroundColor={Colors.brandColor} isLoading={mutaionLoading}  />
 
     </View>
   )

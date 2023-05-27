@@ -91,7 +91,7 @@ const Categories = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='Update' onPress={handleSubmit} backgroundColor='black'  />
+        <CustomButton label='Update' onPress={handleSubmit} backgroundColor={Colors.brandColor}  />
 
     </View>
   )
