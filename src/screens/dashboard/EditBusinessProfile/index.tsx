@@ -16,7 +16,7 @@ import handleToast from '../../../hooks/handleToast'
 
 const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
   const { ShowToast } = handleToast()
-  const { profilePicture, fullName, username, id } = useDetails((state) => state);
+  const { id } = useDetails((state) => state);
   const [pic, setPic] = React.useState('');
   const [picLoading, setPicLoading] = React.useState(false);
   const queryClient = useQueryClient();
@@ -35,6 +35,11 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
       // aspect: [16, 3],
       quality: 1,
     });
+
+    if (result.canceled) {
+      setPicLoading(false);
+      ShowToast({ message: 'Action cancelled', preset: 'general'})
+  }
 
 
     if (!result.canceled) {
@@ -74,20 +79,14 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
         ShowToast({ message: 'Buisness logo updated', preset: 'success'})
       }
     }
-
-    if (result.canceled) {
-        Alert.alert('Warning', "action cancelled")
-    }
   };
-
-  console.log(data?.data);
   const { width } = useWindowDimensions()
   return (
-    <View flex={1}>
-      <View flexDirection='row' height={100} alignItems='center'>
-        <Feather onPress={() => navigation.goBack()} name='chevron-left' size={24} color='black' />
-        <Text variant='body'>Edit Business Profile</Text>
-      </View>
+    <View flex={1} backgroundColor='white'>
+      <Pressable onPress={() => navigation.goBack()} style={{ flexDirection: 'row', height: 100, alignItems: 'center', paddingLeft: 10, paddingTop: 10 }}>
+        <Feather name='chevron-left' size={28} color='black' />
+        <Text variant='body' style={{ fontSize: 17 }}>Edit Business Profile</Text>
+      </Pressable>
 
       {isLoading && (
         <View flex={1} alignItems='center'>
@@ -98,7 +97,7 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
      { !isLoading && !error && (
        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
        <View paddingHorizontal='m'>
-         <ImageBackground source={pic !== '' ? { uri: pic }: require('../../../../assets/appicon.png')} style={{ width: 100, height: 100, overflow: 'hidden', borderRadius: 20 }}>
+         <ImageBackground source={!pic ?  require('../../../../assets/icons/building.png'):{ uri: pic }} style={{ width: 100, height: 100, overflow: 'hidden', borderRadius: 20 }}>
            <Pressable onPress={pickImage}  style={{ backgroundColor: 'rgba(0, 0, 0, 0.308)', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
               {picLoading && <ActivityIndicator color={Colors.brandColor} size="large" />}
               {!picLoading && <Feather name='camera' size={25} color="white" />}

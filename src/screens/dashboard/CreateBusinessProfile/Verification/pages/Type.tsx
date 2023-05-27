@@ -8,6 +8,7 @@ import { View, Text, CustomButton } from '../../../../../components';
 import { CustomTextInput, SubmitButton } from '../../../../../components/form';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Alert, Pressable } from 'react-native';
+import { Colors } from 'react-native-ui-lib';
 
 const DOCS = [
     'CAC',
@@ -50,7 +51,7 @@ const BusinessName = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='next' onPress={handlePress} />
+        <CustomButton label='next' onPress={handlePress} backgroundColor={Colors.brandColor} />
 
       </View>
     </View>

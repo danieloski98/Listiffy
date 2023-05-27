@@ -102,7 +102,7 @@ const VerifyEmail = ({ navigation }: IProps) => {
 
     <Text variant='body' color='brandColor' marginBottom='m' textAlign='center' onPress={handleShowcounter}>{showCounter ? seconds: 'Resend code'}</Text>
 
-    <CustomButton label='Verify' backgroundColor='black' textColor='white' borderRadius={5} size='large' onPress={verify} disabled={code.length < 6}  />
+    <CustomButton label='Verify' textColor='white' borderRadius={5} size='large' onPress={verify} disabled={code.length < 6}  />
     </View>
   )
 }

@@ -29,15 +29,15 @@ const BusinessProfile = () => {
                 <View flexDirection='row' height={40} marginTop='l' marginHorizontal='m' style={{ borderBottomWidth: 1, borderBottomColor: 'whitesmoke' }}>
 
                     <Pressable onPress={() => setIndex(1)} style={{ borderBottomWidth: index === 1 ? 1:0, borderBottomColor: Colors.brandColor, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text variant='body'>Posts</Text>
+                      <Text variant='body' style={{ color: index ===1 ? Colors.brandColor: '#5E5E5E', fontSize: 16}}>Posts</Text>
                     </Pressable>
 
                     <Pressable onPress={() => setIndex(2)} style={{ borderBottomWidth: index === 2 ? 1:0, borderBottomColor: Colors.brandColor, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text variant='body'>About</Text>
+                      <Text variant='body' style={{ color: index ===2 ? Colors.brandColor: '#5E5E5E', fontSize: 16}}>About</Text>
                     </Pressable>
 
                     <Pressable onPress={() => setIndex(3)} style={{ borderBottomWidth: index === 3 ? 1:0, borderBottomColor: Colors.brandColor, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text variant='body'>Reviews</Text>
+                      <Text variant='body' style={{ color: index ===3 ? Colors.brandColor: '#5E5E5E', fontSize: 16}}>Reviews</Text>
                     </Pressable>
 
                 </View>

@@ -98,7 +98,7 @@ const OpeningHours = () => {
        </View>
 
        <View paddingBottom='m'>
-        <CustomButton label='Next' onPress={() => { console.log(opening_hours); setStage(stage + 1)}} />
+        <CustomButton label='Next' onPress={() => { console.log(opening_hours); setStage(stage + 1)}} backgroundColor={Colors.brandColor} />
        </View>
 
     </View>

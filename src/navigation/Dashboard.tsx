@@ -14,14 +14,14 @@ const OS = Platform.OS;
 
 const Dashboard = () => {
   return (
-    <Navigator initialRouteName='feeds' screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarStyle: { height: OS === 'ios' ? 70 : 60, paddingTop: OS === 'ios' ? 10:0 }  }} >
-      <Screen name="feeds" component={Feeds} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'md-home':'md-home-outline'} size={ focused ? 30:25} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
+    <Navigator initialRouteName='feeds' screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarStyle: { height: OS === 'ios' ? 88 : 88, paddingTop: OS === 'ios' ? 10:0 }  }} >
+      <Screen name="feeds" component={Feeds} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'md-home':'md-home-outline'} size={25} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
 
-      <Screen name="search" component={Search} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'search-circle':'search-circle-outline'} size={ focused ? 30:25} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
+      <Screen name="search" component={Search} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'search-circle':'search-circle-outline'} size={35} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
 
-      <Screen name="profile" component={Profile} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'person-circle':'person-circle-outline'} size={ focused ? 30:25} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
+      <Screen name="profile" component={Profile} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'person-circle':'person-circle-outline'} size={30} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
 
-      <Screen name="settings" component={Settings} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'reorder-four':'reorder-four-outline'} size={ focused ? 30:25} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
+      <Screen name="settings" component={Settings} options={{ tabBarIcon: ({ focused }) => <Ionicons name={focused ? 'reorder-four':'reorder-four-outline'} size={30} color={focused ? Colors.brandColor:'lightgrey'} style={{ borderBottomWidth: 3, borderBottomColor: focused ? Colors.brandColor:'transparent'}} />}} />
     </Navigator>
   )
 }

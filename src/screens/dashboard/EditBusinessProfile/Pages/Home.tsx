@@ -1,4 +1,5 @@
 import React from 'react'
+import { Pressable } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Category from './Category';
 import Address from './Addrress';
@@ -25,11 +26,11 @@ const renderPage = React.useCallback(() => {
 
 
   return (
-    <View paddingHorizontal='m' flex={1}>
-        <View flexDirection='row' height={100} alignItems='center'>
-            <Feather onPress={() => navigation.goBack()} name='chevron-left' size={24} color='black' />
-            <Text variant='body'>{(route.params as any)?.name}</Text>
-        </View>
+    <View paddingHorizontal='m' flex={1} backgroundColor='white'>
+        <Pressable onPress={() => navigation.goBack()} style={{ flexDirection: 'row', alignItems:'center', height: 100, paddingTop: 10 }}>
+            <Feather name='chevron-left' size={28} color='black' style={{ marginTop: 2}} />
+            <Text variant='body' style={{ fontSize: 17 }}>{(route.params as any)?.name.toUpperCase()}</Text>
+        </Pressable>
 
         <View flex={1}>
             {renderPage()}

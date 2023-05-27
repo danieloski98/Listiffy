@@ -28,7 +28,8 @@ const Login = ({ navigation }: any) => {
         mutationFn: (data: any) => httpClient.post('/user-auth/login', data),
         onError: (error: any) => {
             Alert.alert('Error', error);
-            console.log(error.response.data)
+            console.log(error.response.data);
+            return;
         },
         onSuccess: (data) => {
             console.log(data.data.data);

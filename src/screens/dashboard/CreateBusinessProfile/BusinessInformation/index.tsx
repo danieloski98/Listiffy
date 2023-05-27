@@ -1,4 +1,4 @@
-import { Colors, Wizard, Button } from 'react-native-ui-lib'
+import { Colors, Button } from 'react-native-ui-lib'
 import { Alert, useWindowDimensions } from 'react-native'
 import { useAccountSetupState } from './state'
 
@@ -17,6 +17,7 @@ import Contact from './pages/Contact'
 import { useDetails } from '../../../../State/Details'
 import { useMutation, useQuery } from 'react-query'
 import httpClient from '../../../../utils/axios'
+import Wizard from '../../../../components/generalComponents/Wizard'
 
 interface IProps {
   navigation: NativeStackNavigationProp<any>;
@@ -125,7 +126,7 @@ const AccountSetup = ({ navigation }: IProps) => {
     <GestureHandlerRootView style={{ flex: 1, minHeight: height }}>
    
           <View style={{ height: '20%', width: '100%', backgroundColor: Colors.brandColor }}>
-            <ImageBackground source={require('../../../../../assets/images/meshbackground.png')} resizeMode='cover' style={{ height: '100%', width: '100%', justifyContent: 'center' }}>
+            <View style={{ height: '100%', width: '100%', justifyContent: 'center' }}>
               <View style={{ height: '63%', width: '100%', flexDirection: 'row', alignItems: 'center', paddingTop: 20, paddingHorizontal: 20, justifyContent: 'space-between' }}>
                 <View flexDirection={'row'}>
                   {stage > 0 && <Feather name='chevron-left' size={30} color='white' onPress={handleBack} />}
@@ -135,14 +136,16 @@ const AccountSetup = ({ navigation }: IProps) => {
                 <Text variant='subheader' color='white' onPress={isLoading ? undefined : handleSave}>{isLoading ? 'Saving...' : 'Save & quit'}</Text>
               </View>
 
-              <Wizard activeIndex={stage} onActiveIndexChanged={() => console.log('changed')} containerStyle={{ backgroundColor: 'transparent' }}>
+              <Wizard activeIndex={stage} count={5} />
+
+              {/* <Wizard activeIndex={stage} onActiveIndexChanged={() => console.log('changed')} containerStyle={{ backgroundColor: 'transparent' }}>
                 <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={'transparent'} color={Colors.black} circleBackgroundColor={stage > 0 ? Colors.accentColor : Colors.white} enabled />
                 <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={Colors.transparent} color={Colors.black} circleBackgroundColor={stage > 1 ? Colors.accentColor : Colors.white} enabled />
                 <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={Colors.transparent} color={Colors.black} circleBackgroundColor={stage > 2 ? Colors.accentColor : Colors.white} enabled />
                 <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={Colors.transparent} color={Colors.black} circleBackgroundColor={stage > 3 ? Colors.accentColor : Colors.white} enabled />
                 <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={Colors.transparent} color={Colors.black} circleBackgroundColor={stage > 4 ? Colors.accentColor : Colors.white} enabled />
-              </Wizard>
-            </ImageBackground>
+              </Wizard> */}
+            </View>
           </View>
     
       <View style={{ flex: 1 }}>

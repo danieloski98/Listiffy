@@ -51,16 +51,16 @@ const PostCard = () => {
         
 
         {/* IMAGE BOX */}
-        <View marginVertical='m' style={{ flex: 1, backgroundColor: 'black', borderRadius: 20, overflow: 'hidden', width: '100%', height:  height / 100 * 40 }}>
+        <View marginVertical='m' style={{ flex: 1, backgroundColor: 'black', borderRadius: 20, overflow: 'hidden', width: '100%', height:  height / 100 * 60 }}>
             <PagerView style={{ flex: 1 }} initialPage={0} onPageScroll={(e) => setIndex(e.nativeEvent.position)}>
                 {Images.map((Item, indx) => (
                      <Image key={indx} source={Item}  style={[StyleSheet.absoluteFillObject, { width: '100%', height: '100%'}]} />
                 ))}
             </PagerView>
 
-            <View style={{ width: '100%', height: 40, backgroundColor: 'rgba(0, 0, 0, 0.308)', position: 'absolute', bottom: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: '100%', height: 40, backgroundColor: 'transparent', position: 'absolute', bottom: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                 {Images.map((item, inx) => (
-                    <View key={inx} style={{ width: 5, height: 5, borderRadius: 5, backgroundColor: inx === index ? Colors.brandColor:'white', transform: [
+                    <View key={inx} style={{ width: 5, height: 5, borderRadius: 5, backgroundColor: inx === index ? Colors.white:'lightgrey', transform: [
                         { scale: inx === index ? 1.5: 1}
                     ] }} marginRight='s' />
                 ))}

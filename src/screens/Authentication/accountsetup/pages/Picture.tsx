@@ -71,7 +71,7 @@ const Picture = () => {
       }
     }, [avatar, file]);
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
       <View style={{ flex: 1 }}>
         <Text variant='subheader'>Set a profile picture</Text>
         <Text variant='body'>Show your style using a pitcure or avatar</Text>
@@ -96,7 +96,7 @@ const Picture = () => {
 
         
       </View>
-      {avatar !== '' && <Button label='Next' onPress={handleImageUpload} backgroundColor='black' />}
+      {avatar !== '' && <Button label='Next' onPress={handleImageUpload} backgroundColor={Colors.brandColor} />}
     </View>
   )
 }

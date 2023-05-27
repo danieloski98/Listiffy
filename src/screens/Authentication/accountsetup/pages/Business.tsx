@@ -44,19 +44,19 @@ const Business = () => {
             return;
         }
         const data = {
-            comapany_ids: ids,
+            company_ids: ids,
         }
         mutate(data);
     }, [ids])
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
         <Text variant='subheader'>Suggested business profile</Text>
         <Text variant='body'>Like at least 3 business pages</Text>
 
         {/* SEARCH BAR */}
 
         <View style={{ width: '100%', height: 55, flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: 'lightgrey' }}>
-            <TextInput style={{ flex: 1 }} placeholder='Search for business' value={search} onChangeText={(e: string) => setSearch(e)} />
+            <TextInput style={{ flex: 1, fontFamily: 'satoshi-regular' }} placeholder='Search for business' value={search} onChangeText={(e: string) => setSearch(e)} />
             <Feather name='search' size={25} color='grey' />
         </View>
 
@@ -75,9 +75,9 @@ const Business = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading}  />
+        <CustomButton label='Next' onPress={handleSubmit} backgroundColor={Colors.brandColor} isLoading={mutaionLoading}  />
 
-        <Text variant='xs' textAlign='center' marginTop='m' onPress={() => setStage(stage + 1)} >Skip for now</Text>
+        <Text variant='xs' textAlign='center' marginTop='m' onPress={() => setStage(stage + 1)} color='brandColor' >Skip for now</Text>
     </View>
   )
 }

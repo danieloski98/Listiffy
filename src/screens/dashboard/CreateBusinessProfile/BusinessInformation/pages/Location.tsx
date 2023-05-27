@@ -114,7 +114,7 @@ const Location = () => {
           </>
         )}
       </View>
-      <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading} />
+      <CustomButton label='Next' onPress={handleSubmit} backgroundColor={Colors.brandColor} isLoading={mutaionLoading} />
       {showModal && <StateModal onClose={() => setShowModal(false)} data={type === 1 ? data?.data.data : lgaQuery.data?.data.data} isLoading={isLoading || lgaQuery.isLoading} onPress={handlePress} type={type} />}
     </View>
   )

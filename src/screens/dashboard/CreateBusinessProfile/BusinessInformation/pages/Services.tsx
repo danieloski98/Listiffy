@@ -41,14 +41,14 @@ const Services = () => {
     }, [services])
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
         <Text variant='subheader'>What services do you render?</Text>
         <Text variant='body'>you can pick up to 3 services</Text>
 
         {/* SEARCH BAR */}
 
         <View style={{ width: '100%', height: 55, flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: 'lightgrey' }}>
-            <TextInput style={{ flex: 1 }} placeholder='Search services'  value={search} onChangeText={(e: string) => setSearch(e)} />
+            <TextInput style={{ flex: 1, fontFamily: 'satoshi-regular' }} placeholder='Search services'  value={search} onChangeText={(e: string) => setSearch(e)} />
             <Feather name='search' size={25} color='grey' />
         </View>
 
@@ -73,7 +73,7 @@ const Services = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='Next' onPress={handleSubmit} backgroundColor='black'  />
+        <CustomButton label='Next' onPress={handleSubmit} backgroundColor={Colors.brandColor}  />
 
     </View>
   )

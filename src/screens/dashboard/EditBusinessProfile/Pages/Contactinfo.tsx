@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDetails } from '../../../../State/Details';
 import { useEditBusinessState } from '../state'
 import handleToast from '../../../../hooks/handleToast';
+import { Colors } from 'react-native-ui-lib';
 
 
 const Contact = () => {
@@ -77,7 +78,7 @@ const Contact = () => {
         </ScrollView>
 
       </View>
-      <CustomButton label='Update contact' onPress={handlePress} isLoading={isLoading} />
+      <CustomButton label='Update contact' onPress={handlePress} isLoading={isLoading} backgroundColor={Colors.brandColor} />
     </View>
   )
 }

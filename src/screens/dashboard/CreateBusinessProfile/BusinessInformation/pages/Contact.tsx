@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/core';
 import { doc, setDoc } from "firebase/firestore";
 import { FireStoreDb } from '../../../../../firebase';
 import { CustomInput } from '../../../../../components/TextInput';
+import { Colors } from 'react-native-ui-lib';
 
 const Contact = () => {
   const queryClient = useQueryClient();
@@ -79,7 +80,7 @@ const Contact = () => {
         </ScrollView>
 
       </View>
-      <CustomButton label='Next' onPress={handlePress} isLoading={isLoading} />
+      <CustomButton label='Next' onPress={handlePress} backgroundColor={Colors.brandColor} isLoading={isLoading} />
     </View>
   )
 }

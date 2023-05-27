@@ -7,6 +7,7 @@ import { BusinessnameSchema, fullnameSchema } from '../../../../../Services/vali
 import { View, Text, CustomButton } from '../../../../../components';
 import { CustomTextInput, SubmitButton } from '../../../../../components/form';
 import { CustomInput } from '../../../../../components/TextInput';
+import { Colors } from 'react-native-ui-lib';
 
 const BusinessName = () => {
     const { setBusinessName, setStage, stage, business_name } = useAccountSetupState((state) => state);
@@ -25,7 +26,7 @@ const BusinessName = () => {
 
         <CustomInput value={business_name} onChangeText={(e) => setBusinessName(e)} placeholder='Business name' leftIcon={<Ionicons name='briefcase-outline' size={25} color='black'  />} />
       </View>
-      <CustomButton label='Next' onPress={handlePress} />
+      <CustomButton label='Next' onPress={handlePress} backgroundColor={Colors.brandColor} />
     </View>
   )
 }

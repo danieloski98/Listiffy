@@ -29,10 +29,10 @@ const EditBasicProfile = ({ navigation }: { navigation: any }) => {
   const { width } = useWindowDimensions()
   return (
     <View flex={1}>
-      <View flexDirection='row' height={100} alignItems='center' paddingLeft='m' paddingTop='l'>
-        <Feather onPress={() => navigation.goBack()} name='chevron-left' size={24} color='black' />
-        <Text variant='body'>Edit Profile</Text>
-      </View>
+      <Pressable onPress={() => navigation.goBack()} style={{ flexDirection: 'row', alignItems: 'center', height: 100, paddingLeft: 10}}>
+            <Feather name='chevron-left' size={30} color='black' style={{ marginTop: 2}} />
+            <Text variant='body' fontSize={17}>Edit Profile</Text>
+        </Pressable>
 
       {
         isLoading && (

@@ -12,21 +12,42 @@ import { useDocState } from './Verification/state';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useMutation, useQuery } from 'react-query';
 import httpClient from '../../../utils/axios';
+import handleToast from '../../../hooks/handleToast';
 
-const VerificationTrackerTiles = ({ title, started,icon, onPress, completionRate, completed, type}: { title: string, started: boolean, icon: 'user'|'key', onPress: () => void, completionRate: number, completed: boolean, type: 'info'| 'doc'}) => (
-    <Pressable onPress={!completed ? onPress: null} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
-        <Feather name={icon} size={30} color="black" />
-        <View flex={1} paddingHorizontal='l'>
-            <Text variant='subheader' style={{ fontSize: 17 }}>{title}</Text>
-            {!completed && <Text variant='body' color={started ? 'brandColor':'black'} fontSize={15}>{started ? `Completed ${completionRate}%`:'Not started'}</Text>}
-            {completed && <Text variant='body' color={'brandColor'} fontSize={15}>{`Completed 100%`}</Text>}
-        </View>
-        {type === 'doc' &&  !completed && <Feather name="chevron-right" size={25} color="black" />}
-        {type === 'info' &&  !completed && <Feather name="chevron-right" size={25} color="black" />}
-    </Pressable>
-)
+const VerificationTrackerTiles = ({ title, started,icon, onPress, completionRate, completed, type, step}: { title: string, started: boolean, icon: 'user'|'key', onPress: () => void, completionRate: number, completed: boolean, type: 'info'| 'doc', step?: number}) => {
+    const { ShowToast} = handleToast();
+    const handlePress = React.useCallback(() => {
+        if (type === 'doc') {
+            if (step !== 2) {
+                ShowToast({ message: 'Finish your business information set up first', preset: 'general'})
+                return;
+            }
+            onPress()
+        } else {
+            if (!started || !completed) {
+                onPress();
+            } else {
+                return;
+            }
+        }
+        
+    }, [completed, step, type]);
+    return (
+        <Pressable onPress={handlePress} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
+            <Feather name={icon} size={30} color="black" />
+            <View flex={1} paddingHorizontal='l'>
+                <Text variant='subheader' style={{ fontSize: 17 }}>{title}</Text>
+                {!completed && <Text variant='body' color={started ? 'brandColor':'black'} fontSize={15}>{started ? `Completed ${completionRate}%`:'Not started'}</Text>}
+                {completed && <Text variant='body' color={'brandColor'} fontSize={15}>{`Completed 100%`}</Text>}
+            </View>
+            {type === 'doc' &&  !completed && <Feather name="chevron-right" size={25} color="black" />}
+            {type === 'info' &&  !completed && <Feather name="chevron-right" size={25} color="black" />}
+        </Pressable>
+    )
+}
 
 const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
+    const { ShowToast } = handleToast()
     const { step, completeionRate, setAll } = useVerfificationState((state) => state);
     const { setAll: setBusinessInformation, setStage } = useAccountSetupState((state) => state);
     const { setAll: setDocInformation, setStage: setDocStage } = useDocState((state) => state)
@@ -46,7 +67,7 @@ const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
             setAll({ step: data.data.data.step, completeionRate: data.data.data.completionRate });
         },
         onError: (error: any) => {
-            Alert.alert('Error', error);
+            ShowToast({ message: error, preset: 'failure' })
             createBusiness.mutate({ step: 1, completionRate: 0 });
         }
       });
@@ -81,7 +102,7 @@ const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
             <View style={{ width: '100%', height: '50%', backgroundColor: '#F9F9F9', borderRadius: 20 }} marginTop='m'>
                 <VerificationTrackerTiles onPress={() => handlePress('businessinformation')} title='Provide Business information' started={data?.data.data.step > 0 && data?.data.data.completionRate > 0} icon='user' completionRate={data?.data.data.completionRate} completed={data?.data.data.step > 1}type='info'  />
 
-                <VerificationTrackerTiles onPress={() => handlePress('verificatiton')} title='Verfiy Identity' started={data?.data.data.step === 2 && data?.data.data.completionRate > 0} icon='key' completionRate={data?.data.data.completionRate} completed={data?.data.data.step == 2 && data?.data.data.completionRate === 100} type='doc' />
+                <VerificationTrackerTiles onPress={() => handlePress('verificatiton')} title='Verfiy Identity' started={data?.data.data.step === 2 && data?.data.data.completionRate > 0} icon='key' completionRate={data?.data.data.completionRate} completed={data?.data.data.step == 2 && data?.data.data.completionRate === 100} type='doc' step={step} />
             </View>
         )}
 

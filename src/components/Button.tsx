@@ -27,19 +27,10 @@ export const CustomButton = ({
 }: IProps) => {
   const theme = useTheme<Theme>();
   return (
-    <Button onPress={onPress} label={isLoading ? 'submitting...':label} disabled={disabled || false} size={Button.sizes.large} backgroundColor={backgroundColor || Colors.black}  borderRadius={5} labelStyle={{ fontFamily: 'AT-Regular'}} />
-      // <Pressable 
-      // onPress={() => onPress()}
-      // style={{
-      //   width: '100%',
-      //   height: 48,
-      //   backgroundColor: backgroundColor || theme.colors.brandColor,
-      //   borderRadius: borderRadius,
-      //   justifyContent: 'center',
-      //   alignItems: 'center',
-      // }}>
-      //   {!isLoading && <Text variant='xs' style={{ color }}>{label}</Text>}
-      //   {isLoading && <ActivityIndicator size='large' color={theme.colors.brandColor} />}
-      // </Pressable>
+    <>
+      <Pressable onPress={onPress} disabled={disabled ? true: false} style={{ width: '100%', height: 50, backgroundColor: disabled ? 'lightgrey': backgroundColor || Colors.black, borderRadius, justifyContent: 'center', alignItems: 'center' }}>
+        <Text variant='body' style={{ fontSize: 17, color: color || Colors.white }}>{isLoading ? 'submitting...':label}</Text>
+      </Pressable>
+    </>
   );
 };

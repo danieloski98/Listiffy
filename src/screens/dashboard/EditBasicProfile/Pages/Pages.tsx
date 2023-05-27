@@ -45,20 +45,21 @@ const Business = () => {
         }
     })
 
-    const handleAddBusiness = (id: string) => {
-        if (ids.includes(id)) {
-            console.log('deleting iid......');
-            setIds(ids.filter((item) => item !== id));
-        } else {
-          setIds([...ids, id]);
-          console.log('not included!!!!!')
-          console.log(ids)
-        }
-    };
+    const handleAddBusiness = React.useCallback(
+        (id: string) => {
+            if (ids.includes(id)) {
+                setIds(ids.filter((item) => item !== id));
+            } else {
+              setIds([...ids, id]);
+            }
+        },
+        [ids]
+    );
 
     const handleSubmit = React.useCallback(() => {
+        console.log(ids)
         const data = {
-            comapany_ids: ids,
+            company_ids: ids,
         }
         mutate(data);
     }, [ids])
@@ -89,7 +90,7 @@ const Business = () => {
             </ScrollView>
         </View>
 
-        <CustomButton label='Update' onPress={handleSubmit} backgroundColor='black' isLoading={mutaionLoading}  />
+        <CustomButton label='Update' onPress={handleSubmit} backgroundColor={Colors.brandColor} isLoading={mutaionLoading}  />
 
     </View>
   )
