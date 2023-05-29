@@ -13,6 +13,8 @@ export const colorPallette = {
     darkGrey: '#707070',
     deactivatedColor: '#E61648',
     inputBackground: '#F5F5F5',
+    buttonGreen: '#19AD80',
+    bodyTextGrey: '#6F6F6F'
 }
 
 const theme = createTheme({
@@ -29,6 +31,8 @@ const theme = createTheme({
         accentColor: colorPallette.accentColor,
         gradient: colorPallette.gradient,
         lightGreen: colorPallette.lightGreen,
+        bodyTextGrey: colorPallette.bodyTextGrey,
+        buttonGrey: colorPallette.buttonGreen,
     },
     spacing: {
         s: 8,
@@ -50,18 +54,16 @@ const theme = createTheme({
       fontFamily: 'satoshi-regular',
       fontSize: 18,
       lineHeight: 24,
-      color: 'black'
+      color: 'bodyTextGrey',
     },
     header: {
       fontFamily: 'satoshi-bold',
-      fontWeight: 'bold',
       fontSize: 34,
       lineHeight: 42.5,
       color: 'black',
     },
     subheader: {
       fontFamily: 'satoshi-medium',
-      fontWeight: '600',
       fontSize: 18,
       lineHeight: 36,
       color: 'black',
@@ -70,13 +72,13 @@ const theme = createTheme({
       fontFamily: 'satoshi-regular',
       fontSize: 16,
       lineHeight: 24,
-      color: 'darkGrey',
+      color: 'bodyTextGrey',
     },
     xs: {
         fontFamily: 'satoshi-light',
         fontSize: 14,
         lineHeight: 24,
-        color: 'darkGrey',
+        color: 'bodyTextGrey',
       },
   },
 })
@@ -99,14 +101,12 @@ export const darkTheme: Theme = {
       },
       header: {
         fontFamily: 'satoshi-bold',
-        fontWeight: 'bold',
         fontSize: 34,
         lineHeight: 42.5,
         color: 'white',
       },
       subheader: {
         fontFamily: 'satoshi-medium',
-        fontWeight: '600',
         fontSize: 22,
         lineHeight: 36,
         color: 'white',

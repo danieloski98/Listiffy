@@ -21,7 +21,7 @@ const Wizard = ({ activeIndex, count, height = 60 }: IProps) => {
       {
         array.map((_, index) => (
             <>
-                <View style={style.item}>
+                <View style={style.item} key={index}>
                     {activeIndex === index+1 || activeIndex < index+1 && <Text variant='body' color='brandColor'>{index+1}</Text>}
                     {activeIndex > index && <Feather name="check" size={25} color={Colors.brandColor} />}
                 </View>

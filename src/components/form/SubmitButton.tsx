@@ -17,7 +17,7 @@ export const SubmitButton = ({ onSubmit, label, isLoading }: IProps ) => {
 
   return (
     <>
-       <Pressable onPress={handleSubmit(onSubmit)} disabled={!isDirty || !isValid  ? true: false} style={{ width: '100%', height: 50, backgroundColor: !isDirty || !isValid ? '#E8F9F4': Colors.brandColor, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+       <Pressable onPress={handleSubmit(onSubmit)} disabled={!isDirty || !isValid  ? true: false} style={{ width: '100%', height: 50, backgroundColor: !isDirty || !isValid ? '#E8F9F4': Colors.buttonGreen, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
         <Text variant='body' style={{ fontSize: 17, color: !isDirty || !isValid ? '#97E1CB': 'white' }}>{isLoading ? 'submitting...':label}</Text>
       </Pressable>
     </>

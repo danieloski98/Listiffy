@@ -55,17 +55,17 @@ const EditBasicProfile = ({ navigation }: { navigation: any }) => {
         </View>
 
         <View flexDirection='row' justifyContent='space-between' paddingHorizontal='m' marginTop='m'>
-          <Text variant='body'>PERSONAL INFORMATION</Text>
+          <Text variant='subheader'>PERSONAL INFORMATION</Text>
           <Feather name='edit-2' size={20} color='grey' onPress={() => navigation.navigate('editbasic', { name: 'personalinformation'})} />
         </View>
 
         <View paddingHorizontal='m' marginTop='l'>
-          <Text variant='body'>Full Name</Text>
+          <Text variant='body' color='black'>Full Name</Text>
           <Text variant='xs'>{data?.data.data.fullName}</Text>
         </View>
 
         <View paddingHorizontal='m' marginTop='m'>
-          <Text variant='body'>Username</Text>
+          <Text variant='body' color='black'>Username</Text>
           <Text variant='xs'>@{data?.data.data.username}</Text>
         </View>
 
@@ -76,7 +76,7 @@ const EditBasicProfile = ({ navigation }: { navigation: any }) => {
 
         <View paddingHorizontal='m' marginTop='l' flexDirection='row' justifyContent='space-between' alignItems='center'>
           <View>
-            <Text variant='body'>Followed Pages</Text>
+            <Text variant='body' color='black'>Followed Pages</Text>
             <Text variant='xs'>update business pages you follow</Text>
           </View>
 
@@ -85,7 +85,7 @@ const EditBasicProfile = ({ navigation }: { navigation: any }) => {
 
         <View paddingHorizontal='m' marginTop='m' flexDirection='row' justifyContent='space-between' alignItems='center'>
           <View>
-            <Text variant='body'>Liked services/categories </Text>
+            <Text variant='body' color='black'>Liked services/categories </Text>
             <Text variant='xs'>update categories and services you follow</Text>
           </View>
 

@@ -17,14 +17,15 @@ const ReviewCard = () => {
         <View marginLeft='m'>
 
           {/* TEXTS */}
-          <View flexDirection='row' alignItems='center' height={30}>
+          <View flexDirection='row' alignItems='center'>
             <Text variant='subheader'>Alfredo Bbator</Text>
             <Text variant='xs' marginLeft='s'  style={{ fontSize: 14 }}>@bator</Text>
           </View>
 
-          <View  width={100} height={24} borderRadius={30} backgroundColor='brandColor' alignItems='center'>
-            <Text variant='xs' color='white' style={{ fontSize: 10, marginTop: 1 }}>CUSTOMER</Text>
+          <View  width={100} height={24} borderRadius={30} backgroundColor='brandColor' alignItems='center' style={{ marginVertical: 5}}>
+            <Text variant='body' color='white' style={{ fontSize: 14, marginTop: 1 }}>CUSTOMER</Text>
           </View>
+          
           <Text variant='body'>1month ago</Text>
 
         </View>

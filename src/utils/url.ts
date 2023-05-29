@@ -7,6 +7,6 @@ const liveUrl = 'https://api.listtify.com';
 
 const airtel = 'http://192.168.1.148:8000'
 
-const url = airtel;
+const url = liveUrl;
 
 export default url;

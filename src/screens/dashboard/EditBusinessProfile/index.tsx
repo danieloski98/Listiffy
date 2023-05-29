@@ -106,22 +106,22 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
        </View>
 
        <View flexDirection='row' justifyContent='space-between' paddingHorizontal='m' marginTop='m'>
-         <Text variant='body'>PERSONNAL INFORMATION</Text>
-         <Feather name='edit-2' size={20} color='grey' onPress={() => navigation.navigate('editbusiness', { name: 'personal'})} />
+         <Text variant='subheader'>PERSONNAL INFORMATION</Text>
+         <Feather name='edit-2' size={20} color='grey' style={{ paddingTop: 8 }} onPress={() => navigation.navigate('editbusiness', { name: 'personal'})} />
        </View>
 
        <View paddingHorizontal='m' marginTop='l'>
-         <Text variant='body'>Business Name</Text>
+         <Text variant='body' color='black'>Business Name</Text>
          <Text variant='xs'>{data?.data.data.business_name || 'Not Avaliable'}</Text>
        </View>
 
        <View paddingHorizontal='m' marginTop='m'>
-         <Text variant='body'>Username</Text>
+         <Text variant='body' color='black'>Username</Text>
          <Text variant='xs'>@{data?.data.data.business_name || 'Not Avaliable'}</Text>
        </View>
 
        <View paddingHorizontal='m' marginTop='m'>
-         <Text variant='body'>Bio</Text>
+         <Text variant='body' color='black'>Bio</Text>
          <Text variant='xs'>{data?.data.data.business_description || 'Not Avaliable'}</Text>
        </View>
 
@@ -132,7 +132,7 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
 
        <View style={{ width: '100%' }} paddingHorizontal='m' marginTop='l' flexDirection='row' justifyContent='space-between' alignItems='center'>
          <View>
-           <Text variant='body'>Services</Text>
+           <Text variant='body' color='black'>Services</Text>
            <View flexDirection='row' flexWrap='wrap' style={{ width: '100%'}}>
            {(data?.data.data.services as Array<string>).map((item, index) => <Text variant='xs' key={index}>{item}, </Text>)}
            </View>
@@ -147,7 +147,7 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
 
        <View style={{ width: '100%' }} paddingHorizontal='m' marginTop='l' flexDirection='row' justifyContent='space-between' alignItems='center'>
          <View>
-           <Text variant='body'>Business Address</Text>
+           <Text variant='body' color='black'>Business Address</Text>
            <Text variant='xs'>Set your business address</Text>
          </View>
 
@@ -160,7 +160,7 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
 
        <View style={{ width: '100%' }} paddingHorizontal='m' marginTop='l' flexDirection='row' justifyContent='space-between' alignItems='center'>
          <View>
-           <Text variant='body'>Contact information</Text>
+           <Text variant='body' color='black'>Contact information</Text>
            <Text variant='xs'>Set your Contact Details</Text>
          </View>
 

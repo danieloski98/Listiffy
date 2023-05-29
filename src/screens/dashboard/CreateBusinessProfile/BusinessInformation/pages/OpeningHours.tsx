@@ -5,7 +5,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Pressable } from 'react-native';
 import { Colors } from 'react-native-ui-lib';
 import { OPENING_HOUR, useAccountSetupState } from '../state';
+import { Feather } from '@expo/vector-icons'
 
+// interface IDays {
+//     day: string
+//     start
+// }
 
 const DAYS = [
     'Monday',
@@ -45,13 +50,20 @@ const Days = ({ day, selected = false, toggle }: { day: string, selected: boolea
        <View width='100%' >
          <View height={50} flexDirection='row' alignItems='center' paddingHorizontal='s' marginBottom='m' width='100%' borderRadius={15} borderWidth={1} borderColor='darkGrey' justifyContent='space-between'>
             <Pressable onPress={() => toggle({ day, startHour: start, endHour: end })} style={{ width: 20, height: 20, backgroundColor: selected ? Colors.brandColor : 'transparent', borderWidth: 1, borderColor: selected? Colors.brandColor : 'black', borderRadius: 10 }}  />
-            <View flex={1} width='100%' alignItems='center'>
-                <Text variant='body'>{day}</Text>
+            <View width='30%'  alignItems='flex-start' paddingLeft='m'>
+                <Text variant='body' textAlign='left'>{day}</Text>
             </View>
-            <View flexDirection='row' alignItems='center' justifyContent='space-evenly' flex={1} width='100%'>
-                <Text variant='body' onPress={() => handlePicker('start')}>{start}</Text>
+            <View flexDirection='row' alignItems='center' justifyContent='space-evenly' flex={1} width='100%' style={{ paddingLeft: 30}}>
+                <View flexDirection='row' alignItems='center'>
+                    <Text variant='body' onPress={() => handlePicker('start')}>{start} AM</Text>
+                    <Feather name='chevron-down' size={16} color="grey" />
+                </View>
                 <Text variant='body'>-</Text>
-                <Text variant='body' onPress={() => handlePicker('end')}>{end}</Text>
+                <View flexDirection='row' alignItems='center'>
+                    <Text variant='body' onPress={() => handlePicker('end')}>{end} PM</Text>
+                    <Feather name='chevron-down' size={16} color="grey" />
+                </View>
+                
             </View>
         </View>
         {
