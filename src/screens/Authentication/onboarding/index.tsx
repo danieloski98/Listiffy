@@ -38,21 +38,21 @@ const Onboarding = ({ navigation }: any) => {
       </ImageBackground>
       <View paddingH={20 as any} style={{ padding: 20, flex: 0.3, backgroundColor: 'white', width: '100%' }}>
         <Text header>{data[count].title}</Text>
-        <Text regular style={{ marginTop: 10 }}>{data[count].body}</Text>
+        <Text regular style={{ marginTop: 10,color: '#5E5E5E' }}>{data[count].body}</Text>
         {count < 2 && (
             <View centerV style={{ height: '50%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row'}}>
                     <View style={{ width: count === 0 ? 30:10, height: 10, borderRadius: 10, backgroundColor: count === 0 ? Colors.brandColor:'lightgrey', marginRight: 10, }}></View>
                     <View style={{ width: count === 1 ? 30:10, height: 10, borderRadius: 10, backgroundColor: count === 1 ? Colors.brandColor:'lightgrey',  }}></View>
                 </View>
-                <Pressable onPress={() => setCount(prev => prev + 1)} style={{ width: 50, height: 50, borderRadius: 30, backgroundColor: Colors.brandColor, justifyContent: 'center', alignItems: 'center'}}>
+                <Pressable onPress={() => setCount(prev => prev + 1)} style={{ width: 50, height: 50, borderRadius: 30, backgroundColor: Colors.buttonGreen, justifyContent: 'center', alignItems: 'center'}}>
                     <Feather name='arrow-right' size={25} color="white" />
                 </Pressable>
             </View>
         )}
         {count === 2 && (
             <View centerV style={{ width: '100%', height: '70%', justifyContent: 'center' }}>
-                <CustomButton onPress={() => navigation.navigate('signup')}  label='Get Started' size={Button.sizes.large} backgroundColor={Colors.brandColor}  borderRadius={5} />
+                <CustomButton onPress={() => navigation.navigate('signup')}  label='Get Started' size={Button.sizes.large}  borderRadius={5} />
                 <Text onPress={() => navigation.navigate('login')} style={{ textAlign: 'center', marginTop: 20 }} light>Have an account ? <Text light brandColor>Login</Text></Text>
             </View>
         )}

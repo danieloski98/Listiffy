@@ -28,7 +28,7 @@ export const CustomButton = ({
   const theme = useTheme<Theme>();
   return (
     <>
-      <Pressable onPress={onPress} disabled={disabled ? true: false} style={{ width: '100%', height: 50, backgroundColor: disabled ? 'lightgrey': backgroundColor || Colors.black, borderRadius, justifyContent: 'center', alignItems: 'center' }}>
+      <Pressable onPress={onPress} disabled={disabled ? true: false} style={{ width: '100%', height: 50, backgroundColor: disabled ? 'lightgrey': backgroundColor || Colors.buttonGreen, borderRadius, justifyContent: 'center', alignItems: 'center' }}>
         <Text variant='body' style={{ fontSize: 17, color: color || Colors.white }}>{isLoading ? 'submitting...':label}</Text>
       </Pressable>
     </>

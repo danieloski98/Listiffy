@@ -93,7 +93,7 @@ const CreateBusinessProfile = ({ navigation }: { navigation: any }) => {
      </View>
     <View style={{ height: '60%', width: '100%', flex: 1 }} padding='m'>
        <ScrollView contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
-       <Text variant='header' fontSize={25} >Set up Business Profile</Text>
+       <Text variant='header' fontSize={25} style={{ fontFamily: 'satoshi-bold'}} >Set up Business Profile</Text>
         <Text variant='body' marginTop='m'>Join +1000 vendors to drive more sales and more business exposure. As a vendor you will have access to Showcase Products & Services, Run Advertisements at low cost, Get Business reviews,
             Boost SEO ranking
         </Text>

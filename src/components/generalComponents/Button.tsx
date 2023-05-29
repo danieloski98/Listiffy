@@ -13,7 +13,7 @@ interface IProps {
     label: string;
 }
 
-const CustomButton = ({ label, disabled = false, size = 'large', borderRadius = 10, backgroundColor = Colors.brandColor, textColor = 'white', onPress}: IProps) => {
+const CustomButton = ({ label, disabled = false, size = 'large', borderRadius = 10, backgroundColor = Colors.buttonGreen, textColor = 'white', onPress}: IProps) => {
   return (
     <>
       <Pressable onPress={onPress} disabled={disabled ? true: false} style={{ width: '100%', height: 50, backgroundColor: disabled ? '#E8F9F4': backgroundColor, borderRadius, justifyContent: 'center', alignItems: 'center' }}>

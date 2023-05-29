@@ -105,14 +105,14 @@ const Back = () => {
                 back.uri !== '' &&
                 (
                     <View flexDirection={'row'} padding='m' alignItems='center' flex={1} width='100%' justifyContent='space-between'>
-                        <Text variant='body'>{back.name}</Text>
+                        <Text variant='body' style={{ flex: 1, paddingRight: 20 }}>{back.name}</Text>
                         <Ionicons name='trash-outline' size={30} color='red' onPress={() => setBack({
-            mimeType: '',
-            name: '',
-            size: 0,
-            type: '',
-            uri: ''
-        })} />
+                            mimeType: '',
+                            name: '',
+                            size: 0,
+                            type: '',
+                            uri: ''
+                        })} />
                     </View>
                 )
             }

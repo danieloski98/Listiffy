@@ -31,7 +31,7 @@ const ProfileDetails = ({ profilePicture, fullName, username, email, phone = '',
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text variant='subheader'>{following.length}</Text>
-        <Text variant='body' marginLeft='s' style={{ marginTop: 2 }}>Followings</Text>
+        <Text variant='body' marginLeft='s' style={{ marginTop: 0 }}>Followings</Text>
       </View>
 
         <View marginVertical='s' />
