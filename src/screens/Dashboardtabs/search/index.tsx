@@ -1,5 +1,5 @@
 import { View, Text, StatusBar, TextInput, Image } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { CustomButton } from '../../../components';
 import Category from '../../../components/generalComponents/Category';
@@ -9,8 +9,21 @@ import SubHeaderText from '../../../components/generalComponents/SubHeader';
 import Categories from '../../../components/dashboardtabs/Search/Categories';
 import SearchResult from '../../../components/dashboardtabs/Search/SearchResult';
 import VendorList from '../../../components/dashboardtabs/Search/VendorList';
+import SearchDefault from '../../../components/dashboardtabs/Search/SearchDefault';
+import Results from '../../../components/dashboardtabs/Search/Results';
 
 const Search = () => {
+  const [search, setSearch] = useState('');
+  const [isFocused, setIsFocused] = React.useState(false);
+
+  const textRef = React.useRef<TextInput>();
+
+  React.useEffect(() => {
+    return () => {
+      setIsFocused(false);
+      textRef.current?.blur();
+    };
+  }, []);
   return (
     <>
       <StatusBar
@@ -18,97 +31,89 @@ const Search = () => {
         backgroundColor="transparent"
         translucent
       />
+
       <View
         style={{
           flex: 1,
           flexDirection: 'column',
           // alignItems: 'center',
-          // backgroundColor:'green'
-        }}>
-      
+          // backgroundColor: 'green',
+          marginBottom: 20,
+          paddingBottom:30,
+        }}
+      >
+        <View
+          style={{
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent:'flex-start',
+            paddingBottom: 30,
+            top: 50,
+            // backgroundColor:'yellow'
+          }}
+        >
           <View
             style={{
-              display: 'flex',
-              flex:1,
-              flexDirection: 'column',
-              // backgroundColor: 'red',
-              // justifyContent: 'center',
-              alignItems:'center'
-            }} >
-         
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+             
+            
+            }}
+          >
+            {
+              isFocused && <Feather name="chevron-left" size={20} color={'black'} /> 
+            }
             <View
               style={{
                 height: 44,
                 width: 325,
                 borderRadius: 12,
                 borderWidth: 2,
-                borderColor: '#949494',
-                marginTop: 60,
+                borderColor: isFocused ? 'green' : '#949494',
                 flexDirection: 'row',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 padding: 10,
-                marginLeft: 50,
-                marginRight: 50,
+               
               }}
             >
-              <Feather
-                name="search"
-                size={20}
-                color="grey"
-                style={{ paddingLeft: 5, paddingRight: 10 }}
+              {isFocused && search === '' && (
+                <Feather
+                  name="search"
+                  size={20}
+                  color="grey"
+                  style={{ paddingLeft: 5, paddingRight: 10 }}
+                />
+              )}
+
+              <TextInput
+                style={{ flex: 1 }}
+                placeholder={search}
+                value={search}
+                onChangeText={val => setSearch(val)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                ref={textRef as any}
+                // value={}
               />
-              <TextInput placeholder="Search services, profiles and hashtags...!" />
             </View>
+          </View>
 
-          
+          {isFocused || (
             <View style={{ minHeight: 308, width: 348, paddingTop: 30 }}>
+              <SearchDefault />
+            </View>
+          )}
 
-             {/* Vendor List  */}
-                      <VendorList vendor='Fifi Cakes' username='@fificakes'/>
-                      <VendorList vendor='Genesis' username='@genesisfoods'/>
-                     
-                      
-             {/* Recent searches  */}
-                      <View>
-                          <View style={{flexDirection:'row', width:180,  justifyContent:'space-around', paddingBottom:10}}>
-                              <Feather name='clock' size={20}/>
-                              <SubHeaderText text={'Recent Searches'}/>
-                          </View>
-                        <RegularText color='grey' text={'Baking'}/>
-                      </View>
-                      
-             {/* Popular Categories result */}
-                        <View style={{ display: 'flex', flexDirection: 'row', width:220, justifyContent:'flex-start', paddingTop:25 }}>
-                          <Image source={require('../../../../assets/icons/fire.png')} style={{height:25, width:25, marginRight:10}} />
-                          <SubHeaderText text={'Popular Categories'}/>
-                        </View>
-                        <View style={{flexDirection: 'row', width:'100%', height:130,  flexWrap:'wrap', paddingTop:10}}>
-                          <Categories/>
-                      </View>
-               {/* Top searches  */}
-               <View style={{ height:388, width:348}}>
-                <View style={{ display: 'flex', flexDirection: 'row', width:220, justifyContent:'flex-start'}}>
-                  
-                  <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center', width:250}}>
-                    <Feather name='trending-up' size={20} />
-                    <SubHeaderText text="Top Searches this month"/>
-                    </View>
-                  </View>
-                    
-                {/* Top Searches  */}
-                  <View >
-                    <SearchResult/>
-                  </View>
-              </View>
-
-              </View>     
+          {search.length > 0 && (
+            <View style={{alignSelf:'flex-start', left:50, top:30,}}>
+              <Results />
+            </View>
+          )}
         </View>
-            
-           
-                  
-                  
-       
       </View>
     </>
   );
