@@ -5,10 +5,11 @@ import VendorList from './VendorList';
 import SubHeaderText from '../../generalComponents/SubHeader';
 import VendorResults from './VendorResults';
 import HashtagResults from './HashtagResults';
+import Split from './Split';
 
 const Results = () => {
-  const [accounts, setAccounts] = '';
-  const [hashtags, setHahtags] = '';
+  const [accounts, setAccounts] = React.useState(true);
+  // const [hashtags, setHahtags] = '';
   const arr = [1];
   if (arr.length > 0) {
     return (
@@ -16,35 +17,27 @@ const Results = () => {
         <View
           style={{
             flexDirection: 'row',
-            height: 50,
+            // height: 50,
             width: 350,
             bottom: 10,
-            // backgroundColor: 'green',
+            // backgroundColor: 'red',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
-          <View>
-            <Text>
-              <SubHeaderText text={'Accounts'} />
-            </Text>
-            <View
-              style={{ height: 4, width: '100%', backgroundColor: 'grey' }}
-            ></View>
-          </View>
-          <View>
-            <Text>
-              <SubHeaderText text={'Hashtags'} />
-            </Text>
-            <View
-              style={{ height: 4, width: '100%', backgroundColor: 'grey' }}
-            ></View>
-          </View>
-        </View>
+          
 
-        {accounts || <Text> Search accounts</Text> }
+        </View>
+        {
+          <Split/>
+          }
+        {/* {accounts ? <Split/> : <Text> Testing</Text>  } */}
+        {/* {setAccounts ? <Split/> : <Text>TryOut Accounts</Text> } */}
+        {/* {accounts || <Text> Search accounts here</Text>} */}
         
         {/* {hashtags ? <HashtagResults/> : <Text>Search for hashtags</Text>} */}
+
+       
       </>
     );
   }
@@ -58,3 +51,4 @@ const Results = () => {
 export default Results;
 
 const styles = StyleSheet.create({});
+

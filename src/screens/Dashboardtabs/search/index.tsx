@@ -11,6 +11,7 @@ import SearchResult from '../../../components/dashboardtabs/Search/SearchResult'
 import VendorList from '../../../components/dashboardtabs/Search/VendorList';
 import SearchDefault from '../../../components/dashboardtabs/Search/SearchDefault';
 import Results from '../../../components/dashboardtabs/Search/Results';
+import Split from '../../../components/dashboardtabs/Search/Split';
 
 const Search = () => {
   const [search, setSearch] = useState('');
@@ -36,8 +37,6 @@ const Search = () => {
         style={{
           flex: 1,
           flexDirection: 'column',
-          // alignItems: 'center',
-          // backgroundColor: 'green',
           marginBottom: 20,
           paddingBottom:30,
         }}
@@ -111,6 +110,8 @@ const Search = () => {
           {search.length > 0 && (
             <View style={{alignSelf:'flex-start', left:50, top:30,}}>
               <Results />
+              {/* <Text>Test</Text>
+              <Split/> */}
             </View>
           )}
         </View>

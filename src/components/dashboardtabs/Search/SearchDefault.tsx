@@ -6,6 +6,7 @@ import SubHeaderText from '../../generalComponents/SubHeader';
 import RegularText from '../../generalComponents/Regular';
 import Categories from './Categories';
 import SearchResult from './SearchResult';
+import Split from './Split';
 
 const SearchDefault = () => {
   return (
