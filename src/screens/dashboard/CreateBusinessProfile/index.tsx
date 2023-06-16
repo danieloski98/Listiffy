@@ -36,7 +36,7 @@ const VerificationTrackerTiles = ({ title, started,icon, onPress, completionRate
         <Pressable onPress={handlePress} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
             <Feather name={icon} size={30} color="black" />
             <View flex={1} paddingHorizontal='l'>
-                <Text variant='subheader' style={{ fontSize: 17 }}>{title}</Text>
+                <Text variant='medium' style={{ fontSize: 17 }}>{title}</Text>
                 {!completed && <Text variant='body' color={started ? 'brandColor':'black'} fontSize={15}>{started ? `Completed ${completionRate}%`:'Not started'}</Text>}
                 {completed && <Text variant='body' color={'brandColor'} fontSize={15}>{`Completed 100%`}</Text>}
             </View>

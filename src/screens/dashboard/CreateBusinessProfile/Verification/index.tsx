@@ -111,10 +111,10 @@ const Verification = ({ navigation }: IProps) => {
                     <View style={{ height: '63%', width: '100%', flexDirection: 'row', alignItems: 'center', paddingTop: 20, paddingHorizontal: 20, justifyContent: 'space-between' }}>
                       <View flexDirection={'row'}>
                         {stage > 0 && <Feather name='chevron-left' size={30} color='white' onPress={handleBack} />}
-                        <Text variant='subheader' color='white'>{header()}</Text>
+                        <Text variant='medium' color='white'>{header()}</Text>
                       </View>
 
-                      <Text variant='subheader' color='white' onPress={isLoading ? undefined : handleSave}>{isLoading ? 'Saving...' : 'Save & quit'}</Text>
+                      <Text variant='medium' color='white' onPress={isLoading ? undefined : handleSave}>{isLoading ? 'Saving...' : 'Save & quit'}</Text>
                     </View>
                     </View>
                 </View>

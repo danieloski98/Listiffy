@@ -78,7 +78,7 @@ const Location = () => {
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>Where is your business located?</Text>
+        <Text variant='medium'>Where is your business located?</Text>
         <Text variant='body'>Enter an address so your customers can easily find you</Text>
 
         {isLoading && (

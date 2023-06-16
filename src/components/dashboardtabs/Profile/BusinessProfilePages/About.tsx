@@ -34,7 +34,7 @@ const ItemCard = ({ icon, heading, content }: Items) => (
   <View flex={1} marginVertical='s'>
     <View flexDirection="row" height={40} alignItems='center'>
       {icon}
-      <Text variant="subheader" marginLeft='m'>{heading}</Text>
+      <Text variant="medium" marginLeft='m' style={{ fontSize: 18 }}>{heading}</Text>
     </View>
     <Text variant="body">{content}</Text>
   </View>

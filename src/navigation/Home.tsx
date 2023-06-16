@@ -12,6 +12,7 @@ import EditBusinessProfile from '../screens/dashboard/EditBusinessProfile';
 import BasicProfileEditHome from '../screens/dashboard/EditBasicProfile/Pages/Home';
 import BusinessProfileEditHome from '../screens/dashboard/EditBusinessProfile/Pages/Home';
 import BusinessProfile from '../components/dashboardtabs/Profile/BusinessProfile';
+import Comments from '../screens/dashboard/Comments';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 const Home = () => {
@@ -29,6 +30,7 @@ const Home = () => {
       <Screen name='editbusinessprofile' component={EditBusinessProfile} />
       <Screen name='editbasic' component={BasicProfileEditHome} />
       <Screen name='editbusiness' component={BusinessProfileEditHome} />
+      <Screen name="comments" component={Comments} />
     </Navigator>
   )
 }

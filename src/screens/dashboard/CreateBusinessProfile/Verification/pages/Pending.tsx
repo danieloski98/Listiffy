@@ -48,7 +48,7 @@ const Pending = () => {
                 </View>
             </View>
             <View marginVertical='l'>
-                <Text variant='subheader' textAlign='center'>Pending Verification</Text>
+                <Text variant='medium' textAlign='center'>Pending Verification</Text>
                 <Text variant='body' textAlign='center'>your application is under review. This is may take 2 to 3 business days for us to review. In the mean time you can learn more about the safety guildlines and terms & conditions so as to keep our community safe.</Text>
             </View>
             

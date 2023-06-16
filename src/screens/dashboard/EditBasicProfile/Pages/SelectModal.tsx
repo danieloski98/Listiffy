@@ -32,7 +32,7 @@ interface IProps {
             {icon}
             </View>
             <View style={{ marginLeft: 20}}>
-                <Text variant='subheader'>{header}</Text>
+                <Text variant='medium'>{header}</Text>
                 <Text variant='body'>{label}</Text>
             </View>
         </Pressable>

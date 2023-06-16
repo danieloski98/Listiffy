@@ -31,7 +31,7 @@ const CreateBusinessModal = ({ onClose }: IProps) => {
         snapPoints={['50%']}
     >
         <View style={{ flex: 1, padding: 0 }}>
-          <Text variant='subheader'>Set up Business Profile</Text>
+          <Text variant='medium'>Set up Business Profile</Text>
           <Text variant='body'>To access business tools we need you to provide some information about your business</Text>
 
           <View marginTop='l' style={{ flexDirection: 'row', alignItems: 'center'}}>

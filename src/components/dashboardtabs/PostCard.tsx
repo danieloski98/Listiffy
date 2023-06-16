@@ -1,22 +1,70 @@
-import { StyleSheet, Image, useWindowDimensions } from 'react-native'
+import { StyleSheet, Image, useWindowDimensions, Pressable, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { View, Text } from '..'
-import { Feather } from '@expo/vector-icons'
+import { Feather, Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from 'react-native-ui-lib';
 import PagerView from 'react-native-pager-view';
+import { PostModel } from '../../models/PostModel';
+import TimeAgo from 'react-native-timeago';
+import { useDetails } from '../../State/Details';
+import { useMutation, useQueryClient } from 'react-query';
+import httpClient from '../../utils/axios';
+import handleToast from '../../hooks/handleToast';
+import { useFeedsState } from '../../screens/Dashboardtabs/feeds/state';
+import { useNavigation } from '@react-navigation/native';
 
-const Images = [
-   require('../../../assets/images/deliciousfood1.jpeg'),
-   require('../../../assets/images/deliciousfood2.jpeg'),
-   require('../../../assets/images/food.jpeg'),
-   require('../../../assets/images/food2.jpeg'),
-   require('../../../assets/images/food3.jpeg'),
-]
 
-const PostCard = () => {
-    const { height } = useWindowDimensions()
+interface IProps {
+    data: PostModel
+}
+
+const PostCard: React.FC<IProps> = ({ data }) => {
+    const { bookmarks, setAll } = useFeedsState((state) => state)
+    const { user: { business_name, logo }, likes, comments, description, images, createdAt, id } = data;
+    const { height } = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
+    const { id: userId } = useDetails((state) => state);
+    const { ShowToast } = handleToast();
+    const queryClient = useQueryClient();
+    const navigation = useNavigation<any>();
+
+    const { isLoading, mutate } = useMutation({
+        mutationFn: () => httpClient.put(`/post/like/${userId}/${id}`),
+        onError: (error: any) => {
+            ShowToast({ message: error, preset: 'failure' });
+        },
+        onSuccess: (data) => {
+            ShowToast({ message: data.data.message, preset: 'success' });
+            queryClient.invalidateQueries('getPosts');
+            queryClient.refetchQueries();
+        }
+    });
+
+    const { isLoading: bookmarkLoading, mutate: createBookmark } = useMutation({
+        mutationFn: () => httpClient.post(`/post/bookmark/create`, { postId: id, userId }),
+        onError: (error: any) => {
+            ShowToast({ message: error, preset: 'failure' });
+        },
+        onSuccess: (data) => {
+            ShowToast({ message: data.data.message, preset: 'success' });
+            // queryClient.invalidateQueries('getPosts');
+            // queryClient.refetchQueries();
+        }
+    });
+
+    const handleBookmark = React.useCallback(() => {
+        if (bookmarks.includes(id)) {
+            setAll({ bookmarks: bookmarks.filter((item) => item !== id) });
+            createBookmark();
+        } else {
+            setAll({ bookmarks: [...bookmarks, id] });
+            createBookmark();
+        }
+    }, [bookmarks])
+
+    // states
+    const [showMore, setShowMore] = React.useState(false);
   return (
     <View style={Styles.parent}>
         {/* HEADER */}
@@ -26,13 +74,15 @@ const PostCard = () => {
                     colors={[Colors.brandColor, Colors.accentColor]}
                     style={{ width: 54, height: 54, borderRadius: 18, overflow: 'hidden', padding: 2 }}
                 >
-                    <View style={{ width: '100%', height: '100%', borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}} >
-                        <Image source={require('../../../assets/images/greenlogo.png')} resizeMode='contain' style={{ width: 30, height: 30}} />
+                    <View style={{ width: '100%', height: '100%', borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', overflow: 'hidden' }} >
+                        <Image source={{ uri: logo }} resizeMode='cover' style={{ width: '100%', height: '100%'}} />
                     </View>
                 </LinearGradient>
                 <View style={{ paddingLeft: 10}}>
-                    <Text variant='subheader'>Listify <Text variant='body'>@listify</Text></Text>
-                    <Text variant='xs'>2d ago</Text>
+                    <Text variant='medium'>{business_name}<Text variant='body'>@{business_name}</Text></Text>
+                    <Text variant='xs'>
+                        <TimeAgo time={createdAt} interval={20000} />
+                    </Text>
                 </View>
             </View>
 
@@ -42,24 +92,27 @@ const PostCard = () => {
             </View>
         </View>
 
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap'}}>
-            <Text variant='body' marginVertical='m' textAlign='justify' ellipsizeMode='tail' numberOfLines={2} >
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore deserunt praesentium nemo tempore ratione cupiditate non nulla, ipsa architecto assumenda.
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center'}}>
+            <Text variant='body' marginVertical='m' textAlign='justify' ellipsizeMode='tail' numberOfLines={showMore ? undefined : 1} >
+                {description}
             </Text>
-            <Text variant='xs' color='brandColor' style={{ marginTop: -20}}>More</Text>
+            {description.length > 30 && 
+            <Text variant='xs' color='brandColor' style={{ marginLeft: 0}} onPress={() => setShowMore(prev => !prev)}>
+                {showMore ? 'Show Less' : 'More'}
+            </Text>}
         </View>
         
 
         {/* IMAGE BOX */}
         <View marginVertical='m' style={{ flex: 1, backgroundColor: 'black', borderRadius: 20, overflow: 'hidden', width: '100%', height:  height / 100 * 60 }}>
             <PagerView style={{ flex: 1 }} initialPage={0} onPageScroll={(e) => setIndex(e.nativeEvent.position)}>
-                {Images.map((Item, indx) => (
-                     <Image key={indx} source={Item}  style={[StyleSheet.absoluteFillObject, { width: '100%', height: '100%'}]} />
+                {images.map((Item, indx) => (
+                     <Image key={indx} source={{ uri: Item }}  style={[StyleSheet.absoluteFillObject, { width: '100%', height: '100%'}]} />
                 ))}
             </PagerView>
 
             <View style={{ width: '100%', height: 40, backgroundColor: 'transparent', position: 'absolute', bottom: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                {Images.map((item, inx) => (
+                {images.length > 1 && images.map((item, inx) => (
                     <View key={inx} style={{ width: 5, height: 5, borderRadius: 5, backgroundColor: inx === index ? Colors.white:'lightgrey', transform: [
                         { scale: inx === index ? 1.5: 1}
                     ] }} marginRight='s' />
@@ -71,22 +124,34 @@ const PostCard = () => {
         <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between'}}>
 
             <View style={{ flexDirection: 'row' }}>
-               <View flexDirection='row'>
-                    <Feather name='heart' size={20} color='black'  />
-                    <Text variant='xs' color='black'>10</Text>
-               </View>
+               <Pressable style={{ flexDirection: 'row' }} onPress={() => mutate()} >
+                    {
+                        isLoading && (
+                            <ActivityIndicator size='small' color={Colors.brandColor} />
+                        )
+                    }
+                    {
+                        !isLoading && (
+                            <>
+                                <Feather name='heart' size={20} color='#222222'  />
+                                <Text variant='body' style={{ color: '#222222', marginLeft: 4 }}>{likes.length}</Text>
+                            </>
+                        )
+                    }
+               </Pressable>
 
-               <View flexDirection='row' marginHorizontal='m'>
-                    <Feather name='message-circle' size={20} color='black'  />
-                    <Text variant='xs'>10</Text>
-               </View>
+               <Pressable onPress={() => navigation.navigate('comments', { postId: id })} style={{ flexDirection: 'row', marginHorizontal: 20, }}>
+                    <Feather name='message-circle' size={20} color='#222222'  />
+                    <Text variant='body' marginLeft='s' style={{ color: '#222222', marginLeft: 4 }}>{comments.length}</Text>
+               </Pressable>
 
                <View flexDirection='row'>
-                    <Feather name='share-2' size={20} color='black'  />
+                    <Feather name='share-2' size={20} color='#222222'  />
                </View>
             </View>
 
-            <Feather name='bookmark' size={25} color='black' />
+            {!bookmarkLoading && <Ionicons name={bookmarks.includes(id) ? 'bookmark':'bookmark-outline'} size={25} color='#222222' onPress={handleBookmark} />}
+            {bookmarkLoading && <ActivityIndicator size='small' color={Colors.brandColor} />}
         </View>
     </View>
   )

@@ -8,9 +8,8 @@ const httpClient = Axios.create({
 });
 
 httpClient.interceptors.request.use(async(config) => {
-    console.log(config.headers);
     const token = await AsyncStorage.getItem('token')
-    config.headers!['content-type'] = 'application/json';
+    //config.headers!['content-type'] = 'application/json';
     if (token === null) {
         return config;
     }

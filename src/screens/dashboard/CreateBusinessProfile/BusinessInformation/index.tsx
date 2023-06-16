@@ -130,21 +130,14 @@ const AccountSetup = ({ navigation }: IProps) => {
               <View style={{ height: '63%', width: '100%', flexDirection: 'row', alignItems: 'center', paddingTop: 20, paddingHorizontal: 20, justifyContent: 'space-between' }}>
                 <View flexDirection={'row'}>
                   {stage > 0 && <Feather name='chevron-left' size={30} color='white' onPress={handleBack} />}
-                  <Text variant='subheader' color='white'>{header()}</Text>
+                  <Text variant='medium' color='white'>{header()}</Text>
                 </View>
 
-                <Text variant='subheader' color='white' onPress={isLoading ? undefined : handleSave}>{isLoading ? 'Saving...' : 'Save & quit'}</Text>
+                <Text variant='medium' color='white' onPress={isLoading ? undefined : handleSave}>{isLoading ? 'Saving...' : 'Save & quit'}</Text>
               </View>
 
               <Wizard activeIndex={stage} count={5} />
 
-              {/* <Wizard activeIndex={stage} onActiveIndexChanged={() => console.log('changed')} containerStyle={{ backgroundColor: 'transparent' }}>
-                <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={'transparent'} color={Colors.black} circleBackgroundColor={stage > 0 ? Colors.accentColor : Colors.white} enabled />
-                <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={Colors.transparent} color={Colors.black} circleBackgroundColor={stage > 1 ? Colors.accentColor : Colors.white} enabled />
-                <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={Colors.transparent} color={Colors.black} circleBackgroundColor={stage > 2 ? Colors.accentColor : Colors.white} enabled />
-                <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={Colors.transparent} color={Colors.black} circleBackgroundColor={stage > 3 ? Colors.accentColor : Colors.white} enabled />
-                <Wizard.Step state={Wizard.States.ENABLED} circleSize={40} circleColor={Colors.transparent} color={Colors.black} circleBackgroundColor={stage > 4 ? Colors.accentColor : Colors.white} enabled />
-              </Wizard> */}
             </View>
           </View>
     

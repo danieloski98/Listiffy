@@ -40,7 +40,7 @@ const BusinessProfileDetails = ({ business_name, logo, rating, services, followe
               </LinearGradient>
         
            <View paddingLeft='m'>
-                <Text variant='subheader'>{business_name}</Text>
+                <Text variant='medium'>{business_name}</Text>
                 <Text variant='body'>@{business_name}</Text>
            </View>
         </View>
@@ -75,7 +75,7 @@ const BusinessProfileDetails = ({ business_name, logo, rating, services, followe
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-        <Text variant='subheader'>{followers.length}</Text>
+        <Text variant='medium'>{followers.length}</Text>
         <Text variant='body' marginLeft='s' style={{ marginTop: 2 }}>Followers</Text>
       </View>
 

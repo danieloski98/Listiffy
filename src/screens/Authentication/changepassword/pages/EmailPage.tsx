@@ -42,7 +42,7 @@ const EmailPage = () => {
       <Text variant='xs'>We’ve got your back. Enter your username and we’ll send you a code to your email or phone number access your account</Text>
 
       <View style={{ marginVertical: 20 }}>
-        <CustomTextInput style={{ marginTop: 20 }} name='email' leftIcon={<Ionicons name="person-circle-outline" size={25} color='grey' />} placeholder='Email' />
+        <CustomTextInput name='email' leftIcon={<Ionicons name="person-circle-outline" size={20} color='grey' />} placeholder='Email' />
       </View>
 
       <SubmitButton label='Send Code' onSubmit={handlePress} isLoading={isLoading} />

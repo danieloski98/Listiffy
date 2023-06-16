@@ -62,7 +62,7 @@ const Categories = () => {
 
   return (
     <View style={{ flex: 1, paddingBottom: 20 }}>
-        <Text variant='subheader'>Categories/services you liked</Text>
+        <Text variant='medium'>Categories/services you liked</Text>
         <Text variant='body'>Search category/services</Text>
 
         {/* SEARCH BAR */}

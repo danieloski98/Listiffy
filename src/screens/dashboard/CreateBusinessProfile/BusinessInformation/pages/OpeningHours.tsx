@@ -98,7 +98,7 @@ const OpeningHours = () => {
     , [selectedDays, opening_hours]);
   return (
     <View flex={1} padding='m' width="100%">
-      <Text variant='subheader'>Choose opening hours</Text>
+      <Text variant='medium'>Choose opening hours</Text>
       <Text variant='body'>Set your business hours for each day</Text>
 
        <View style={{ flex: 1 }}>

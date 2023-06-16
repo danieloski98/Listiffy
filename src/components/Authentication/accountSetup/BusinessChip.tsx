@@ -50,7 +50,7 @@ const BusinessChip = ({ onSelect, details, checked }: IProps) => {
 
         {/* TEXT CONTAINER */}
         <View marginLeft='s'>
-            <Text variant='subheader'>{details.business_name}</Text>
+            <Text variant='medium'>{details.business_name}</Text>
             <Text variant='xs'>@{details.business_name}</Text>
         </View>
       </View>

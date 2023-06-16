@@ -3,9 +3,11 @@ import { View, Text } from '..'
 import { StyleSheet } from 'react-native'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { useDetails } from '../../State/Details'
+import { useFeedsState } from '../../screens/Dashboardtabs/feeds/state'
 
 const FeedsHeader = () => {
     const { state } = useDetails((state) => state)
+    const { setAll } = useFeedsState((state) => state)
   return (
     <View paddingHorizontal='s' style={Styles.parent}>
       <View style={Styles.firstSection}>
@@ -15,7 +17,7 @@ const FeedsHeader = () => {
       </View>
 
       <View style={Styles.secondSection}>
-        <Ionicons name="add-circle-outline" color="black" size={25} style={{ marginRight: 10 }} />
+        <Ionicons name="add-circle-outline" color="black" size={25} style={{ marginRight: 10 }} onPress={() => setAll({ showPost: true })} />
         <Ionicons name="notifications-outline" size={25} color='black' />
       </View>
     </View>
@@ -25,9 +27,10 @@ const FeedsHeader = () => {
 const Styles = StyleSheet.create({
     parent: {
         width: '100%',
-        height: '10%',
+        height: '15%',
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'center',
+        paddingTop: 20,
     },
     firstSection: {
         flex: 1,

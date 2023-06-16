@@ -28,7 +28,7 @@ const Navigation = () => {
         onDismiss={() => setShowToast(false)}
         messageStyle={{color: 'white', fontFamily: 'satoshi-regular'}}
         centerMessage
-        autoDismiss={10000}
+        autoDismiss={5000}
         preset={preset}
       />
     </NavigationContainer>

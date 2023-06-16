@@ -7,6 +7,7 @@ import EmailPage from './pages/EmailPage'
 import OTPverification from './pages/OTPverification'
 import Setpassword from './pages/Setpassword'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { ScrollView } from 'react-native'
 
 interface IProps {
     navigation: NativeStackNavigationProp<any>;
@@ -26,6 +27,7 @@ const RestePassword = ({ navigation }: IProps) => {
     }, [stage])
   return (
     <View style={Styles.parent}>
+      <ScrollView contentContainerStyle={{ height: '100%' }}>
       <View style={Styles.header}>
         <Feather name='chevron-left' size={30} color='black' onPress={handleBackPress} />
       </View>
@@ -35,6 +37,7 @@ const RestePassword = ({ navigation }: IProps) => {
         {stage === 2 && <OTPverification />}
         {stage === 3 && <Setpassword />}
       </View>
+      </ScrollView>
     </View>
   )
 }

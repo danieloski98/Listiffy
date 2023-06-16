@@ -49,7 +49,7 @@ const Setpassword = () => {
       <Text variant='xs'>Use of alphanumberic and characters *#! to make your password strong</Text>
 
       <View style={{ marginVertical: 20 }}>
-        <CustomTextInput style={{ marginTop: 20 }} isPassword={showPasword} name='password' leftIcon={<Ionicons name="lock-closed" size={25} color='grey' />} rightIcon={<Feather name={showPasword ? 'eye-off' : 'eye'} onPress={() => setShowPassword(prev => !prev)} size={20} color='grey' />} placeholder='Password' />
+        <CustomTextInput isPassword={showPasword} name='password' leftIcon={<Ionicons name="lock-closed" size={25} color='grey' />} rightIcon={<Feather name={showPasword ? 'eye-off' : 'eye'} onPress={() => setShowPassword(prev => !prev)} size={20} color='grey' />} placeholder='Password' />
       </View>
 
       <SubmitButton label='Set password' onSubmit={handlePress} isLoading={isLoading} />

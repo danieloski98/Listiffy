@@ -20,7 +20,7 @@ const BusinessName = () => {
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>What’s your business name?</Text>
+        <Text variant='medium'>What’s your business name?</Text>
         {/* SPACER */}
         <View style={{ height: 20 }} />
 

@@ -56,7 +56,7 @@ const Front = () => {
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>Upload front of {docType}</Text>
+        <Text variant='medium'>Upload front of {docType}</Text>
         <Text variant='body'>Make sure the picture is clear and not blur</Text>
         {/* SPACER */}
         <View style={{ height: 20 }} />

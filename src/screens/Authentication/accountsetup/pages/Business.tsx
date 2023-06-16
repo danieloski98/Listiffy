@@ -50,7 +50,7 @@ const Business = () => {
     }, [ids])
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
-        <Text variant='subheader'>Suggested business profile</Text>
+        <Text variant='medium'>Suggested business profile</Text>
         <Text variant='body'>Like at least 3 business pages</Text>
 
         {/* SEARCH BAR */}

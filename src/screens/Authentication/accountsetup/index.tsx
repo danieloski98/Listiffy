@@ -41,7 +41,7 @@ const AccountSetup = ({ navigation }: IProps) => {
             <View style={{ height: '100%', width: '100%', justifyContent: 'center' }}>
               <View style={{ height: '50%', width: '100%', flexDirection: 'row', alignItems: 'center', paddingTop: 20, paddingHorizontal: 10 }}>
                 {stage > 0 && <Feather name='chevron-left' size={30} color='white' onPress={handleBack} />}
-                <Text variant='subheader' color='white' marginLeft='m'>Set up your account</Text>
+                <Text variant='medium' color='white' marginLeft='m'>Set up your account</Text>
               </View>
               <Wizard activeIndex={stage} count={4} />
               {/* <Wizard activeIndex={stage} onActiveIndexChanged={() => console.log('changed')} containerStyle={{ backgroundColor: 'transparent' }}>

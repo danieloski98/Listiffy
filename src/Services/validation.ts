@@ -49,4 +49,6 @@ const contactSchema = z.object({
     whatsapp_number: z.string(),
     website: z.string(),
 });
-export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema, basicPersonalInfo, businessInfo };
+
+const commentSchema = z.object({ comment: z.string().nonempty() })
+export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema, basicPersonalInfo, businessInfo, commentSchema };

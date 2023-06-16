@@ -50,7 +50,7 @@ const Interest = () => {
 
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
-        <Text variant='subheader'>Pick your interests</Text>
+        <Text variant='medium'>Pick your interests</Text>
         <Text variant='body'>Follow at least 3 categories of your choice </Text>
 
         {/* SEARCH BAR */}

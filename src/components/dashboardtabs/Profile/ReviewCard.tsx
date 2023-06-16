@@ -18,8 +18,8 @@ const ReviewCard = () => {
 
           {/* TEXTS */}
           <View flexDirection='row' alignItems='center'>
-            <Text variant='subheader'>Alfredo Bbator</Text>
-            <Text variant='xs' marginLeft='s'  style={{ fontSize: 14 }}>@bator</Text>
+            <Text variant='medium'>Alfredo Bbator</Text>
+            <Text variant='xs' marginLeft='s'  style={{ fontSize: 14, marginTop: 4 }}>@bator</Text>
           </View>
 
           <View  width={100} height={24} borderRadius={30} backgroundColor='brandColor' alignItems='center' style={{ marginVertical: 5}}>
