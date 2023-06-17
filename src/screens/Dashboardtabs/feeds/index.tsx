@@ -51,6 +51,9 @@ const Feeds = () => {
   });
   const { isLoading, mutate } = useMutation({
     mutationFn: (data: FormData) => httpClient.post(`/post/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+    },
       onUploadProgress(progressEvent: AxiosProgressEvent) {
         handleProgress(progressEvent)
       },

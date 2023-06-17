@@ -12,6 +12,7 @@ import { useQueryClient } from 'react-query'
 import { Colors } from 'react-native-ui-lib'
 import SwitchBusinessModal from '../../../components/dashboardtabs/Profile/SwitchToBusinessModal'
 import SwitchToBusinessModal from '../../../components/dashboardtabs/Profile/SwitchToBusinessModal'
+import { set } from 'react-native-reanimated'
 
 const Profile = () => {
   const { isCompany } = useDetails(((state) => state))
@@ -20,13 +21,11 @@ const Profile = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const queryClient = useQueryClient();
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    queryClient.invalidateQueries({fetching: true,})
-    .then(() => {
-      setRefreshing(false);
-    })
-    .catch(() => { setRefreshing(false)})
+      await queryClient.invalidateQueries({fetching: true,}),
+      await queryClient.refetchQueries(),
+    setRefreshing(false);
   }, []);
 
   React.useEffect(() => {

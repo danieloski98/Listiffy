@@ -5,10 +5,10 @@ import { Colors } from 'react-native-ui-lib'
 import { Ionicons } from '@expo/vector-icons'
 import { useDocState } from '../state'
 import { useNavigation } from '@react-navigation/core'
-import { setDoc, doc } from 'firebase/firestore'
+import { setDoc, doc, query } from 'firebase/firestore'
 import { FireStoreDb } from '../../../../../firebase'
 import { useDetails } from '../../../../../State/Details'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import httpClient from '../../../../../utils/axios'
 
 const Pending = () => {
@@ -17,12 +17,15 @@ const Pending = () => {
     const { id } = useDetails((state) => state)
     const [loading, setLoading] = React.useState(false);
     const navigation = useNavigation<any>()
+    const queryClient = useQueryClient();
 
        // update business
    const { mutate, isLoading  } = useMutation({
     mutationFn: async (data: any) => httpClient.put(`/business/${id}`, data),
-    onSuccess: (data) => {  
+    onSuccess: async(data) => {  
       setStage(0);
+      await queryClient.invalidateQueries();
+      await queryClient.refetchQueries();
       navigation.navigate('profile');
     },
     onError: (error: any) => {

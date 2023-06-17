@@ -11,26 +11,28 @@ import mime from "mime";
 import * as ImagePicker from 'expo-image-picker';
 import { useMutation } from 'react-query';
 import httpClient from '../../../../../utils/axios';
+import handleToast from '../../../../../hooks/handleToast';
 
 
 const Back = () => {
     const { setStage, stage, docType, setBack, back, front, docNumber } = useDocState((state) => state);
     const { id } = useDetails((state) => state);
     const [loading, setLoading] = React.useState(false);
+    const { ShowToast } = handleToast();
 
     const { mutate, isLoading } = useMutation({
-      mutationFn: async (data: any) => fetch(`${url}/business/verification-document/${id}`, {
-        body: data,
-        method: "POST",
+      mutationFn: async (data: any) => httpClient.post(`${url}/business/verification-document/${id}`, data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }),
       onError: (error: any) => {
         setLoading(true);
-        Alert.alert(error)
+        ShowToast({ message: error, preset: 'failure'})
       },
-      onSuccess: () => {
+      onSuccess: (data) => {
+        ShowToast({ message: data.data.message, preset: 'success'})
+        setStage(stage + 1);
       }
     })
     const pickImage = async () => {
@@ -65,6 +67,8 @@ const Back = () => {
             formData.append('back', back as any);
             formData.append('documentType', docType);
             formData.append('documentNumberr', docNumber);
+
+            mutate(formData);
 
 
             const res = await fetch(`${url}/business/verification-document/${id}`, {

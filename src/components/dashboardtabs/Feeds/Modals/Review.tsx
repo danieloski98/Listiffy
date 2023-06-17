@@ -9,7 +9,7 @@ import { Colors } from 'react-native-ui-lib'
 import handleToast from '../../../../hooks/handleToast'
 import { CustomTextInput, SubmitButton } from '../../../form'
 import { CustomInput } from '../../../TextInput'
-import { commentSchema } from '../../../../Services/validation'
+import { commentSchema, verifyPinSchema } from '../../../../Services/validation'
 import { useDetails } from '../../../../State/Details'
 import { useMutation, useQueryClient } from 'react-query'
 import httpClient from '../../../../utils/axios'
@@ -18,58 +18,46 @@ import { useFeedsState } from '../../../../screens/Dashboardtabs/feeds/state'
 
 interface IProps {
     onClose: () => void
+    verify: (data: any) => void 
+    isLoading: boolean
 }
 
-const CommentModal: React.FC<IProps> = ({ onClose }) => {
+const ReviewModal: React.FC<IProps> = ({ onClose, verify, isLoading }) => {
     const bottomsheetRef = React.useRef<BottomSheetModal>(null);
-    const { username, id } = useDetails((state) => state);
-    const { activePostId, setAll } = useFeedsState((state) => state);
-    const { ShowToast } = handleToast();
-    const queryClient = useQueryClient();
-
-    const { isLoading, mutate } = useMutation({
-        mutationFn: (data: any) => httpClient.put(`/post/comment/${id}`, data),
-        onError: (error: any) => {
-            ShowToast({ message: error, preset: 'failure' });
-        },
-        onSuccess: (data) => {
-            ShowToast({ message: data.data.message, preset: 'success' });
-            queryClient.refetchQueries();
-            onClose()
-        }
-    })
 
     const { renderForm, values } = useForm({
         defaultValues: {
-            comment: ''
+            pin: ''
         },
-        validationSchema: commentSchema,
+        validationSchema: verifyPinSchema,
     });
 
     React.useEffect(() => {
         bottomsheetRef.current?.present();
     });
 
-    const handleSubmit = React.useCallback((data: { comment: string}) => {
-        const dataload = { ...data, postId: activePostId }
-        mutate(dataload);
+    const handleSubmit = React.useCallback((data: { pin: string}) => {
+        verify(data);
     }, [])
 
   
-
   return renderForm(
     <ModalWrapper
         ref={bottomsheetRef}
         onClose={() => {}}
-        snapPoints={['25%']}
-        shouldScrroll={false}
+        snapPoints={['45%']}
+        shouldScrroll={true}
     >
         <View style={{ flex: 1 }}>
 
             <View style={styles.mainarea}>
-                <CustomTextInput leftIcon={<></>} name='comment' placeholder={`comment as ${username}`} />
+                <Text variant='medium'>Verify Review</Text>
+                <Text variant='body' marginTop='m'>Enter PIN that was shared to you by Vently Inc . learn more</Text>
                 <View height={20} />
-                <SubmitButton label="Submit" onSubmit={handleSubmit} isLoading={isLoading} />
+                <CustomTextInput leftIcon={<Feather name='key' size={25} color='grey' />} name='pin' placeholder={`Enter Business PIN`} />
+                <View height={20} />
+                <SubmitButton label="Verify" onSubmit={handleSubmit} isLoading={isLoading} />
+                <Text variant='xs' textAlign='center' color='brandColor' marginTop='m' onPress={() => onClose()}>Cancel</Text>
             </View>
 
             
@@ -133,4 +121,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default CommentModal
+export default ReviewModal

@@ -21,7 +21,7 @@ interface IProps {
 
 const PostCard: React.FC<IProps> = ({ data }) => {
     const { bookmarks, setAll } = useFeedsState((state) => state)
-    const { user: { business_name, logo }, likes, comments, description, images, createdAt, id } = data;
+    const { user: { business_name, logo, id: businessId }, likes, comments, description, images, createdAt, id } = data;
     const { height } = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const { id: userId } = useDetails((state) => state);
@@ -49,7 +49,7 @@ const PostCard: React.FC<IProps> = ({ data }) => {
         onSuccess: (data) => {
             ShowToast({ message: data.data.message, preset: 'success' });
             // queryClient.invalidateQueries('getPosts');
-            // queryClient.refetchQueries();
+            queryClient.refetchQueries();
         }
     });
 
@@ -79,7 +79,7 @@ const PostCard: React.FC<IProps> = ({ data }) => {
                     </View>
                 </LinearGradient>
                 <View style={{ paddingLeft: 10}}>
-                    <Text variant='medium'>{business_name}<Text variant='body'>@{business_name}</Text></Text>
+                    <Text onPress={() => navigation.navigate('view-profile', { id: businessId })} variant='medium'>{business_name}<Text variant='body'>@{business_name}</Text></Text>
                     <Text variant='xs'>
                         <TimeAgo time={createdAt} interval={20000} />
                     </Text>
@@ -134,7 +134,7 @@ const PostCard: React.FC<IProps> = ({ data }) => {
                         !isLoading && (
                             <>
                                 <Feather name='heart' size={20} color='#222222'  />
-                                <Text variant='body' style={{ color: '#222222', marginLeft: 4 }}>{likes.length}</Text>
+                                <Text variant='body' style={{ color: '#222222', marginLeft: 4 }}>{likes.length || 0}</Text>
                             </>
                         )
                     }

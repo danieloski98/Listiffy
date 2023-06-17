@@ -16,7 +16,7 @@ import mime from "mime";
 
 // Image container
 
-const ImageContainer = ({
+export const ImageContainer = ({
     uri,
     index,
     deleteItem

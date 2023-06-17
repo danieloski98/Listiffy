@@ -30,6 +30,8 @@ const ShowPinModal = ({ onClose }: IProps) => {
     const { id } = useDetails((state) => state)
 
     const { isLoading, error, refetch } = useQuery(['getpin', id], () => httpClient.get(`/business/pin/${id}`), {
+        refetchOnMount: true,
+        refetchInterval: 10000,
         onSuccess: (data) => {
             console.log(data.data);
             setPin(data.data.data.pin.toString());

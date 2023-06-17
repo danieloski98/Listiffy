@@ -50,5 +50,9 @@ const contactSchema = z.object({
     website: z.string(),
 });
 
+const verifyPinSchema = z.object({
+    pin: z.string().nonempty('This field is required'),
+})
+
 const commentSchema = z.object({ comment: z.string().nonempty() })
-export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema, basicPersonalInfo, businessInfo, commentSchema };
+export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema, basicPersonalInfo, businessInfo, commentSchema, verifyPinSchema };

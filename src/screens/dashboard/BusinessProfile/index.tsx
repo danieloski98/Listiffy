@@ -1,30 +1,39 @@
 import React from 'react'
-import ProfileDetails from '../ProfileDetails'
-import { View, Text } from '../..'
+// import ProfileDetails from '../ProfileDetails'
 import { useDetails } from '../../../State/Details'
 import { useQuery } from 'react-query'
 import httpClient from '../../../utils/axios'
 import { ActivityIndicator, Pressable, useWindowDimensions } from 'react-native'
 import { Colors } from 'react-native-ui-lib'
-import ReviewCard from './ReviewCard'
 import { ScrollView } from 'react-native-gesture-handler'
-import BusinessProfileDetails from '../BusinessProfileDetails'
-import Posts from './BusinessProfilePages/Posts'
-import About from './BusinessProfilePages/About'
-import Reviews from './BusinessProfilePages/Reviews'
+import { View, Text } from '../../../components'
+import BusinessProfileDetails from '../../../components/dashboardtabs/BusinessProfileDetails'
+import Posts from '../../../components/dashboardtabs/Profile/BusinessProfilePages/Posts'
+import About from '../../../components/dashboardtabs/Profile/BusinessProfilePages/About'
+import Reviews from '../../../components/dashboardtabs/Profile/BusinessProfilePages/Reviews'
+import { Feather } from '@expo/vector-icons';
 
 
-const BusinessProfile = () => {
+const ViewBusinessProfile = ({ route, navigation }: any) => {
+    const { params: { id }} = route
     const [index, setIndex] = React.useState(1)
-    const { id } = useDetails((state) => state);
-    const { isLoading, data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`));
+    const { isLoading, data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
+        onSuccess: (data) => {
+            console.log(data.data.data.reviews[0])
+        }
+    });
+    // const { isLoading: Postloading } = useQuery(['getPosts', id], () => httpClient.get(`/post/user/${id}`));
     const { height } = useWindowDimensions()
 
     return (
-        <View>
+        <View backgroundColor='white' flex={1}>
+         <View style={{ height: '12%'}} flexDirection='row' paddingHorizontal='m' alignItems='flex-end' paddingBottom='l'>
+            <Feather onPress={() => navigation.goBack()} name='chevron-left' size={25} color='grey' style={{ marginTop: 10 }} />
+            <Text variant='body'>Business Profile</Text>
+         </View>
            {!isLoading && !error && (
-             <ScrollView contentContainerStyle={{  }}>
-                <BusinessProfileDetails {...data!.data.data} />
+             <ScrollView contentContainerStyle={{ paddingBottom: 40  }}>
+                <BusinessProfileDetails {...data!.data.data} isView />
 
                 <View flexDirection='row' height={40} marginTop='l' marginHorizontal='m' style={{ borderBottomWidth: 1, borderBottomColor: 'whitesmoke' }}>
 
@@ -42,11 +51,11 @@ const BusinessProfile = () => {
 
                 </View>
 
-               <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, }}>
+               <View padding='m'>
                 { index === 1 && <Posts posts={data?.data.data.posts} /> }
                 { index === 2 && <About {...data?.data.data} /> }
                 { index === 3 && <Reviews reviews={data?.data.data.reviews} /> }
-               </ScrollView>
+               </View>
 
             </ScrollView>
            )}
@@ -65,4 +74,4 @@ const BusinessProfile = () => {
     )
 }
 
-export default BusinessProfile
+export default ViewBusinessProfile

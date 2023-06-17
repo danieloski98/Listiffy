@@ -1,4 +1,4 @@
-import { StyleSheet, Image } from 'react-native'
+import { StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import { View, Text } from '..'
 import { useDetails } from '../../State/Details'
@@ -19,12 +19,25 @@ interface CompanyDetails {
   services: Array<string>
   followers: Array<any>
   reviews: Array<any>
+  isView?: boolean
+  id: string
 }
 
 
-const BusinessProfileDetails = ({ business_name, logo, rating, services, followers, reviews }: CompanyDetails) => {
-  const { setShowPinModal } = useProfileState((state) => state)
+const BusinessProfileDetails = ({ business_name, logo, rating, services, followers, reviews, isView = false, id: businessId }: CompanyDetails) => {
+  console.log(followers);
+  const { setShowPinModal } = useProfileState((state) => state);
+  const [followerss, setFollowers] = React.useState<Array<string>>([])
+  const { id } = useDetails((state) => state)
   const navigation = useNavigation<any>();
+
+  React.useEffect(() => {
+    const arr: any = [];
+    followers.map((item: any) => {
+      arr.push(item.user_id);
+    });
+    setFollowers(arr);
+  }, [followers])
 
   return (
     <View style={Styles.parent} paddingHorizontal='m'>
@@ -46,7 +59,7 @@ const BusinessProfileDetails = ({ business_name, logo, rating, services, followe
         </View>
 
         <View flexDirection='row' alignItems='center' style={{ marginTop: 10 }}>
-          <Text variant='body' style={{ fontSize: 17 }}>{rating}</Text>
+          <Text variant='body' style={{ fontSize: 17 }}>{rating.toFixed(1)}</Text>
           <Rating
             type='star'
             ratingCount={5}
@@ -79,9 +92,18 @@ const BusinessProfileDetails = ({ business_name, logo, rating, services, followe
         <Text variant='body' marginLeft='s' style={{ marginTop: 2 }}>Followers</Text>
       </View>
 
+      {
+        isView && businessId !== id &&
+        <Pressable style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+          <Text variant='body' marginLeft='s' color='brandColor' style={{ marginTop: 2 }}>{followerss.includes(id) ? 'Following':'Follow'}</Text>
+          <Feather name={followerss.includes(id) ? 'check' : 'plus'} size={25} color={Colors.brandColor} />
+        </Pressable>
+      }
+
         <View marginVertical='s' />
 
-        <View flexDirection='row'>
+        {!isView && (
+          <View flexDirection='row'>
 
             <View flex={1}>
                 <CustomButton label='Share PIN' onPress={() => setShowPinModal(true)} backgroundColor={Colors.brandColor} />
@@ -91,7 +113,22 @@ const BusinessProfileDetails = ({ business_name, logo, rating, services, followe
                 <CustomOutlineButton label='Edit profile' onPress={() => navigation.navigate('editbusinessprofile') } />
             </View>
 
-        </View>
+          </View>
+        )}
+
+      {isView && businessId !== id && (
+          <View flexDirection='row'>
+
+            <View flex={1}>
+                <CustomButton label='Write Review' onPress={() => navigation.navigate('write-review', { id: businessId }) } backgroundColor={Colors.brandColor} />
+            </View>
+
+            <View flex={1} paddingHorizontal='s'>
+                <CustomOutlineButton label='Contact Me' onPress={() => {}} />
+            </View>
+
+          </View>
+        )}
     </View>
   )
 }
