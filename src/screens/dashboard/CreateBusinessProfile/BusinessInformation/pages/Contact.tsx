@@ -60,7 +60,7 @@ const Contact = () => {
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>Add your contact information</Text>
+        <Text variant='medium'>Add your contact information</Text>
         <Text variant='body'>Select how you want your customers to reach out to you</Text>
         {/* SPACER */}
         <View style={{ height: 20 }} />

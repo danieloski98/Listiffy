@@ -43,7 +43,7 @@ const BusinessProfile = () => {
                 </View>
 
                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, }}>
-                { index === 1 && <Posts posts={[]} /> }
+                { index === 1 && <Posts posts={data?.data.data.posts} /> }
                 { index === 2 && <About {...data?.data.data} /> }
                 { index === 3 && <Reviews reviews={data?.data.data.reviews} /> }
                </ScrollView>

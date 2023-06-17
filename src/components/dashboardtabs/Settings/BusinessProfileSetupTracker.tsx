@@ -18,7 +18,7 @@ const BusinessProfileSetupTracker = () => {
 
     const navigation = useNavigation<any>()
 
-    const { isLoading, data, error } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
+    const { isLoading } = useQuery(['getBusiness', id], () => httpClient.get(`/business/${id}`), {
         refetchOnMount: true,
         onSuccess: (data) => {
             setStage(data.data.data.step);
@@ -37,11 +37,11 @@ const BusinessProfileSetupTracker = () => {
         {!isLoading && (
             <>
                 <View style={Style.count}>
-                    <Text variant='subheader' color='white'>{stage}/2</Text>
+                    <Text variant='medium' color='white'>{stage}/2</Text>
                 </View>
                 <View>
-                    <Text variant='subheader' color='white'>Set up Business Profile</Text>
-                    <Text variant="body" color='white'>Continues from where you left of</Text>
+                    <Text variant='medium' style={{ fontSize: 18 }} color='white'>Set up Business Profile</Text>
+                    <Text variant="xs" color='white'>Continues from where you left of</Text>
                 </View>
 
                 <Feather name='chevron-right' size={30} color='white' />
@@ -64,7 +64,7 @@ const Style = StyleSheet.create({
         backgroundColor: '#222222',
         padding: 10,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
     },
     count: {
         width: 50,

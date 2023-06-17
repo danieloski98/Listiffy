@@ -49,4 +49,10 @@ const contactSchema = z.object({
     whatsapp_number: z.string(),
     website: z.string(),
 });
-export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema, basicPersonalInfo, businessInfo };
+
+const verifyPinSchema = z.object({
+    pin: z.string().nonempty('This field is required'),
+})
+
+const commentSchema = z.object({ comment: z.string().nonempty() })
+export { loginSchema, signupSchema, resetEmailSchema, resetPasswordSchema, fullnameSchema, BusinessnameSchema, contactSchema, docSchema, basicPersonalInfo, businessInfo, commentSchema, verifyPinSchema };

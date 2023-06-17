@@ -21,7 +21,7 @@ const Avatars = () => {
     }, [])
   return (
     <View style={{ flex: 1 }}>
-      <Text variant='subheader'>Select an avatar</Text>
+      <Text variant='medium'>Select an avatar</Text>
       <Text variant='body'>Show your style using an avatar</Text>
 
       <View style={{ flex: 1, marginTop: 20, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'space-between' }}>

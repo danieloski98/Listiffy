@@ -42,7 +42,7 @@ const Services = () => {
 
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
-        <Text variant='subheader'>What services do you render?</Text>
+        <Text variant='medium'>What services do you render?</Text>
         <Text variant='body'>you can pick up to 3 services</Text>
 
         {/* SEARCH BAR */}

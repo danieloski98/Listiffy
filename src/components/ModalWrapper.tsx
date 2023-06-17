@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
-import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView } from '@gorhom/bottom-sheet'
+import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { useTheme } from '@shopify/restyle'
 import { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
@@ -10,10 +10,11 @@ interface IProps {
     children?: any;
     // ref: React.MutableRefObject<BottomSheetModalMethods>;
     snapPoints?: Array<string>;
+    shouldScrroll?: boolean;
     onClose: () => void;
 }
 
-const ModalWrapper = React.forwardRef<BottomSheetModalMethods, IProps>(({ children, onClose, snapPoints = ['80%'] }, ref) => {
+const ModalWrapper = React.forwardRef<BottomSheetModalMethods, IProps>(({ children, onClose, snapPoints = ['80%'], shouldScrroll = true }, ref) => {
     const [index, setIndex] = React.useState(0);
     const theme = useTheme<Theme>();
     const renderBackdrop = React.useCallback(
@@ -45,9 +46,20 @@ const ModalWrapper = React.forwardRef<BottomSheetModalMethods, IProps>(({ childr
             // enablePanDownToClose
             // enableHandlePanningGesture
         >
-            <BottomSheetScrollView scrollEnabled horizontal={false} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
+            {
+              shouldScrroll && (
+                <BottomSheetScrollView scrollEnabled horizontal={false} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
                 {children}
-            </BottomSheetScrollView>
+                </BottomSheetScrollView>
+              )
+            }
+            {
+              !shouldScrroll && (
+                <BottomSheetView style={{ flex: 1 }}>
+                  {children}
+                </BottomSheetView>
+              )
+            }
         </BottomSheetModal>
     </BottomSheetModalProvider>
   )

@@ -2,8 +2,9 @@ import React from 'react'
 import { View, Text } from '../../..'
 import { Image } from 'react-native'
 import ReviewCard from '../ReviewCard'
+import { ReviewModel } from '../../../../models/ReviewModel'
 
-const Reviews = ({ reviews }: { reviews: Array<any>}) => {
+const Reviews = ({ reviews }: { reviews: Array<ReviewModel>}) => {
   return (
     <View flex={1}>
       { !reviews || reviews.length < 1 && (
@@ -13,7 +14,7 @@ const Reviews = ({ reviews }: { reviews: Array<any>}) => {
         </View>
       )}
       { reviews && reviews.length > 0 && reviews.map((item, index) => (
-        <ReviewCard key={index} />
+        <ReviewCard key={index} {...item} />
       ))}
     </View>
   )

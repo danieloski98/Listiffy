@@ -88,7 +88,7 @@ const Location = () => {
         <Feather name='chevron-left' size={25} color='black' onPress={() => setStage(stage - 1)} />
       </View>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>One more thing...</Text>
+        <Text variant='medium'>One more thing...</Text>
         <Text variant='body'>Let’s know your locality to help us deliver more accurate content always</Text>
 
         {isLoading && (

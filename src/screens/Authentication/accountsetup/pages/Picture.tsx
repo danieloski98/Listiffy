@@ -73,7 +73,7 @@ const Picture = () => {
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>Set a profile picture</Text>
+        <Text variant='medium'>Set a profile picture</Text>
         <Text variant='body'>Show your style using a pitcure or avatar</Text>
 
         {/* SPACER */}

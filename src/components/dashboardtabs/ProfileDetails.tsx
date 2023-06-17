@@ -19,7 +19,7 @@ const ProfileDetails = ({ profilePicture, fullName, username, email, phone = '',
                 <Image source={{ uri: profilePicture }} resizeMode='cover' style={{ width: 64, height: 64, borderRadius: 23 }} />
            </View>
            <View paddingLeft='m'>
-                <Text variant='subheader'>{fullName}</Text>
+                <Text variant='medium'>{fullName}</Text>
                 <Text variant='body'>@{username}</Text>
            </View>
         </View>
@@ -30,7 +30,7 @@ const ProfileDetails = ({ profilePicture, fullName, username, email, phone = '',
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text variant='subheader'>{following.length}</Text>
+        <Text variant='medium'>{following.length}</Text>
         <Text variant='body' marginLeft='s' style={{ marginTop: 0 }}>Followings</Text>
       </View>
 

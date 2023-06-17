@@ -4,6 +4,7 @@ export const Styles = StyleSheet.create({
     parent: {
         flex: 1,
         paddingHorizontal: 20,
+        paddingTop: 40
     },
     header: {
         width: '100%',

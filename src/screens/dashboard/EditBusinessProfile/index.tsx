@@ -106,7 +106,7 @@ const EditBusinessProfile = ({ navigation }: { navigation: any }) => {
        </View>
 
        <View flexDirection='row' justifyContent='space-between' paddingHorizontal='m' marginTop='m'>
-         <Text variant='subheader'>PERSONNAL INFORMATION</Text>
+         <Text variant='medium'>PERSONNAL INFORMATION</Text>
          <Feather name='edit-2' size={20} color='grey' style={{ paddingTop: 8 }} onPress={() => navigation.navigate('editbusiness', { name: 'personal'})} />
        </View>
 

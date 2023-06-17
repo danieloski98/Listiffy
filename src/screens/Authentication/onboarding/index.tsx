@@ -1,9 +1,9 @@
 import {ImageBackground, StatusBar, Image, Pressable } from 'react-native'
-import { View, Text, ThemeManager, Colors, Button } from 'react-native-ui-lib'
+import { View, ThemeManager, Colors, Button } from 'react-native-ui-lib'
 import React from 'react'
 import { Style } from './style'
 import { Feather } from '@expo/vector-icons'
-import { CustomButton } from '../../../components'
+import { CustomButton, Text } from '../../../components'
 
 const data = [
     {
@@ -37,8 +37,8 @@ const Onboarding = ({ navigation }: any) => {
         </View>
       </ImageBackground>
       <View paddingH={20 as any} style={{ padding: 20, flex: 0.3, backgroundColor: 'white', width: '100%' }}>
-        <Text header>{data[count].title}</Text>
-        <Text regular style={{ marginTop: 10,color: '#5E5E5E' }}>{data[count].body}</Text>
+        <Text variant='subheader'>{data[count].title}</Text>
+        <Text variant='body' style={{ marginTop: 10,color: '#5E5E5E' }}>{data[count].body}</Text>
         {count < 2 && (
             <View centerV style={{ height: '50%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row'}}>
@@ -53,7 +53,7 @@ const Onboarding = ({ navigation }: any) => {
         {count === 2 && (
             <View centerV style={{ width: '100%', height: '70%', justifyContent: 'center' }}>
                 <CustomButton onPress={() => navigation.navigate('signup')}  label='Get Started' size={Button.sizes.large}  borderRadius={5} />
-                <Text onPress={() => navigation.navigate('login')} style={{ textAlign: 'center', marginTop: 20 }} light>Have an account ? <Text light brandColor>Login</Text></Text>
+                <Text onPress={() => navigation.navigate('login')} style={{ textAlign: 'center', marginTop: 20, fontFamily: 'satoshi-medium' }} variant='body'>Have an account ? <Text variant='body' color='brandColor'>Login</Text></Text>
             </View>
         )}
       </View>

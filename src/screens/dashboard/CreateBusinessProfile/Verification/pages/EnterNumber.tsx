@@ -14,7 +14,7 @@ const EnterNumber = () => {
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>Enter {docType} number</Text>
+        <Text variant='medium'>Enter {docType} number</Text>
         <Text variant='body'>Make sure the number is correct</Text>
         {/* SPACER */}
         <View style={{ height: 20 }} />

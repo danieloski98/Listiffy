@@ -30,6 +30,8 @@ const ShowPinModal = ({ onClose }: IProps) => {
     const { id } = useDetails((state) => state)
 
     const { isLoading, error, refetch } = useQuery(['getpin', id], () => httpClient.get(`/business/pin/${id}`), {
+        refetchOnMount: true,
+        refetchInterval: 10000,
         onSuccess: (data) => {
             console.log(data.data);
             setPin(data.data.data.pin.toString());
@@ -70,7 +72,7 @@ const ShowPinModal = ({ onClose }: IProps) => {
         snapPoints={['50%']}
     >
         <View style={{ flex: 1, padding: 0 }}>
-          <Text variant='subheader' textAlign='center' style={{ fontFamily: 'satoshi-bold' }}>Share PIN</Text>
+          <Text variant='medium' textAlign='center' style={{ fontFamily: 'satoshi-bold' }}>Share PIN</Text>
           <Text variant='body' textAlign='center'>Share this PIN with your customers so they can leave a business review for you.</Text>
 
           <View marginTop='l' style={{ flexDirection: 'column', alignItems: 'center'}}>
@@ -78,7 +80,7 @@ const ShowPinModal = ({ onClose }: IProps) => {
                 <>
                     <View flexDirection='row' justifyContent='center'>
                         {getName().map((item, index) => (
-                            <Text variant='subheader' marginHorizontal='s' key={index} style={{ fontFamily: 'satoshi-bold', fontSize: 34 }}>{item}</Text>
+                            <Text variant='medium' marginHorizontal='s' key={index} style={{ fontFamily: 'satoshi-bold', fontSize: 34 }}>{item}</Text>
                         ))}
                     </View>
                     <Text variant='body' marginLeft='m' marginTop='m' color='brandColor'>Expires after 3 reviews</Text>

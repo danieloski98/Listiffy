@@ -46,7 +46,7 @@ const SwitchBusinessModal = ({ onClose }: IProps) => {
         snapPoints={['50%']}
     >
         <View style={{ flex: 1, padding: 0 }}>
-          <Text variant='subheader'>Switch Profile</Text>
+          <Text variant='medium'>Switch Profile</Text>
           {!isBusiness && <Text variant='body'>Switching your profile back to  business will have the following changes</Text>}
           {isBusiness && <Text variant='body'>Switching your profile from business to basic will have the following changes</Text>}
 

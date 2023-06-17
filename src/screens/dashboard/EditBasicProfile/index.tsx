@@ -55,7 +55,7 @@ const EditBasicProfile = ({ navigation }: { navigation: any }) => {
         </View>
 
         <View flexDirection='row' justifyContent='space-between' paddingHorizontal='m' marginTop='m'>
-          <Text variant='subheader'>PERSONAL INFORMATION</Text>
+          <Text variant='medium'>PERSONAL INFORMATION</Text>
           <Feather name='edit-2' size={20} color='grey' onPress={() => navigation.navigate('editbasic', { name: 'personalinformation'})} />
         </View>
 

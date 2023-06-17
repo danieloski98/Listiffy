@@ -17,15 +17,20 @@ export function InitFunction() {
             color: 'black',
         },
         light: {
-            fontSize: 16,
+            fontSize: 17,
             fontFamily: 'satoshi-light',
             color: Colors.bodyTextGrey
         },
          regular: {
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'satoshi-regular',
             color: Colors.bodyTextGrey
 
+        },
+        medium: {
+            fontSize: 20,
+            fontFamily: 'satoshi-medium',
+            color: 'black'
         },
          semibold: {
             fontSize: 20,

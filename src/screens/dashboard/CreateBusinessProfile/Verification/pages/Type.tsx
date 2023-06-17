@@ -35,7 +35,7 @@ const BusinessName = () => {
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>Choose verification method</Text>
+        <Text variant='medium'>Choose verification method</Text>
         <Text variant='body'>Choose a CAC if you’re a company</Text>
         {/* SPACER */}
         <View style={{ height: 20 }} />
@@ -45,7 +45,7 @@ const BusinessName = () => {
                 {DOCS.map((doc, index) => (
                     <Pressable onPress={() => {setIdx(index); setDocType(DOCS[idx]); }} key={index} style={{ width: '100%', flexDirection: 'row', marginBottom: 20, alignItems: 'center' }}>
                         <View width={30} height={30} borderRadius={15} borderWidth={ idx === index ? 0 : 1} borderColor='black' backgroundColor={idx === index ? 'brandColor' : 'white'} justifyContent='center' alignItems='center' />
-                        <Text variant='subheader' marginLeft='m'>{doc}</Text>
+                        <Text variant='medium' marginLeft='m'>{doc}</Text>
                     </Pressable>
                 ))}
             </ScrollView>

@@ -37,7 +37,7 @@ const Fullname = () => {
   return renderForm(
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flex: 1 }}>
-        <Text variant='subheader'>What’s your full name?</Text>
+        <Text variant='medium'>What’s your full name?</Text>
         <Text variant='body'>This helps us to identify you</Text>
 
         {/* SPACER */}
